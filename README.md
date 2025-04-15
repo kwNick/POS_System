@@ -25,8 +25,7 @@ Hosting/Infra: Docker, Nginx, Vercel, etc.
 Define how components talk to each other -- REST API endpoints, Auth strategy (e.g., JWT), Microservices? Or single backend? Do you use caching, queuing, etc.?
 Diagrams: sequence diagrams, flow diagrams, etc.
 
-1. <details>
-
+<details>
 <summary>🔭 High-Level Overview</summary>
 You’re building a web-based POS system. So your architecture will likely look like this:
 
@@ -44,8 +43,7 @@ You’re building a web-based POS system. So your architecture will likely look 
 You can also run background jobs, use WebSocket for real-time updates (optional), or include a queue for receipts/logs later.
 </details>
 
-2. <details>
-
+<details>
 <summary>🔗 Frontend–Backend Communication</summary>
 Frontend: Next.js 15+ using App Router and fetch()/axios to hit your backend endpoints.
 
@@ -62,8 +60,7 @@ etc.
 Authentication will use JWTs stored in memory or cookies.
 </details>
 
-3. <details>
-
+<details>
 <summary>🧱 Backend Layers</summary>
 Use the classic layered architecture:
 
@@ -78,8 +75,7 @@ Controller    ->    Service    ->    Repository
 
 </details>
 
-4. <details>
-
+<details>
 <summary>🔐 Authentication Strategy</summary>
 ✅ You're planning to use JWT (JSON Web Tokens):
 
@@ -95,8 +91,7 @@ Optional bonus: refresh tokens for long sessions.
 
 </details>
 
-5. <details>
-
+<details>
 <summary>🔄 Data Flow Example (Selling a Product)</summary>
 
 1. User logs in -> gets JWT
@@ -111,8 +106,7 @@ Optional bonus: refresh tokens for long sessions.
 That’s a classic POS workflow. Other flows: managing products, viewing reports, handling returns, etc.
 </details>
 
-6. <details>
-
+<details>
 <summary>🌐 6. Infrastructure / Hosting Plan</summary>
 You already have a mini PC to host the backend API — that’s great!
 
