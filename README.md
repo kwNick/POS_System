@@ -20,9 +20,13 @@ Output: ER diagrams, DB schemas, object models.
 ### Choose the Tech Stack
 
 Decide what languages, frameworks, and tools you're going to use:
+
 Backend: Java + Spring Boot ✅
+
 Frontend: Next.js ✅
+
 Database: PostgreSQL
+
 Hosting/Infra: Docker, Nginx, Vercel, etc.
 </details>
 
@@ -138,7 +142,10 @@ Do you want real-time updates? (e.g., WebSocket for sales activity?)
 Will there be a dashboard/admin view?
 </details>
 
-## Step - 3
+<details>
+<summary>
+
+## Step - 3</summary>
 
 ### Scaffold the Project
 
@@ -150,7 +157,12 @@ Will there be a dashboard/admin view?
 
 - Set up auth, initial routes and API base structure
 
-## Step - 4
+</details>
+
+<details>
+<summary>
+
+## Step - 4</summary>
 
 ### Implementing Core Features
 
@@ -166,7 +178,12 @@ Will there be a dashboard/admin view?
 
 - Build in small vertical slices(one feature end-to-end)
 
-## Step - 5
+</details>
+
+<details>
+<summary>
+
+## Step - 5</summary>
 
 ### Testing & Iteration
 
@@ -176,7 +193,12 @@ Will there be a dashboard/admin view?
 
 - Fix edge cases (discounts, returns, etc.)
 
-## Step - 6
+</details>
+
+<details>
+<summary>
+
+## Step - 6</summary>
 
 ### Deployment & Monitoring
 
@@ -187,3 +209,5 @@ Will there be a dashboard/admin view?
 - Host frontend on Vercel
 
 - Add monitoring/logging if needed
+
+</details>
