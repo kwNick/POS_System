@@ -29,22 +29,16 @@ Diagrams: sequence diagrams, flow diagrams, etc.
 <summary>1. 🔭 High-Level Overview</summary>
 You’re building a web-based POS system. So your architecture will likely look like this:
 
-[ Frontend (Next.js 15+) ]
-
-        |
-        v
-
-[ API Gateway / Nginx (optional for SSL + routing) ]
-
-        |
-        v
-
-[ Spring Boot REST API ]
-
-        |
-        v
-        
-[ Database (PostgreSQL) ]
+    [ Frontend (Next.js 15+) ]
+            |
+            v
+    [ API Gateway / Nginx (optional for SSL + routing) ]
+            |
+            v
+    [ Spring Boot REST API ]
+            |
+            v
+    [ Database (PostgreSQL) ]
 
 You can also run background jobs, use WebSocket for real-time updates (optional), or include a queue for receipts/logs later.
 </details>
