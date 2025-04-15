@@ -22,12 +22,34 @@ Hosting/Infra: Docker, Nginx, Vercel, etc.
 
 ### System Architecture Design
 
-Define how components talk to each other:
-REST API endpoints
-Auth strategy (e.g., JWT)
-Microservices? Or single backend?
-Do you use caching, queuing, etc.?
+Define how components talk to each other -- REST API endpoints, Auth strategy (e.g., JWT), Microservices? Or single backend? Do you use caching, queuing, etc.?
 Diagrams: sequence diagrams, flow diagrams, etc.
+
+1. High-Level Overview
+2. Frontend–Backend Communication
+3. Backend Layers
+4. Authentication Strategy
+5. Data Flow
+6. Infrastructure / Hosting Plan
+
+<details>
+<summary>1. High-Level Overview</summary>
+🔭 1. High-Level Overview
+You’re building a web-based POS system. So your architecture will likely look like this:
+
+[ Frontend (Next.js 15+) ]
+        |
+        v
+[ API Gateway / Nginx (optional for SSL + routing) ]
+        |
+        v
+[ Spring Boot REST API ]
+        |
+        v
+[ Database (PostgreSQL or MongoDB) ]
+
+You can also run background jobs, use WebSocket for real-time updates (optional), or include a queue for receipts/logs later.
+</details>
 
 ## Step - 3
 
