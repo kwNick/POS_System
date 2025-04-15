@@ -3,7 +3,7 @@
 <details>
 <summary>
 
-Step - 0</summary>
+## Step - 0</summary>
 
 ### Domain Modeling
 
@@ -12,7 +12,10 @@ This is all about understanding the business logic first before any code is writ
 Output: ER diagrams, DB schemas, object models.
 </details>
 
-## Step - 1
+<details>
+<summary>
+
+## Step - 1</summary>
 
 ### Choose the Tech Stack
 
@@ -21,8 +24,12 @@ Backend: Java + Spring Boot ✅
 Frontend: Next.js ✅
 Database: PostgreSQL
 Hosting/Infra: Docker, Nginx, Vercel, etc.
+</details>
 
-## Step - 2
+<details>
+<summary>
+
+## Step - 2</summary>
 
 ### System Architecture Design
 
@@ -129,6 +136,7 @@ You can use Docker Compose to run everything locally on your mini PC and port-fo
 Do you want real-time updates? (e.g., WebSocket for sales activity?)
 
 Will there be a dashboard/admin view?
+</details>
 
 ## Step - 3
 
