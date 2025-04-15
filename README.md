@@ -15,7 +15,7 @@ Output: ER diagrams, DB schemas, object models.
 Decide what languages, frameworks, and tools you're going to use:
 Backend: Java + Spring Boot ✅
 Frontend: Next.js ✅
-Database: PostgreSQL, MySQL, or MongoDB
+Database: PostgreSQL/MySQL
 Hosting/Infra: Docker, Nginx, Vercel, etc.
 
 ## Step - 2
@@ -26,7 +26,7 @@ Define how components talk to each other -- REST API endpoints, Auth strategy (e
 Diagrams: sequence diagrams, flow diagrams, etc.
 
 <details>
-<summary>🔭 High-Level Overview</summary>
+<summary>1. 🔭 High-Level Overview</summary>
 You’re building a web-based POS system. So your architecture will likely look like this:
 
 [ Frontend (Next.js 15+) ]
@@ -38,13 +38,13 @@ You’re building a web-based POS system. So your architecture will likely look 
 [ Spring Boot REST API ]
         |
         v
-[ Database (PostgreSQL or MongoDB) ]
+[ Database (PostgreSQL) ]
 
 You can also run background jobs, use WebSocket for real-time updates (optional), or include a queue for receipts/logs later.
 </details>
 
 <details>
-<summary>🔗 Frontend–Backend Communication</summary>
+<summary>2. 🔗 Frontend–Backend Communication</summary>
 Frontend: Next.js 15+ using App Router and fetch()/axios to hit your backend endpoints.
 
 Backend: Spring Boot exposes RESTful routes:
@@ -57,16 +57,17 @@ POST /sales
 
 etc.
 
-Authentication will use JWTs stored in memory or cookies.
+Authentication will use JWTs stored in cookies.
 </details>
 
 <details>
-<summary>🧱 Backend Layers</summary>
+<summary>3. 🧱 Backend Layers</summary>
 Use the classic layered architecture:
 
 Controller    ->    Service    ->    Repository
    ↑               (Business      (Data access)
  REST API           logic)
+
 @RestController handles requests
 
 @Service contains logic (e.g., discount rules)
@@ -76,12 +77,12 @@ Controller    ->    Service    ->    Repository
 </details>
 
 <details>
-<summary>🔐 Authentication Strategy</summary>
+<summary>4. 🔐 Authentication Strategy</summary>
 ✅ You're planning to use JWT (JSON Web Tokens):
 
 POST /auth/login → returns a JWT
 
-Frontend stores token (in memory or secure cookie)
+Frontend stores token (secure cookie)
 
 Backend uses a JWT filter to verify token on each request
 
@@ -92,7 +93,7 @@ Optional bonus: refresh tokens for long sessions.
 </details>
 
 <details>
-<summary>🔄 Data Flow Example (Selling a Product)</summary>
+<summary>5. 🔄 Data Flow Example (Selling a Product)</summary>
 
 1. User logs in -> gets JWT
 2. Adds items to cart on frontend
@@ -111,7 +112,7 @@ That’s a classic POS workflow. Other flows: managing products, viewing reports
 You already have a mini PC to host the backend API — that’s great!
 
 Component Plan
-Frontend (Next.js) Vercel or Netlify
+Frontend (Next.js) Vercel
 Backend (Spring) Mini PC with Docker + Nginx + SSL
 Database PostgreSQL or MongoDB on same PC
 Domain & SSL Free domain + Let’s Encrypt SSL
@@ -120,10 +121,7 @@ You can use Docker Compose to run everything locally on your mini PC and port-fo
 
 </details>
 
-🧠 TL;DR: You Should Decide
-Will you use SQL (JPA) or MongoDB?
-
-Do you want real-time updates? (e.g., WebSocket for sales activity?)
+🧠 Do you want real-time updates? (e.g., WebSocket for sales activity?)
 
 Will there be a dashboard/admin view?
 
