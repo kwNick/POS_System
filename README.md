@@ -3,7 +3,7 @@
 <details>
 <summary>
 
-## Step - 0</summary>
+Step - 0</summary>
 
 ### Domain Modeling
 
