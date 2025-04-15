@@ -30,14 +30,23 @@ Diagrams: sequence diagrams, flow diagrams, etc.
 You’re building a web-based POS system. So your architecture will likely look like this:
 
 [ Frontend (Next.js 15+) ]
+
         |
+
         v
+
 [ API Gateway / Nginx (optional for SSL + routing) ]
+
         |
+
         v
+
 [ Spring Boot REST API ]
+
         |
+
         v
+        
 [ Database (PostgreSQL) ]
 
 You can also run background jobs, use WebSocket for real-time updates (optional), or include a queue for receipts/logs later.
@@ -66,7 +75,7 @@ Use the classic layered architecture:
 
 Controller    ->    Service    ->    Repository
 
-   ↑               (Business      (Data access)
+   ↑                          (Business      (Data access)
 
  REST API           logic)
 
@@ -75,7 +84,6 @@ Controller    ->    Service    ->    Repository
 @Service contains logic (e.g., discount rules)
 
 @Repository uses JPA or MongoRepository for DB
-
 </details>
 
 <details>
@@ -91,7 +99,6 @@ Backend uses a JWT filter to verify token on each request
 You can use roles like "ADMIN", "CASHIER" for access control
 
 Optional bonus: refresh tokens for long sessions.
-
 </details>
 
 <details>
@@ -126,7 +133,6 @@ Domain & SSL --> Free domain + Let’s Encrypt SSL
 Reverse Proxy --> Nginx
 
 You can use Docker Compose to run everything locally on your mini PC and port-forward for internet access.
-
 </details>
 
 ...🧠
