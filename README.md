@@ -15,7 +15,7 @@ Output: ER diagrams, DB schemas, object models.
 Decide what languages, frameworks, and tools you're going to use:
 Backend: Java + Spring Boot ✅
 Frontend: Next.js ✅
-Database: PostgreSQL/MySQL
+Database: PostgreSQL
 Hosting/Infra: Docker, Nginx, Vercel, etc.
 
 ## Step - 2
@@ -65,7 +65,9 @@ Authentication will use JWTs stored in cookies.
 Use the classic layered architecture:
 
 Controller    ->    Service    ->    Repository
+
    ↑               (Business      (Data access)
+
  REST API           logic)
 
 @RestController handles requests
@@ -111,17 +113,25 @@ That’s a classic POS workflow. Other flows: managing products, viewing reports
 <summary>🌐 6. Infrastructure / Hosting Plan</summary>
 You already have a mini PC to host the backend API — that’s great!
 
-Component Plan
-Frontend (Next.js) Vercel
-Backend (Spring) Mini PC with Docker + Nginx + SSL
-Database PostgreSQL or MongoDB on same PC
-Domain & SSL Free domain + Let’s Encrypt SSL
-Reverse Proxy Nginx or Caddy
+Component --> Plan
+
+Frontend (Next.js) --> Vercel
+
+Backend (Spring) --> Mini PC with Docker + Nginx + SSL
+
+Database --> PostgreSQL on same PC
+
+Domain & SSL --> Free domain + Let’s Encrypt SSL
+
+Reverse Proxy --> Nginx
+
 You can use Docker Compose to run everything locally on your mini PC and port-forward for internet access.
 
 </details>
 
-🧠 Do you want real-time updates? (e.g., WebSocket for sales activity?)
+...🧠
+
+Do you want real-time updates? (e.g., WebSocket for sales activity?)
 
 Will there be a dashboard/admin view?
 
