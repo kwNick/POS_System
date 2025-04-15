@@ -1,12 +1,16 @@
 # POS_System
 
-## Step - 0
+<details>
+<summary>
+
+## Step - 0</summary>
 
 ### Domain Modeling
 
 Define core entities and relationships (e.g., Sales, Users, Products, etc.)
 This is all about understanding the business logic first before any code is written.
 Output: ER diagrams, DB schemas, object models.
+</details>
 
 ## Step - 1
 
@@ -120,7 +124,7 @@ You already have a mini PC to host the backend API — that’s great!
 You can use Docker Compose to run everything locally on your mini PC and port-forward for internet access.
 </details>
 
-...🧠
+🧠...
 
 Do you want real-time updates? (e.g., WebSocket for sales activity?)
 
