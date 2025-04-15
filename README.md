@@ -70,11 +70,11 @@ Authentication will use JWTs stored in cookies.
 <summary>3. 🧱 Backend Layers</summary>
 Use the classic layered architecture:
 
-[Controller    ->    Service    ->    Repository]
+[Controller]    ->    [Service]    ->    [Repository]
 
-    ↑                (Business        (Data access)
+    ↑                 (Business          (Data access)
 
- REST API             logic)
+  REST API              logic)
 
 @RestController handles requests
 
