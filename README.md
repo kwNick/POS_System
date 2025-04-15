@@ -110,9 +110,10 @@ That’s a classic POS workflow. Other flows: managing products, viewing reports
 You already have a mini PC to host the backend API — that’s great!
 
     Component --> Plan
+
     Frontend (Next.js) --> Vercel
     Backend (Spring) --> Mini PC with Docker + Nginx + SSL
-    Database --> PostgreSQL on same PC
+    Database --> PostgreSQL on Mini PC
     Domain & SSL --> Free domain + Let’s Encrypt SSL
     Reverse Proxy --> Nginx
 
@@ -130,8 +131,11 @@ Will there be a dashboard/admin view?
 ### Scaffold the Project
 
 Initialize your Spring Boot App and Next.js frontend
+
 Connect to the database
+
 Create your core entity classes & repositories
+
 Set up auth, initial routes and API base structure
 
 ## Step - 4
@@ -139,10 +143,15 @@ Set up auth, initial routes and API base structure
 ### Implementing Core Features
 
 Product CRUD
+
 User Auth/Login
+
 Sales flow(scan -> cart -> checkout -> record/log)
+
 Payment Logic
+
 Inventory tracking
+
 Build in small vertical slices(one feature end-to-end)
 
 ## Step - 5
@@ -150,7 +159,9 @@ Build in small vertical slices(one feature end-to-end)
 ### Testing & Iteration
 
 Unit tests, integration tests
+
 Manual testing of flows
+
 Fix edge cases (discounts, returns, etc.)
 
 ## Step - 6
@@ -158,6 +169,9 @@ Fix edge cases (discounts, returns, etc.)
 ### Deployment & Monitoring
 
 Containerize with Docker
-Deploy backend (maybe on your mini PC)
+
+Deploy backend (on mini PC)
+
 Host frontend on Vercel
+
 Add monitoring/logging if needed
