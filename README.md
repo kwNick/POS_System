@@ -110,7 +110,7 @@ That’s a classic POS workflow. Other flows: managing products, viewing reports
 You already have a mini PC to host the backend API — that’s great!
 
     Component --> Plan
-<hr/>
+</hr>
     Frontend (Next.js) --> Vercel
     Backend (Spring) --> Mini PC with Docker + Nginx + SSL
     Database --> PostgreSQL on same PC
