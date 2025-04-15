@@ -8,7 +8,9 @@
 ### Domain Modeling
 
 Define core entities and relationships (e.g., Sales, Users, Products, etc.)
+
 This is all about understanding the business logic first before any code is written.
+
 Output: ER diagrams, DB schemas, object models.
 </details>
 
@@ -38,6 +40,7 @@ Hosting/Infra: Docker, Nginx, Vercel, etc.
 ### System Architecture Design
 
 Define how components talk to each other -- REST API endpoints, Auth strategy (e.g., JWT), Microservices? Or single backend? Do you use caching, queuing, etc.?
+
 Diagrams: sequence diagrams, flow diagrams, etc.
 
 <details>
