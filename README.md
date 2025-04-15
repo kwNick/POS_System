@@ -130,48 +130,48 @@ Will there be a dashboard/admin view?
 
 ### Scaffold the Project
 
-Initialize your Spring Boot App and Next.js frontend
+- Initialize your Spring Boot App and Next.js frontend
 
-Connect to the database
+- Connect to the database
 
-Create your core entity classes & repositories
+- Create your core entity classes & repositories
 
-Set up auth, initial routes and API base structure
+- Set up auth, initial routes and API base structure
 
 ## Step - 4
 
 ### Implementing Core Features
 
-Product CRUD
+- Product CRUD
 
-User Auth/Login
+- User Auth/Login
 
-Sales flow(scan -> cart -> checkout -> record/log)
+- Sales flow(scan -> cart -> checkout -> record/log)
 
-Payment Logic
+- Payment Logic
 
-Inventory tracking
+- Inventory tracking
 
-Build in small vertical slices(one feature end-to-end)
+- Build in small vertical slices(one feature end-to-end)
 
 ## Step - 5
 
 ### Testing & Iteration
 
-Unit tests, integration tests
+- Unit tests, integration tests
 
-Manual testing of flows
+- Manual testing of flows
 
-Fix edge cases (discounts, returns, etc.)
+- Fix edge cases (discounts, returns, etc.)
 
 ## Step - 6
 
 ### Deployment & Monitoring
 
-Containerize with Docker
+- Containerize with Docker
 
-Deploy backend (on mini PC)
+- Deploy backend (on mini PC)
 
-Host frontend on Vercel
+- Host frontend on Vercel
 
-Add monitoring/logging if needed
+- Add monitoring/logging if needed
