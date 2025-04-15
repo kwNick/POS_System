@@ -32,19 +32,16 @@ You’re building a web-based POS system. So your architecture will likely look 
 [ Frontend (Next.js 15+) ]
 
         |
-
         v
 
 [ API Gateway / Nginx (optional for SSL + routing) ]
 
         |
-
         v
 
 [ Spring Boot REST API ]
 
         |
-
         v
         
 [ Database (PostgreSQL) ]
@@ -73,11 +70,11 @@ Authentication will use JWTs stored in cookies.
 <summary>3. 🧱 Backend Layers</summary>
 Use the classic layered architecture:
 
-Controller    ->    Service    ->    Repository
+[Controller    ->    Service    ->    Repository]
 
-   ↑                          (Business      (Data access)
+    ↑                (Business        (Data access)
 
- REST API           logic)
+ REST API             logic)
 
 @RestController handles requests
 
