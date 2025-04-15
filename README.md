@@ -71,7 +71,7 @@ Authentication will use JWTs stored in cookies.
 Use the classic layered architecture:
 
     [Controller]    ->    [Service]    ->    [Repository]
-    ↑                       ↑                   ↑
+        ↑                     ↑                   ↑
     REST API              (logic)            (Data access)
 
 @RestController handles requests
