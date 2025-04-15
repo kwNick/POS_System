@@ -1,5 +1,8 @@
+-- Core Entities
 
 -- USERS -- Core
+-- users → sales	                One-to-Many	            Each user can make many sales
+-- users → inventory_logs	        One-to-Many	            Each inventory change is tracked to a user
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
@@ -9,18 +12,10 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- CUSTOMERS -- Core
-CREATE TABLE customers (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255),
-    phone VARCHAR(20),
-    loyalty_points INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 -- SALES -- Core
+-- sales → sale_items	            One-to-Many 	        Each sale can have many items
+-- sales → payments	                One-to-One / Many	    A sale can have one or more payment records
+-- sales → returns	                One-to-Many	            A sale can be referenced by multiple returns
 CREATE TABLE sales (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
@@ -49,6 +44,9 @@ CREATE TABLE payments (
 );
 
 -- PRODUCTS -- Core
+-- products → sale_items	        One-to-Many	            A product can appear in many sales
+-- products → inventory_logs	    One-to-Many	            Each product has many inventory logs
+-- products → return_items	        One-to-Many	            Products can appear in return items
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -71,7 +69,22 @@ CREATE TABLE inventory_logs (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Secondary Entities
+
+-- CUSTOMERS -- Secondary
+-- customers → sales	            One-to-Many	            Each customer can have many sales
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    phone VARCHAR(20),
+    loyalty_points INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- PRODUCT CATEGORIES -- Secondary
+-- product_categories → products	One-to-Many	            Each category has many products
 CREATE TABLE product_categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -79,6 +92,7 @@ CREATE TABLE product_categories (
 );
 
 -- DISCOUNTS -- Secondary
+-- discounts → products	            Many-to-One (optional)	A discount may apply to a product
 CREATE TABLE discounts (
     id SERIAL PRIMARY KEY,
     type VARCHAR(20) CHECK (type IN ('PERCENTAGE', 'FIXED')) NOT NULL,
@@ -90,6 +104,7 @@ CREATE TABLE discounts (
 
 
 -- RETURNS -- Secondary
+-- returns → return_items	        One-to-Many	            A return can have many returned items
 CREATE TABLE returns (
     id SERIAL PRIMARY KEY,
     original_sale_id INT REFERENCES sales(id),
@@ -108,16 +123,16 @@ CREATE TABLE return_items (
 );
 
 
--- Relationship	Type	Description
--- users → sales	One-to-Many	Each user can make many sales
--- customers → sales	One-to-Many	Each customer can have many sales
--- sales → sale_items	One-to-Many	Each sale can have many items
--- products → sale_items	One-to-Many	A product can appear in many sales
--- product_categories → products	One-to-Many	Each category has many products
--- products → inventory_logs	One-to-Many	Each product has many inventory logs
--- users → inventory_logs	One-to-Many	Each inventory change is tracked to a user
--- sales → payments	One-to-One / Many	A sale can have one or more payment records
--- sales → returns	One-to-Many	A sale can be referenced by multiple returns
--- returns → return_items	One-to-Many	A return can have many returned items
--- products → return_items	One-to-Many	Products can appear in return items
--- discounts → products	Many-to-One (optional)	A discount may apply to a product
+-- Relationship	                    Type	            Description
+-- users → sales	                One-to-Many	            Each user can make many sales
+-- customers → sales	            One-to-Many	            Each customer can have many sales
+-- sales → sale_items	            One-to-Many 	        Each sale can have many items
+-- products → sale_items	        One-to-Many	            A product can appear in many sales
+-- product_categories → products	One-to-Many	            Each category has many products
+-- products → inventory_logs	    One-to-Many	            Each product has many inventory logs
+-- users → inventory_logs	        One-to-Many	            Each inventory change is tracked to a user
+-- sales → payments	                One-to-One / Many	    A sale can have one or more payment records
+-- sales → returns	                One-to-Many	            A sale can be referenced by multiple returns
+-- returns → return_items	        One-to-Many	            A return can have many returned items
+-- products → return_items	        One-to-Many	            Products can appear in return items
+-- discounts → products	            Many-to-One (optional)	A discount may apply to a product
