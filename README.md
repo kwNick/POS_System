@@ -112,6 +112,31 @@ Fast CDN: Serves your static content quickly, even globally.
 ### Design UI/UX Flow
 
 Wireframes, frontend page routes
+
+🗂️ 1. Organize Your Wireframes by Views
+These are your visual pages/screens:
+
+    View Name           | Description                       | Example Route
+    Login               | Auth page for cashier/admin login | /login
+    Dashboard (Admin)   | Overview of system stats          | /dashboard/admin
+    Dashboard (Cashier) | Access to POS terminal            | /dashboard/cashier
+    Product List        | Manage inventory                  | /products
+    New Product Form    | Add/edit product info             | /products/new
+    Sale Terminal       | Add items to sale, checkout       | /sales/new
+    Sales History       | View past transactions            | /sales
+    Customers Page      | View/add customers                | /customers
+    Settings            | Manage users/roles/passwords      | /settings
+
+🧱 2. Connect to Backend Entities
+Each page/view pulls or updates data tied to entities:
+
+    Route       | Main Entity | Supporting Entities
+    /login      | User        | —
+    /products   | Product     | InventoryLog
+    /sales/new  | Sale        | SaleItem, Product, User
+    /sales      | Sale        | Customer, User
+    /customers  | Customer    | Sale
+    /settings   | User        | —
 </details>
 
 <details>
