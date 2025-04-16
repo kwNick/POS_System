@@ -144,15 +144,15 @@ Each page/view pulls or updates data tied to entities:
 
 Example routes your Spring Boot backend could expose:
 
-API Endpoint            | Method    | Description
-POST /api/auth/login    | POST      | Login with JWT
-GET /api/products       | GET       | List all products
-POST /api/products      | POST      | Add new product
-GET /api/sales          | GET       | List all sales
-POST /api/sales         | POST      | Create a new sale
-GET /api/customers      | GET       | Get all customers
-POST /api/customers     | POST      | Add new customer
-GET /api/users          | GET       | Admin user management
+    API Endpoint            | Method    | Description
+    POST /api/auth/login    | POST      | Login with JWT
+    GET /api/products       | GET       | List all products
+    POST /api/products      | POST      | Add new product
+    GET /api/sales          | GET       | List all sales
+    POST /api/sales         | POST      | Create a new sale
+    GET /api/customers      | GET       | Get all customers
+    POST /api/customers     | POST      | Add new customer
+    GET /api/users          | GET       | Admin user management
 
 </details>
 
