@@ -86,7 +86,7 @@ Fast CDN: Serves your static content quickly, even globally.
 
 📦 Example: Your POS frontend (cashier/admin login, product list UI) will be fast and deploy with ease.
 
-    <u>Tech</u>        |   <u>Why it’s great</u>
+    Tech        |   Why it’s great
     Spring Boot |   Enterprise-grade backend, RESTful APIs, security
     Next.js     |   Clean routing, server-side rendering, fast frontend
     PostgreSQL  |   Reliable, structured, and ACID-compliant data storage
