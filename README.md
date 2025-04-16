@@ -86,13 +86,13 @@ Fast CDN: Serves your static content quickly, even globally.
 
 📦 Example: Your POS frontend (cashier/admin login, product list UI) will be fast and deploy with ease.
 
-Tech        |   Why it’s great
-Spring Boot |   Enterprise-grade backend, RESTful APIs, security
-Next.js     |   Clean routing, server-side rendering, fast frontend
-PostgreSQL  |   Reliable, structured, and ACID-compliant data storage
-Docker      |   Portable, consistent deployments
-Nginx       |   SSL, routing, reverse proxy
-Vercel      |   Seamless deployment for your frontend
+    Tech        |   Why it’s great
+    Spring Boot |   Enterprise-grade backend, RESTful APIs, security
+    Next.js     |   Clean routing, server-side rendering, fast frontend
+    PostgreSQL  |   Reliable, structured, and ACID-compliant data storage
+    Docker      |   Portable, consistent deployments
+    Nginx       |   SSL, routing, reverse proxy
+    Vercel      |   Seamless deployment for your frontend
 </details>
 
 <details>
