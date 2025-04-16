@@ -114,6 +114,7 @@ Fast CDN: Serves your static content quickly, even globally.
 Wireframes, frontend page routes
 
 🗂️ 1. Organize Your Wireframes by Views
+
 These are your visual pages/screens:
 
     View Name           | Description                       | Example Route
@@ -128,6 +129,7 @@ These are your visual pages/screens:
     Settings            | Manage users/roles/passwords      | /settings
 
 🧱 2. Connect to Backend Entities
+
 Each page/view pulls or updates data tied to entities:
 
     Route       | Main Entity | Supporting Entities
@@ -137,6 +139,21 @@ Each page/view pulls or updates data tied to entities:
     /sales      | Sale        | Customer, User
     /customers  | Customer    | Sale
     /settings   | User        | —
+
+🔗 3. Define Matching API Endpoints
+
+Example routes your Spring Boot backend could expose:
+
+API Endpoint            | Method    | Description
+POST /api/auth/login    | POST      | Login with JWT
+GET /api/products       | GET       | List all products
+POST /api/products      | POST      | Add new product
+GET /api/sales          | GET       | List all sales
+POST /api/sales         | POST      | Create a new sale
+GET /api/customers      | GET       | Get all customers
+POST /api/customers     | POST      | Add new customer
+GET /api/users          | GET       | Admin user management
+
 </details>
 
 <details>
