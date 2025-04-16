@@ -68,6 +68,15 @@ Indexing + full-text search: If you need quick lookups (like product names or SK
 
 ## Hosting/Infra: Docker, Nginx, Vercel, etc
 
+🔥 Docker
+Environment consistency: No “it works on my machine” issues.
+
+Easy deployments: Build once, run anywhere — especially helpful for your Spring Boot API.
+
+Docker Compose: Easily spin up your backend, database, and even dev UI with one command.
+
+📦 Example: Run PostgreSQL + Spring Boot + Nginx in containers locally or on your mini PC.
+
 🔥 Nginx
 Reverse proxy: Route traffic from your domain to your Spring Boot backend.
 
