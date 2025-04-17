@@ -1,0 +1,116 @@
+//Core Entities
+Table users {
+  id SERIAL [pk]
+  username VARCHAR(100) [unique, not null]
+  password_hash TEXT [not null]
+  role VARCHAR(50) [not null] // ADMIN or CASHIER
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  updated_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table shops {
+  id SERIAL [pk]
+  user_id INT [ref: > users.id]
+  name VARCHAR(100) [not null]
+  location TEXT
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table products {
+  id SERIAL [pk]
+  shop_id INT [ref: > shops.id]
+  name VARCHAR(100) [not null]
+  price DECIMAL(10,2) [not null]
+  stock_quantity INT [default: 0]
+}
+
+Table customers {
+  id SERIAL [pk]
+  shop_id INT [ref: > shops.id]
+  name VARCHAR(100) [not null]
+  email VARCHAR(100)
+  phone VARCHAR(20)
+}
+
+Table sales {
+  id SERIAL [pk]
+  shop_id INT [ref: > shops.id]
+  user_id INT [ref: > users.id]
+  customer_id INT [ref: > customers.id]
+  total_amount DECIMAL(10,2) [not null]
+  payment_method VARCHAR(50)
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table sale_items {
+  id SERIAL [pk]
+  sale_id INT [ref: > sales.id]
+  product_id INT [ref: > products.id]
+  quantity INT [not null]
+  price DECIMAL(10,2) [not null]
+}
+
+Table inventory_logs {
+  id SERIAL [pk]
+  product_id INT [ref: > products.id]
+  change_type VARCHAR(50) // 'ADD' or 'REMOVE'
+  quantity INT [not null]
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+//Extended/Modular Entities
+Table categories {
+  id SERIAL [pk]
+  shop_id INT [ref: > shops.id]
+  name VARCHAR(100) [not null]
+}
+
+Table product_categories {
+  product_id INT [ref: > products.id]
+  category_id INT [ref: > categories.id]
+  Indexes {
+    (product_id, category_id) [pk]
+  }
+}
+
+Table discounts {
+  id SERIAL [pk]
+  shop_id INT [ref: > shops.id]
+  name VARCHAR(100)
+  percentage DECIMAL(5,2)
+  start_date TIMESTAMP
+  end_date TIMESTAMP
+}
+
+Table receipts {
+  id SERIAL [pk]
+  sale_id INT [ref: > sales.id]
+  receipt_url TEXT
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table cashiers {
+  id SERIAL [pk]
+  user_id INT [ref: > users.id]
+  shop_id INT [ref: > shops.id]
+  name VARCHAR(100)
+}
+
+Table payments {
+  id SERIAL [pk]
+  sale_id INT [ref: > sales.id]
+  amount DECIMAL(10,2) [not null]
+  method VARCHAR(50) [not null] // e.g., CASH, CARD, PAYPAL
+  status VARCHAR(50) [default: 'COMPLETED'] // optional: PENDING, FAILED
+  transaction_ref TEXT // optional: external system ref
+  paid_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table returns {
+  id SERIAL [pk]
+  sale_id INT [ref: > sales.id]
+  product_id INT [ref: > products.id]
+  quantity INT [not null]
+  reason TEXT
+  returned_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
