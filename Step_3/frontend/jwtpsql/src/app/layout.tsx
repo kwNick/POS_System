@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavAuth from "../components/NavAuth";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,20 +27,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen `}
       >
-        <nav className="p-3 w-full h-1/6 bg-blue-400">
+
+        <nav className="p-3 w-full h-1/5 bg-secondary flex items-center justify-center text-black">
           <NavAuth />
         </nav>
 
-        <div className="p-8 bg-blue-400">
+        <div className="relative w-full h-full p-8 py-12 flex flex-col items-center bg-secondary z-10 text-black">
           {children}
         </div>
 
-        <footer className="mx-5 w-full h-[10vh] flex items-center justify-center bg-white rounded-t-2xl shadow-md">
-          <p className="text-center text-gray-600">
-            © {new Date().getFullYear()} POS System. All rights reserved.
-          </p>
+        <footer className="w-full h-[10vh] text-accent flex items-center justify-around bg-primary rounded-t-2xl shadow-md md:sticky md:bottom-0">
+          <Footer />
         </footer>
       </body>
     </html>
