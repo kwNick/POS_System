@@ -41,7 +41,7 @@ export async function LoginAction(prevState: State, formData: FormData) {
 
     const { username, password }: { username: string, password: string } = validatedFields.data;
     try {
-        const response = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/auth/login-refresh`, {
+        const response = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/auth/login-refresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export async function LoginAction(prevState: State, formData: FormData) {
             httpOnly: true,
             secure: true,
             path: '/',
-            maxAge: 15 * 60, // 15 minutes
+            maxAge: 60 * 3, // 15 minutes
         }); // store token in cookie. MaxAge is in seconds.
         // Setting maxAge will cause the cookie to become a persistent cookie with an explicit expiration. If maxAge is not set, the cookie is a session cookie (cleared when browser is closed).
         // Setting maxAge: 0 will delete the cookie.
@@ -70,7 +70,7 @@ export async function LoginAction(prevState: State, formData: FormData) {
             httpOnly: true,
             secure: true,
             path: '/',
-            maxAge: 60 * 15, // 15 minutes
+            maxAge: 60 * 3, // 15 minutes
         });
 
         // const role = user.roles.find(x => x.name === 'ROLE_ADMIN') ? 'ROLE_ADMIN' : 'ROLE_USER';
@@ -126,7 +126,7 @@ export async function RegisterAction(prevState: State, formData: FormData) {
     const { username, email, password }: { username: string, email: string, password: string } = validatedFields.data;
     try {
 
-        const response = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/auth/register-refresh`, {
+        const response = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/auth/register-refresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ export async function RegisterAction(prevState: State, formData: FormData) {
 
 export async function LogoutAction() {
     try {
-        const res = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/auth/logout-refresh`, {
+        const res = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/auth/logout-refresh`, {
             method: 'POST',
             credentials: 'include'
         });
@@ -206,7 +206,7 @@ export async function LogoutAction() {
 
 export async function DeleteAction() {
     try {
-        const res = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/api/delete`, {
+        const res = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/api/delete`, {
             method: 'DELETE',
             credentials: 'include'
         });
@@ -275,7 +275,7 @@ export async function AddShopAction(prevState: AddShopState, formData: FormData)
         const cookieStore = cookies();
         const token = (await cookieStore).get('token')?.value;
 
-        const response = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/shops/addShop`, {
+        const response = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/shops/addShop`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,
