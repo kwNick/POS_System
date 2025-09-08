@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-// import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal; //this library is important
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails; //this library is important
 import org.springframework.web.bind.annotation.DeleteMapping;
-// import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.jwt_rest.models.User;
 import com.example.jwt_rest.repositories.UserRepository;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -60,13 +59,22 @@ public class UserController {
         // Optional: Also delete related data like orders, carts, etc.
         
         // Invalidate the refresh token cookie
-        final Cookie deleteRefreshCookie = new Cookie("refreshToken", "");
-        deleteRefreshCookie.setHttpOnly(true);
-        deleteRefreshCookie.setSecure(true);
-        deleteRefreshCookie.setPath("/");
-        deleteRefreshCookie.setMaxAge(0);// <--- deletes the cookie
-        response.addCookie(deleteRefreshCookie);
+        // final Cookie deleteRefreshCookie = new Cookie("refreshToken", "");
+        // deleteRefreshCookie.setHttpOnly(true);
+        // deleteRefreshCookie.setSecure(true);
+        // deleteRefreshCookie.setPath("/");
+        // deleteRefreshCookie.setMaxAge(0);// <--- deletes the cookie
+        // response.addCookie(deleteRefreshCookie);
         
+        ResponseCookie deleteRefreshCookie = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0)
+                .sameSite("None")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, deleteRefreshCookie.toString());
+
         SecurityContextHolder.clearContext();
 
         userRepository.delete(user.get());

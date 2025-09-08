@@ -10,19 +10,23 @@ export async function fetchProfile() {
         const cookieStore = cookies();
         const token = (await cookieStore).get('token')?.value;
 
-        let data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/api/profile`, {
+        let data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/api/profile`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            credentials: 'include',
         });
         // console.log('data: ', data.status, data.ok, data.body);
 
         if (!data.ok) {
             // console.log('access token expired! -> Sending fetch to refresh access token!');
             // redirect('/login');
-            const refreshRes = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
+            const refreshRes = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
+                // headers: {
+                //     Authorization: `Bearer ${token}`,
+                // },
             });
             // console.log('refreshRes: ', refreshRes.status, refreshRes.ok, refreshRes.body);
             if (!refreshRes.ok) {
@@ -47,10 +51,11 @@ export async function fetchProfile() {
                     maxAge: 60 * 15, // 15 minutes
                 });
 
-                data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/api/profile`, {
+                data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/api/profile`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    credentials: 'include',
                 });
             }
         }
@@ -74,15 +79,16 @@ export async function fetchUsers() {
         const token = (await cookieStore).get('token')?.value;
         // console.log(`Bearer ${token}`); //maybe add a try/catch here to check if token is null
 
-        let data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/users`, {
+        let data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/users`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            credentials: 'include',
         });
 
         if (data.status === 403) {
             // redirect('/login');
-            const refreshRes = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
+            const refreshRes = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -107,10 +113,11 @@ export async function fetchUsers() {
                     maxAge: 60 * 15, // 15 minutes
                 });
 
-                data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/users`, {
+                data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/users`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    credentials: 'include',
                 });
             }
         }
@@ -133,15 +140,16 @@ export async function fetchUsersWithDetails() {
         const token = (await cookieStore).get('token')?.value;
         // console.log(`Bearer ${token}`); //maybe add a try/catch here to check if token is null
 
-        let data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/api/users`, {
+        let data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/api/users`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            credentials: 'include',
         });
 
         if (data.status === 401) {
             // redirect('/login');
-            const refreshRes = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
+            const refreshRes = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -166,10 +174,11 @@ export async function fetchUsersWithDetails() {
                     maxAge: 60 * 15, // 15 minutes
                 });
 
-                data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/api/users`, {
+                data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/api/users`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    credentials: 'include',
                 });
             }
         }
@@ -192,15 +201,16 @@ export async function fetchShops() {
         const token = (await cookieStore).get('token')?.value;
         // console.log(`Bearer ${token}`); //maybe add a try/catch here to check if token is null
 
-        let data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/shops`, {
+        let data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/shops`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            credentials: 'include',
         });
 
         if (data.status === 401) {
             // redirect('/login');
-            const refreshRes = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
+            const refreshRes = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -225,10 +235,11 @@ export async function fetchShops() {
                     maxAge: 60 * 15, // 15 minutes
                 });
 
-                data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/shops`, {
+                data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/shops`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    credentials: 'include',
                 });
             }
         }
@@ -251,15 +262,16 @@ export async function fetchRoles() {
         const token = (await cookieStore).get('token')?.value;
         // console.log(`Bearer ${token}`); //maybe add a try/catch here to check if token is null
 
-        let data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/roles`, {
+        let data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/roles`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            credentials: 'include',
         });
 
         if (data.status === 401) {
             // redirect('/login');
-            const refreshRes = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
+            const refreshRes = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -284,10 +296,11 @@ export async function fetchRoles() {
                     maxAge: 60 * 15, // 15 minutes
                 });
 
-                data = await fetch(`http://${process.env.JWT_AUTH_API_DOMAIN}/roles`, {
+                data = await fetch(`https://${process.env.JWT_AUTH_API_DOMAIN}/roles`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    credentials: 'include',
                 });
             }
         }
