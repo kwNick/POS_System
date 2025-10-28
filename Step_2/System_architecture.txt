@@ -1,103 +1,94 @@
 Step 2: System Architecture Design
-Here’s what we’ll cover:
+        Here’s what we’ll cover:
 
-1. High-Level Overview
-2. Frontend–Backend Communication
-3. Backend Layers
-4. Authentication Strategy
-5. Data Flow
-6. Infrastructure / Hosting Plan
-
+        1. High-Level Overview
+        2. Frontend–Backend Communication
+        3. Backend Layers
+        4. Authentication Strategy
+        5. Data Flow
+        6. Infrastructure / Hosting Plan
 
 🔭 1. High-Level Overview
-You’re building a web-based POS system. So your architecture will likely look like this:
+        You’re building a web-based POS system. So your architecture will likely look like this:
 
-[ Frontend (Next.js 15+) ]
-        |
-        v
-[ API Gateway / Nginx (optional for SSL + routing) ]
-        |
-        v
-[ Spring Boot REST API ]
-        |
-        v
-[ Database (PostgreSQL or MongoDB) ]
+        [ Frontend (Next.js 15+) ]
+                |
+                v
+        [ API Gateway / Nginx (optional for SSL + routing) ]
+                |
+                v
+        [ Spring Boot REST API ]
+                |
+                v
+        [ Database (PostgreSQL or MongoDB) ]
 
-You can also run background jobs, use WebSocket for real-time updates (optional), or include a queue for receipts/logs later.
+        You can also run background jobs, use WebSocket for real-time updates (optional), or include a queue for receipts/logs later.
 
 🔗 2. Frontend–Backend Communication
-Frontend: Next.js 15+ using App Router and fetch()/axios to hit your backend endpoints.
+        Frontend: Next.js 15+ using App Router and fetch()/axios to hit your backend endpoints.
 
-Backend: Spring Boot exposes RESTful routes:
+        Backend: Spring Boot exposes RESTful routes:
 
-POST /auth/login
+        POST /auth/login
 
-GET /products
+        GET /products
 
-POST /sales
+        POST /sales
 
-etc.
+        etc.
 
-Authentication will use JWTs stored in memory or cookies.
-
+        Authentication will use JWTs stored in memory or cookies.
 
 🧱 3. Backend Layers (Spring Boot)
-Use the classic layered architecture:
+        Use the classic layered architecture:
 
-Controller    ->    Service    ->    Repository
-   ↑               (Business      (Data access)
- REST API           logic)
-@RestController handles requests
+        Controller    ->    Service    ->    Repository
+           ↑               (Business      (Data access)
+          REST API           logic)
 
-@Service contains logic (e.g., discount rules)
+        @RestController handles requests
 
-@Repository uses JPA or MongoRepository for DB
+        @Service contains logic (e.g., discount rules)
 
+        @Repository uses JPA or MongoRepository for DB
 
 🔐 4. Authentication Strategy
-✅ You're planning to use JWT (JSON Web Tokens):
+        ✅ You're planning to use JWT (JSON Web Tokens):
 
-POST /auth/login → returns a JWT
+        POST /auth/login → returns a JWT
 
-Frontend stores token (in memory or secure cookie)
+        Frontend stores token (in memory or secure cookie)
 
-Backend uses a JWT filter to verify token on each request
+        Backend uses a JWT filter to verify token on each request
 
-You can use roles like "ADMIN", "CASHIER" for access control
+        You can use roles like "ADMIN", "CASHIER" for access control
 
-Optional bonus: refresh tokens for long sessions.
-
-
+        Optional bonus: refresh tokens for long sessions.
 
 🔄 5. Data Flow Example (Selling a Product)
 
-1. User logs in -> gets JWT
-2. Adds items to cart on frontend
-3. Frontend POSTs sale to /api/sales with JWT
-4. Backend:
-   - Validates user + inventory
-   - Saves Sale + SaleItems
-   - Updates inventory
-5. Returns confirmation
-That’s a classic POS workflow. Other flows: managing products, viewing reports, handling returns, etc.
-
-
+        1. User logs in -> gets JWT
+        2. Adds items to cart on frontend
+        3. Frontend POSTs sale to /api/sales with JWT
+        4. Backend:
+        - Validates user + inventory
+        - Saves Sale + SaleItems
+        - Updates inventory
+        5. Returns confirmation
+        That’s a classic POS workflow. Other flows: managing products, viewing reports, handling returns, etc.
 
 🌐 6. Infrastructure / Hosting Plan
-You already have a mini PC to host the backend API — that’s great!
+        You already have a mini PC to host the backend API — that’s great!
 
-Component	Plan
-Frontend (Next.js)	Vercel or Netlify
-Backend (Spring)	Mini PC with Docker + Nginx + SSL
-Database	PostgreSQL or MongoDB on same PC
-Domain & SSL	Free domain + Let’s Encrypt SSL
-Reverse Proxy	Nginx or Caddy
-You can use Docker Compose to run everything locally on your mini PC and port-forward for internet access.
-
+        Component	Plan
+        Frontend (Next.js)	Vercel or Netlify
+        Backend (Spring)	Mini PC with Docker + Nginx + SSL
+        Database	PostgreSQL or MongoDB on same PC
+        Domain & SSL	Free domain + Let’s Encrypt SSL
+        Reverse Proxy	Nginx or Caddy
+        You can use Docker Compose to run everything locally on your mini PC and port-forward for internet access.
 
 🧠 TL;DR: You Should Decide
-Will you use SQL (JPA) or MongoDB?
-
-Do you want real-time updates? (e.g., WebSocket for sales activity?)
-
-Will there be a dashboard/admin view?
+        Will you use SQL (JPA) or MongoDB?
+        Do you want real-time updates? (e.g., WebSocket for sales activity?)
+        Will there be a dashboard/admin view?
