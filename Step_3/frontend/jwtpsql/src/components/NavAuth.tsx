@@ -5,7 +5,7 @@ import HomeButton from "./HomeButton";
 const NavAuth = async () => {
 
     return (
-        <div className="p-3 py-5 w-4/5 h-full flex items-center justify-around bg-primary rounded-tl-2xl rounded-br-2xl shadow-md">
+        <div className="p-5 lg:p-8 lg:px-12 w-full h-full flex items-center justify-around bg-primary brightness-90 shadow-md">
             <HomeButton />
 
             <AdminButton />

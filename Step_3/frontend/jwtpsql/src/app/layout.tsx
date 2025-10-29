@@ -31,11 +31,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen `}
       >
         <AuthProvider>
-          <nav className="p-3 w-full h-1/5 bg-secondary flex items-center justify-center text-black">
+          <nav className=" w-full h-1/5 bg-secondary flex items-center justify-center text-black">
             <NavAuth />
           </nav>
 
-          <div className="relative w-full h-full p-8 py-12 flex flex-col items-center bg-secondary z-10 text-black">
+          <div className="relative w-full h-full flex flex-col items-center bg-secondary z-10 text-black">
             {children}
           </div>
 
