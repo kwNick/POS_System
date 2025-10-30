@@ -1,23 +1,56 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #9ab5eb;
-  --secondary: #f3f4f6;
-  --accent: #2563eb;
+  /* Neutrals */
+  --neutral-black: #0B0B0E;
+  --neutral-surface: #15151B;
+  --neutral-white: #F5F5F7;
+  --neutral-gray: #B0B0B8;
+
+  /* Purple Theme */
+  --primary-purple: #450693;
+  --accent-purple: #7B2FFF;
+  --gradient-purple: #300064;
+
+  /* Blue Theme */
+  --primary-blue: #0046FF;
+  --accent-blue: #5A8CFF;
+  --gradient-blue: #002C99;
+
+  /* CTA */
+  --cta: #00FFD1;
+  --cta-hover: #00CBAA;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary: #9ab5eb;
-    --secondary: #f3f4f6;
-    --accent: #2563eb;
+    /* Neutrals */
+    --neutral-black: #0B0B0E;
+    --neutral-surface: #15151B;
+    --neutral-white: #F5F5F7;
+    --neutral-gray: #B0B0B8;
+
+    /* Purple Theme */
+    --primary-purple: #450693;
+    --accent-purple: #7B2FFF;
+    --gradient-purple: #300064;
+
+    /* Blue Theme */
+    --primary-blue: #0046FF;
+    --accent-blue: #5A8CFF;
+    --gradient-blue: #002C99;
+
+    /* CTA */
+    --cta: #00FFD1;
+    --cta-hover: #00CBAA;
   }
 }
 
 @theme {
 
   /* Colors */
-  --color-primary: var(--primary);
+  --color-primary-purple: var(--primary-pruple);
+  --color-primary-blue: var(--primary-blue);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
 

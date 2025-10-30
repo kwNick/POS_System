@@ -51,7 +51,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-y-10 min-h-[120vh] bg-white rounded-tl-2xl rounded-br-2xl shadow-md">
+    <div className="w-full flex flex-col items-center justify-center gap-y-10 min-h-[120vh] bg-white ">
 
       <div>
         <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
@@ -60,29 +60,31 @@ export default function LoginPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-12 w-3/5">
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          name="username"
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="border p-2 w-full"
-          required
-        />
+        <div className="w-1/2 flex flex-col gap-y-6 mx-auto">
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="border p-2 w-full"
+            required
+          />
 
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 w-full"
-          required
-        />
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border p-2 w-full"
+            required
+          />
+        </div>
 
         <div className="flex items-center justify-center">
           <button
