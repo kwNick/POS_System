@@ -49,11 +49,22 @@
 @theme {
 
   /* Colors */
+  --color-neutral-black: var(--neutral-black);
+  --color-neutral-surface: var(--neutral-surface);
+  --color-neutral-white: var(--neutral-white);
+  --color-neutral-gray: var(--neutral-gray);
+  
   --color-primary-purple: var(--primary-pruple);
+  --color-accent-purple: var(--accent-purple);
+  --color-gradient-purple: var(--gradient-purple);
+  
   --color-primary-blue: var(--primary-blue);
-  --color-secondary: var(--secondary);
-  --color-accent: var(--accent);
+  --color-accent-blue: var(--accent-blue);
+  --color-gradient-blue: var(--gradient-blue);
 
+  --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
+  
   /* Background-Images */
   /* --background-image-hero: url('/images/hero.jpg'); */
   --background-image-radial: radial-gradient(circle, #fff, #ccc);
