@@ -22,22 +22,22 @@ const AuthButtons = () => {
         <>
             {/* <LoginNavItems isLoggedIn={login} /> */}
             <div className={`${!user ? 'block' : 'hidden'} w-full h-full flex items-center justify-end gap-4`}>
-                <Link href="/login-client" className="bg-secondary hover:bg-accent duration-300 font-bold py-2 px-4 rounded">
+                <Link href="/login-client" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
                     LoginClient
                 </Link>
-                <Link href="/register-client" className="bg-secondary hover:bg-accent duration-300 font-bold py-2 px-4 rounded">
+                <Link href="/register-client" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
                     RegisterClient
                 </Link>
-                {/* <Link href="/login" className="bg-secondary hover:bg-accent duration-300 font-bold py-2 px-4 rounded">
+                {/* <Link href="/login" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
                     Login
                 </Link>
-                <Link href="/login-api" className="bg-secondary hover:bg-accent duration-300 font-bold py-2 px-4 rounded">
+                <Link href="/login-api" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
                     LoginAPI
                 </Link> */}
-                {/* <Link href="/register" className="bg-secondary hover:bg-accent duration-300 font-bold py-2 px-4 rounded">
+                {/* <Link href="/register" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
                     Register
                 </Link>
-                <Link href="/register-api" className="bg-secondary hover:bg-accent duration-300 font-bold py-2 px-4 rounded">
+                <Link href="/register-api" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
                     RegisterAPI
                 </Link> */}
             </div>
@@ -46,7 +46,7 @@ const AuthButtons = () => {
                 <button
                     onClick={handleSignout2}
                     disabled={isPending}
-                    className={` bg-secondary hover:bg-accent   font-bold py-2 px-4 rounded`}>
+                    className={` hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4 `}>
                     {isPending ? 'Logging Out...' : 'Logout'}
                 </button>
             </div>

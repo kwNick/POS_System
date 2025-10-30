@@ -27,9 +27,9 @@ export default function RegisterPage() {
 
     // Update form message
     useEffect(() => {
-    if (isPending) setFormMessage("...Pending Login");
+    if (isPending) setFormMessage("...Pending Registration");
     else if (isUpdated) setFormMessage("");
-    else setFormMessage("Must update fields to login!");
+    else setFormMessage("Must update fields to register!");
     }, [isPending, isUpdated]);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -52,7 +52,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="w-full flex flex-col items-center justify-center gap-y-10 min-h-[120vh] bg-white">
+        <div className="w-full flex flex-col items-center justify-center gap-y-10 min-h-[120vh]">
 
       <div>
         <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
@@ -103,15 +103,15 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={!isUpdated || isPending}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="px-4 py-2 rounded-md bg-primary-blue text-neutral-white hover:bg-accent-blue hover:scale-110 duration-300 disabled:bg-gray-400 disabled:pointer-events-none"
           >
             Register
           </button>
         </div>
 
-        {error && <p className="text-red-500 text-center">{error}</p>}
+        {error && <p className="text-cta text-center">{error}</p>}
 
-        <p className={`relative opacity-0 text-xs text-center text-accent duration-500 ${(isPending || !isUpdated) && "opacity-100"}`}>
+        <p className={`relative opacity-0 text-cta text-xs text-center duration-500 ${(isPending || !isUpdated) && "opacity-100"}`}>
           {formMessage}
         </p>
       </form>

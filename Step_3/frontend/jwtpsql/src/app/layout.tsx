@@ -31,15 +31,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen `}
       >
         <AuthProvider>
-          <nav className=" w-full h-1/5 bg-secondary flex items-center justify-center text-black">
+          <nav className=" w-full h-1/5 bg-neutral-black text-neutral-white flex items-center justify-center">
             <NavAuth />
           </nav>
 
-          <div className="relative w-full h-full flex flex-col items-center bg-secondary z-10 text-black">
+          <div className="relative w-full h-full bg-neutral-black text-neutral-white flex flex-col items-center z-10">
             {children}
           </div>
 
-          <footer className="w-full h-[10vh] text-accent flex items-center justify-around bg-primary rounded-t-2xl shadow-md md:sticky md:bottom-0">
+          <footer className="w-full min-h-[35vh] flex items-center justify-around md:sticky md:bottom-0">
             <Footer />
           </footer>
         </AuthProvider>
