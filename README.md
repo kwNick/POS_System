@@ -111,7 +111,49 @@ Fast CDN: Serves your static content quickly, even globally.
 
 ### Design UI/UX Flow
 
-Wireframes, frontend page routes
+#### Colors
+
+🖤 Neutrals
+
+```
+    | Role              | Color               | Hex       | Notes                                                 |
+    | ----------------- | ------------------- | --------- | ----------------------------------------------------- |
+    | Background        | `--neutral-black`   | `#0B0B0E` | Almost black with a cool undertone; helps colors pop. |
+    | Surface / Card BG | `--neutral-surface` | `#15151B` | For sections or cards to subtly stand off background. |
+    | Text Primary      | `--neutral-white`   | `#F5F5F7` | Clean white, not harsh pure white.                    |
+    | Text Secondary    | `--neutral-gray`    | `#B0B0B8` | Muted gray for secondary text or labels.              |
+```
+
+💜 Purple Theme (first section)
+
+```
+    | Role          | Color               | Hex       | Notes                                                           |
+    | ------------- | ------------------- | --------- | --------------------------------------------------------------- |
+    | Primary       | `--primary-purple`  | `#450693` | Your chosen rich royal purple.                                  |
+    | Accent        | `--accent-purple`   | `#7B2FFF` | Slightly lighter, vibrant violet for hover states or gradients. |
+    | Gradient Pair | `--gradient-purple` | `#300064` | Deep companion for transitions/gradients.                       |
+```
+
+💙 Blue Theme (later section)
+
+```
+    | Role          | Color             | Hex       | Notes                                         |
+    | ------------- | ----------------- | --------- | --------------------------------------------- |
+    | Primary       | `--primary-blue`  | `#0046FF` | Your chosen vivid blue.                       |
+    | Accent        | `--accent-blue`   | `#5A8CFF` | Lighter sky-blue for highlights/hover states. |
+    | Gradient Pair | `--gradient-blue` | `#002C99` | Deep navy partner for depth.                  |
+```
+
+⚡ CTA / Hover / Active Color
+
+```
+| Role           | Color         | Hex       | Notes                                                         |
+| -------------- | ------------- | --------- | ------------------------------------------------------------- |
+| CTA / Hover    | `--cta`       | `#00FFD1` | Neon cyan/teal that pops beautifully on both purple and blue. |
+| CTA Hover Dark | `--cta-hover` | `#00CBAA` | Slightly darker for hover or active states.                   |
+```
+
+#### Wireframes, frontend page routes
 
 🗂️ 1. Organize Your Wireframes by Views
 
