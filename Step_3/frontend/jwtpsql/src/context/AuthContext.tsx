@@ -3,8 +3,8 @@
 import { jwtVerify } from "jose";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-type Role = {id: number, name: string };
-type Shop = {id: number, name: string; location: string; user_id: number };
+type Role = { id: number, name: string };
+type Shop = { id: number, name: string; location: string; user_id: number };
 export type User = {
   username: string;
   email: string;
@@ -48,11 +48,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!res.ok) return false;
 
       const data = await res.json();
-      
-      console.log("Logged in: "+ JSON.stringify(data));
 
-      const { payload }: {payload: {roles: string[], username: String}} = await jwtVerify(data.fullToken, new TextEncoder().encode("secret-key-making-it-very-strong"));
-      
+      // console.log("Logged in: "+ JSON.stringify(data));
+
+      const { payload }: { payload: { roles: string[], username: String } } = await jwtVerify(data.fullToken, new TextEncoder().encode("secret-key-making-it-very-strong"));
+
       setToken(data.fullToken);
       setRole(payload.roles);
 
@@ -60,10 +60,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return true;
 
     } catch (err) {
-      console.error("Failed to fetch Login: "+err);
+      console.error("Failed to fetch Login: " + err);
       return false;
     }
-    
+
   };
 
   // Register a User
@@ -80,11 +80,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!res.ok) return false;
 
       const data = await res.json();
-      
-      console.log("Registered: "+ JSON.stringify(data));
 
-      const { payload }: {payload: {roles: string[], username: String}} = await jwtVerify(data.fullToken, new TextEncoder().encode("secret-key-making-it-very-strong"));
-      
+      console.log("Registered: " + JSON.stringify(data));
+
+      const { payload }: { payload: { roles: string[], username: String } } = await jwtVerify(data.fullToken, new TextEncoder().encode("secret-key-making-it-very-strong"));
+
       setToken(data.fullToken);
       setRole(payload.roles);
 
@@ -106,24 +106,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // optionally call backend /auth/logout-refresh to clear refreshToken
     try {
-        await fetch(`http://${API_URL}/auth/logout-refresh`, {
+      await fetch(`http://${API_URL}/auth/logout-refresh`, {
         method: "POST",
         credentials: "include", // sets HttpOnly refresh token
       });
     } catch (error) {
-        console.error("Logout Request Failed: " + error);
+      console.error("Logout Request Failed: " + error);
     }
   };
 
   // Fetch profile from backend, refresh access token if needed
   const fetchProfile = async (overrideToken?: string): Promise<User | null> => {
     if (!API_URL) return null;
-    
+
     const authToken = overrideToken ?? token;
     try {
       let res = await fetch(`http://${API_URL}/api/profile`, {
         credentials: "include", // sends HttpOnly refresh token
-        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+        headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined,
       });
 
       // If token expired, refresh
@@ -132,7 +132,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           method: "POST",
           credentials: "include", // refreshToken cookie
         });
-        
+
         if (!refreshRes.ok) {
           console.log("Logging out due to failed refresh!");
           logout();
@@ -141,7 +141,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         const data = await refreshRes.json();
 
-        const { payload }: {payload: {roles: string[], username: String}} = await jwtVerify(data.fullToken, new TextEncoder().encode("secret-key-making-it-very-strong"));
+        const { payload }: { payload: { roles: string[], username: String } } = await jwtVerify(data.fullToken, new TextEncoder().encode("secret-key-making-it-very-strong"));
         setRole(payload.roles);
         setToken(data.fullToken);
 
@@ -155,12 +155,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!res.ok) throw new Error("Failed to fetch profile again after refresh.");
 
       const profileData: User = await res.json();
-      
+
       setUser(profileData);
       return profileData;
 
     } catch (err) {
-      console.error("Failed to fetch Profile: "+err);
+      console.error("Failed to fetch Profile: " + err);
       logout();
       return null;
     }
