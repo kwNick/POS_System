@@ -120,6 +120,8 @@ Text/Foreground: Soft whites and subtle grays for contrast without eye strain.
 Accent Colors: Slightly lighter or saturated variants of purple/blue for highlights or hover effects.
 Call-to-Action (CTA): A bold, energetic color that pops against both purple and blue (think neon cyan or electric pink).
 
+![Color-Palette](./colorPalette.png)
+
 🖤 Neutrals
 
 ```
