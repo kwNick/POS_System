@@ -11,7 +11,7 @@ const AdminButton = () => {
         <>
         {/* Maybe Wrap each in Activity ${role?.includes('ROLE_ADMIN') ? 'block' : 'hidden'}  -    ${user ? 'block' : 'hidden'}*/}
             {/* <Activity mode={role?.includes('ROLE_ADMIN') ? 'visible' : 'hidden'}> */}
-                <Link href={'/admin-dashboard'} className={`${role?.includes('ROLE_ADMIN') ? 'block' : 'hidden'} hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4`}>
+                <Link href={'/admin'} className={`${role?.includes('ROLE_ADMIN') ? 'block' : 'hidden'} hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4`}>
                     Admin
                 </Link>
             {/* </Activity> */}
