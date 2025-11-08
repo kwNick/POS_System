@@ -4,6 +4,7 @@ import Role from "@/lib/roleModel";
 import Shop from "@/lib/shopModel";
 import User from "@/lib/userModel";
 import { jwtVerify } from "jose";
+import { useRouter } from "next/navigation";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type AuthContextType = {
@@ -40,6 +41,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [roles, setRoles] = useState<Role[] | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+
+  /* - - - - - Authentication Functions - - - - - */
+  
   // Login function
   const login = async (username: string, password: string): Promise<boolean | null> => {
     if (!API_URL) return null;
@@ -62,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(data.fullToken);
       setRole(payload.roles);
 
-      // document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+      document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
       await fetchProfile(data.fullToken);
       return true;
@@ -96,7 +101,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(data.fullToken);
       setRole(payload.roles);
 
-      // document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+      document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
       await fetchProfile(data.fullToken);
       return true;
@@ -114,7 +119,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setRole(null);
     setUser(null);
 
-    // document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
+    document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
 
     // optionally call backend /auth/logout-refresh to clear refreshToken
     try {
@@ -136,6 +141,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(null);
     setShops(null);
     setRoles(null);
+
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
     try {
       await fetch(`https://${API_URL}/api/delete`, {
@@ -179,7 +185,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setRole(payload.roles);
         setToken(data.fullToken);
 
-        // document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
         // Retry profile fetch with new token
         res = await fetch(`https://${API_URL}/api/profile`, {
@@ -231,7 +237,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setRole(payload.roles);
         setToken(data.fullToken);
 
-        // document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
         // Retry profile fetch with new token
         res = await fetch(`https://${API_URL}/api/users`, {
@@ -282,7 +288,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setRole(payload.roles);
         setToken(data.fullToken);
 
-        // document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
         // Retry profile fetch with new token
         res = await fetch(`https://${API_URL}/users`, {
@@ -333,7 +339,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setRole(payload.roles);
         setToken(data.fullToken);
 
-        // document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
         // Retry profile fetch with new token
         res = await fetch(`https://${API_URL}/shops`, {
@@ -384,7 +390,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setRole(payload.roles);
         setToken(data.fullToken);
 
-        // document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
         // Retry profile fetch with new token
         res = await fetch(`https://${API_URL}/roles`, {
@@ -414,20 +420,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     })();
   }, []);
 
-  // useEffect(() => {
-  //   if(role?.includes("ROLE_ADMIN")){
-  //     (async () => { //you run them all in parallel but still get a single await for completion.
-  //         await Promise.all([
-  //           fetchUsersWithDetails(),
-  //           fetchUsers(),
-  //           fetchShops(),
-  //           fetchRoles(),
-  //         ]);
+  useEffect(() => {
+    if(role?.includes("ROLE_ADMIN")){
+      (async () => { //you run them all in parallel but still get a single await for completion.
+          await Promise.all([
+            fetchUsersWithDetails(),
+            fetchUsers(),
+            fetchShops(),
+            fetchRoles(),
+          ]);
 
-  //       })();
-  //     }
-  //     router.refresh()
-  // }, [role]);
+        })();
+      }
+      router.refresh()
+  }, [role]);
 
   return (
     <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, loading, login, register, logout, deleteProfile, fetchProfile,  fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles}}>
