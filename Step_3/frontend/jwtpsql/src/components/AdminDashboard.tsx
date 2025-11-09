@@ -19,7 +19,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="flex gap-8">
-                    <div className="w-full max-w-2xl p-3 bg-gray-300 rounded-tl-2xl rounded-br-2xl shadow-md">
+                    <div className="w-full max-w-2xl p-3 bg-neutral-surface rounded-tl-2xl rounded-br-2xl shadow-md">
 
                         <h1 className="text-xl font-semibold mb-4">Profile:</h1>
 
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
                     </div>
 
 
-                    <div className="w-full max-w-2xl p-3 bg-gray-300 rounded-tl-2xl rounded-br-2xl shadow-md">
+                    <div className="w-full max-w-2xl p-3 bg-neutral-surface rounded-tl-2xl rounded-br-2xl shadow-md">
 
                         <h2 className="text-xl font-semibold mb-4">Your Shops</h2>
 
