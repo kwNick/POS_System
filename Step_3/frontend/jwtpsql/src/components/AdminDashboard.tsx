@@ -14,7 +14,7 @@ const AdminDashboard = () => {
     <>
         {user && (
             <>
-                <div className="w-2/5">
+                <div className="">
                     <h1 className="text-3xl font-semibold mb-4">Hello, Admin - <span className='capitalize'>{user?.username}</span> - <span className='text-xs'>{user?.roles.map((role: Role) => role.name)}</span></h1>
                 </div>
 
