@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -7,30 +8,17 @@ export default function Home() {
       {/* landing page */}
         <section className="min-h-[100vh] w-full flex flex-col gap-y-5 items-center justify-center">
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold underline">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl uppercase">
             Sales never been easier
           </h1>
 
-          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
-            Manage your sales, inventory, and customers all in one place.
-          </h2>
-
-          <div className="flex gap-5">
-            <div className="bg-neutral-surface rounded-lg">
-              <Image src="" width={300} height={600} alt="Picture of POS UI" />
-            </div>
-            <div className=" bg-neutral-surface rounded-lg">
-              <Image src="" width={300} height={600} alt="Picture of POS UI" />
-            </div>
-          </div>
-
-          <div className='flex gap-5'>
-            <button >
+          <div className='flex gap-5 '>
+            <Link href={'#'} className='uppercase'>
               Get Started
-            </button>
-            <button>
+            </Link>
+            <Link href={'#'} className='uppercase'>
               Learn More
-            </button>
+            </Link>
           </div>
           
         </section>
@@ -40,6 +28,19 @@ export default function Home() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
             POS System
           </h1>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+            Manage your sales, inventory, and customers all in one place.
+          </h2>
+
+          {/* <div className="flex gap-5 ">
+            <div className="w-40 h-80 bg-neutral-surface rounded-lg -rotate-20">
+              <Image src={""} width={300} height={600} alt="Picture of POS UI" />
+            </div>
+            <div className="w-40 h-80 bg-neutral-surface rounded-lg -rotate-20 -translate-x-20 -translate-y-5">
+              <Image src={""} width={300} height={600} alt="Picture of POS UI" />
+            </div>
+          </div> */}
+
         </section>
 
         {/* features section */}

@@ -8,7 +8,8 @@ const NavAuth = async () => {
         <div className="p-5 lg:p-8 lg:px-12 w-full h-full flex items-center justify-around">
             <HomeButton />
 
-            <AdminButton />
+            {/* You can delete component AdminButton - it is now in AuthButtons */}
+            {/* <AdminButton /> */}
 
             <AuthButtons />
         </div>
