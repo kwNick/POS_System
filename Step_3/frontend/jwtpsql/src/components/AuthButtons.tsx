@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const AuthButtons = () => {
     const [isPending, startTransition] = useTransition();
-    const { user, logout } = useAuth();
+    const { user,role, logout } = useAuth();
 
     const router = useRouter();
 
@@ -20,42 +20,41 @@ const AuthButtons = () => {
 
     return (
         <>
-            {/* <LoginNavItems isLoggedIn={login} /> */}
-
             {/* Maybe Wrap each in Activity ${!user ? 'block' : 'hidden'}    ---    ${user ? 'block' : 'hidden'}*/}
             {/* <Activity mode={!user ? 'visible' : 'hidden'}> */}
-                <div className={`${!user ? 'block' : 'hidden'} w-full h-full flex items-center justify-end gap-4`}>
-                    <Link href="/login-client" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
+                <div className={`w-full h-full flex items-center justify-end gap-4`}>
+                    {/* <Activity mode={role?.includes('ROLE_ADMIN') ? 'visible' : 'hidden'}> */}
+                    <Link href="/login-client" className={`${!user ? 'block' : 'hidden'} hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4`}>
                         LoginClient
                     </Link>
-                    <Link href="/register-client" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
+                    {/* </Activity> */}
+
+                    {/* <Activity mode={role?.includes('ROLE_ADMIN') ? 'visible' : 'hidden'}> */}
+                    <Link href="/register-client" className={`${!user ? 'block' : 'hidden'} hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4`}>
                         RegisterClient
                     </Link>
-                    {/* <Link href="/login" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
-                        Login
-                    </Link>
-                    <Link href="/login-api" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
-                        LoginAPI
-                    </Link> */}
-                    {/* <Link href="/register" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
-                        Register
-                    </Link>
-                    <Link href="/register-api" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4">
-                        RegisterAPI
-                    </Link> */}
-                </div>
-            {/* </Activity> */}
+                    {/* </Activity> */}
 
-            {/* <Activity mode={user ? 'visible' : 'hidden'}> */}
-                <div className={`${user ? 'block' : 'hidden'}`}>
+                    {/* <Activity mode={role?.includes('ROLE_ADMIN') ? 'visible' : 'hidden'}> */}
+                    <Link href={'/admin'} className={`${role?.includes('ROLE_ADMIN') ? 'block' : 'hidden'} hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4`}>
+                        Admin
+                    </Link>
+                    {/* </Activity> */}
+
+                    {/* <Activity mode={user ? 'visible' : 'hidden'}> */}
+                    <Link href={'/dashboard'} className={`${user ? 'block' : 'hidden'} hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4`}>
+                        Dashboard
+                    </Link>
+                    {/* </Activity> */}
                     <button
                         onClick={handleSignout2}
                         disabled={isPending}
-                        className={` hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4 `}>
+                        className={`${user ? 'block' : 'hidden'} justify-end hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4 `}>
                         {isPending ? 'Logging Out...' : 'Logout'}
                     </button>
                 </div>
             {/* </Activity> */}
+
         </>
     )
 }
