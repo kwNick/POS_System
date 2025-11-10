@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "JWT + PostgreSQL Auth",
-  description: "Template JWT Auth system with PostgreSQL",
+  title: "POS System",
+  description: "POS System with JWT Authentication and PostgreSQL Database",
 };
 
 export default function RootLayout({
@@ -28,10 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
         <AuthProvider>
-          <nav className=" w-full h-1/5 bg-neutral-black text-neutral-white flex items-center justify-center">
+          <nav className="w-full h-1/5 bg-neutral-black text-neutral-white flex items-center justify-center">
             <NavAuth />
           </nav>
 
