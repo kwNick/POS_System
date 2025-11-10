@@ -16,4 +16,4 @@ export const UseCases = [
         title: "Bar and Cafe",
         description: "Enhance customer experience with our POS system optimized for bars and cafes, featuring quick order entry and payment processing."
     }
-]
+];

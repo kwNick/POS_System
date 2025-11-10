@@ -10,7 +10,7 @@ const Footer = () => {
             </div>
 
             <div>
-                <p className="text-center text-sm text-neutral-gray">
+                <p className="text-center text-sm ">
                     © {new Date().getFullYear()} POS System. All rights reserved.
                 </p>
             </div>

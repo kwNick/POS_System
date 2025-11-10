@@ -39,7 +39,7 @@ export default function RootLayout({
             {children}
           </div>
 
-          <footer className="w-full min-h-[35vh] flex items-center justify-around md:sticky md:bottom-0">
+          <footer className="w-full min-h-[35vh] flex items-center justify-around md:sticky md:bottom-0 bg-neutral-gray text-neutral-surface">
             <Footer />
           </footer>
         </AuthProvider>
