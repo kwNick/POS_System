@@ -1,9 +1,9 @@
 'use client';
 
 import { useAuth } from "@/context/AuthContext";
-import Role from "@/lib/roleModel";
-import Shop from "@/lib/shopModel";
-import User from "@/lib/userModel";
+import Role from "@/lib/models/roleModel";
+import Shop from "@/lib/models/shopModel";
+import User from "@/lib/models/userModel";
 
 const AdminDashboard = () => {
     const {user, usersWDetails, users, shops, roles, loading} = useAuth();

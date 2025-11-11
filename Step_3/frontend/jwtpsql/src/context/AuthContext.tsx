@@ -1,8 +1,8 @@
 "use client";
 
-import Role from "@/lib/roleModel";
-import Shop from "@/lib/shopModel";
-import User from "@/lib/userModel";
+import Role from "@/lib/models/roleModel";
+import Shop from "@/lib/models/shopModel";
+import User from "@/lib/models/userModel";
 import { jwtVerify } from "jose";
 import { useRouter } from "next/navigation";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
