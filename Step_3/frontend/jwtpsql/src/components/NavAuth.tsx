@@ -1,5 +1,4 @@
 import AuthButtons from "./AuthButtons";
-import AdminButton from "./AdminButton";
 import HomeButton from "./HomeButton";
 
 const NavAuth = async () => {
@@ -7,9 +6,6 @@ const NavAuth = async () => {
     return (
         <div className="p-5 lg:p-8 lg:px-12 w-full h-full flex items-center justify-around">
             <HomeButton />
-
-            {/* You can delete component AdminButton - it is now in AuthButtons */}
-            {/* <AdminButton /> */}
 
             <AuthButtons />
         </div>

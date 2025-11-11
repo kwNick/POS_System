@@ -1,7 +1,7 @@
 import VideoClient from '@/components/VideoClient';
-import { Features } from '@/lib/Features';
-import { PricingPlans } from '@/lib/Pricing';
-import { UseCases } from '@/lib/UseCases';
+import { Features } from '@/lib/lists/Features';
+import { PricingPlans } from '@/lib/lists/Pricing';
+import { UseCases } from '@/lib/lists/UseCases';
 import Link from 'next/link';
 
 export default function Home() {
@@ -46,7 +46,7 @@ export default function Home() {
         {/* UseCases section */}
         <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center bg-neutral-surface z-[-1]">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
-            <h1 className="text-primary-purple text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light translate-x-[10vw] uppercase">
+            <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Use Cases
             </h1>
             <h2 className="text-neutral-gray text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold translate-x-[10vw]">
@@ -57,7 +57,7 @@ export default function Home() {
           <div className="flex gap-8 lg:gap-12 items-center justify-center w-4/5 h-4/5">
             {UseCases.map((useCase, idx) => (
               <div key={useCase.title} className="relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] p-5 rounded-xl">
-                <video
+                {/* <video
                   src={`videos/pos-${idx+1}.mp4`}
                   // controls
                   autoPlay
@@ -66,8 +66,10 @@ export default function Home() {
                   playsInline
                   // onLoadedMetadata={(e) => (e.currentTarget.playbackRate=0.5)}
                   className="rounded-xl absolute inset-0 w-full h-full object-cover z-[-1] opacity-80 brightness-75"
-                />
-                {/* <VideoClient idx={idx} /> */}
+                /> */}
+                <VideoClient idx={idx} />
+
+                <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-0% from-neutral-black to-transparent to-50% z-[-1]' />
                 
                 <h3 className="text-xl font-semibold ml-4 mb-4">{useCase.title}</h3>
                 <p className='text-center text-neutral-gray'>{useCase.description}</p>
@@ -80,7 +82,7 @@ export default function Home() {
         {/* Features section */}
         <section className=" h-[300vh] w-full flex flex-col items-center justify-center gap-y-8">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
-            <h1 className="text-primary-purple text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light translate-x-[10vw] uppercase">
+            <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Features
             </h1>
             <h2 className="text-neutral-gray text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold translate-x-[10vw]">
@@ -88,11 +90,11 @@ export default function Home() {
             </h2>
           </div>
 
-            {/* Vertical Scroll */}
+          {/* Vertical Scroll */}
           <div className='w-full h-full flex flex-col items-center justify-center gap-y-8 pt-10'>
             {
               Features.slice(0,2).map((feature, idx) => (
-                <div key={feature.title} className='w-[85%] h-[85vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
+                <div key={feature.title} className='w-[90%] h-[85vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
                   <h3 className='text-xl lg:text-2xl xl:text-3xl font-semibold mb-4'><sup className='text-sm'>{idx}</sup>{feature.title}</h3>
                   <p className='text-lg lg:text-xl xl:text-2xl text-neutral-gray'>{feature.description}</p>
                 </div>
@@ -101,11 +103,11 @@ export default function Home() {
           </div>
 
           {/* Horizontal Scroll */}
-          <div className='w-full h-full overflow-x-hidden flex px-auto py-15'>
-            <div className='w-max h-full flex items-center justify-around gap-x-8 p-15'>
+          <div className='w-full h-full overflow-x-hidden flex px-auto '>
+            <div className='w-max h-full flex items-center justify-around gap-x-8 px-[5%] '>
                 {
                   Features.slice(2,5).map((feature, idx) => (
-                    <div key={feature.title} className='w-[85vw] h-[80vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
+                    <div key={feature.title} className='w-[90vw] h-[80vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
                       <h3 className='text-xl lg:text-2xl xl:text-3xl font-semibold mb-4'><sup className='text-sm'>{idx + 2}</sup>{feature.title}</h3>
                       <p className='text-lg lg:text-xl xl:text-2xl text-neutral-gray'>{feature.description}</p>
                     </div>
@@ -119,7 +121,7 @@ export default function Home() {
         {/* Pricing section*/}
         <section className=" h-[110vh] w-full flex flex-col items-center justify-center bg-neutral-surface">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
-            <h1 className="text-primary-purple text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light translate-x-[10vw] uppercase">
+            <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Pricing
             </h1>
             <h2 className="text-neutral-gray text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold translate-x-[10vw]">
