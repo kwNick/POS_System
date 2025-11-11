@@ -44,7 +44,7 @@ export default function Home() {
         </section>
 
         {/* UseCases section */}
-        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center bg-neutral-surface z-[-1]">
+        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center bg-neutral-surface z-[-1] py-[2.5%]">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Use Cases
@@ -57,18 +57,8 @@ export default function Home() {
           <div className="flex gap-8 lg:gap-12 items-center justify-center w-4/5 h-4/5">
             {UseCases.map((useCase, idx) => (
               <div key={useCase.title} className="relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] p-5 rounded-xl">
-                {/* <video
-                  src={`videos/pos-${idx+1}.mp4`}
-                  // controls
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  // onLoadedMetadata={(e) => (e.currentTarget.playbackRate=0.5)}
-                  className="rounded-xl absolute inset-0 w-full h-full object-cover z-[-1] opacity-80 brightness-75"
-                /> */}
                 <VideoClient idx={idx} />
-
+                
                 <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-0% from-neutral-black to-transparent to-50% z-[-1]' />
                 
                 <h3 className="text-xl font-semibold ml-4 mb-4">{useCase.title}</h3>
@@ -80,7 +70,7 @@ export default function Home() {
         </section>
 
         {/* Features section */}
-        <section className=" h-[300vh] w-full flex flex-col items-center justify-center gap-y-8">
+        <section className=" h-[300vh] w-full flex flex-col items-center justify-center gap-y-8 py-[2.5%]">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Features
@@ -103,7 +93,7 @@ export default function Home() {
           </div>
 
           {/* Horizontal Scroll */}
-          <div className='w-full h-full overflow-x-hidden flex px-auto '>
+          <div className='w-full h-full overflow-x-hidden flex '>
             <div className='w-max h-full flex items-center justify-around gap-x-8 px-[5%] '>
                 {
                   Features.slice(2,5).map((feature, idx) => (
@@ -119,7 +109,7 @@ export default function Home() {
         </section>
         
         {/* Pricing section*/}
-        <section className=" h-[110vh] w-full flex flex-col items-center justify-center bg-neutral-surface">
+        <section className=" h-[110vh] w-full flex flex-col items-center justify-center bg-neutral-surface pt-[2.5%]">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Pricing
@@ -173,8 +163,8 @@ export default function Home() {
           <div className='relative w-full flex flex-col gap-y-4 items-center justify-center'>
 
             <h1 className="text-primary-purple text-lg md:text-xl lg:text-lg xl:text-3xl 2xl:text-4xl font-semibold uppercase tracking-widest">
-              Get <span className='text-neutral-white font-semibold hover:text-cta-hover scale-115 duration-300'>Started</span> <br/>
-              <span className='text-primary-blue font-semibold hover:text-cta scale-115 duration-300'>Free</span> Today
+              Get <span className='text-neutral-white font-semibold hover:text-cta-hover hover:text-shadow-sm hover:text-shadow-neutral-white scale-115 duration-300'>Started</span> <br/>
+              <span className='text-primary-blue font-semibold hover:text-cta hover:text-shadow-sm hover:text-shadow-primary-blue scale-115 duration-300'>Free</span> Today
             </h1>
 
             <Link href={'#'} className='mt-5 p-4 border-1 border-primary-purple rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-primary-blue hover:scale-118 duration-300'>
