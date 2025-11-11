@@ -3,8 +3,20 @@ import Link from "next/link"
 const HomeButton = () => {
     return (
         <div className="w-1/2 h-full flex items-center justify-left gap-x-8">
-            <Link href="/" className="hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4" >
-                POS
+            <Link href="/" className="group relative hover:text-neutral-gray duration-300 font-bold py-2 px-4 perspective-near transform-3d " >
+                    
+                <p className="group-hover:animate-fade-in-rotatey-repeat">
+                    POS
+                </p>
+                <p className="opacity-0 absolute top-[0%] left-[5%] text-primary-blue py-2 px-4 group-hover:opacity-100 duration-300 group-hover:animate-fade-in-rotatey-repeat" >
+                    POS
+                </p>
+                <p className="opacity-0 absolute top-0 left-[10%] text-primary-purple py-2 px-4 group-hover:opacity-100 duration-300 group-hover:animate-fade-in-rotatey-repeat" >
+                    POS
+                </p>
+                <p className="opacity-0 absolute top-0 left-[15%] text-cta py-2 px-4 group-hover:opacity-100 duration-300 group-hover:animate-fade-in-rotatey-repeat" >
+                    POS
+                </p>
             </Link>
 
             <div className="w-fit h-full flex items-center justify-center">
