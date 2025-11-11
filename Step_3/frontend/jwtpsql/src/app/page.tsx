@@ -103,11 +103,11 @@ export default function Home() {
           </div>
 
             {/* Horizontal Scroll */}
-            <div className='w-full h-full overflow-x-hidden flex px-auto'>
+            <div className='w-full h-full overflow-x-hidden flex px-auto py-15'>
               <div className='w-max h-full flex items-center justify-around gap-x-8 p-15'>
                   {
                     Features.slice(2,5).map((feature, idx) => (
-                      <div key={feature.title} className='w-[85vw] h-[85vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
+                      <div key={feature.title} className='w-[85vw] h-[80vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
                         <h3 className='text-xl lg:text-2xl xl:text-3xl font-semibold mb-4'><sup className='text-sm'>{idx + 2}</sup>{feature.title}</h3>
                         <p className='text-lg lg:text-xl xl:text-2xl text-neutral-gray'>{feature.description}</p>
                       </div>
@@ -119,8 +119,8 @@ export default function Home() {
         </section>
         
         {/* Pricing section*/}
-        <section className=" h-[110vh] w-full flex flex-col items-center justify-center bg-neutral-surface">
-          <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue'>
+        <section className=" h-[100vh] w-full flex flex-col items-center justify-center bg-neutral-surface">
+          <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-primary-purple text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light translate-x-[10vw] uppercase">
               Pricing
             </h1>
@@ -129,29 +129,35 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className='bg-neutral-black flex items-center justify-center gap-x-6 w-[90%] h-[85%]'>
+          <div className='bg-neutral-black flex items-center justify-center gap-x-6 w-[90%] h-full'>
             {PricingPlans.map((plan, idx) => (
-              <div key={plan.name} className={`relative flex flex-col items-center justify-start gap-y-10 w-1/3 h-full ${idx == 0 && 'border-l-2'} border-r-2 border-primary-blue p-5`}>
-                <h3 className='text-primary-blue text-2xl xl:text-3xl font-semibold underline'>{plan.name}</h3>
-                <p className='group text-primary-blue text-xl lg:text-2xl xl:text-4xl font-bold underline underline-offset-4 decoration-neutral-gray decoration-2 mb-6'>
-                  <sup className='text-sm text-neutral-gray group-hover:text-cta duration-300'>
-                    {plan.price[0]}
-                  </sup>
-                  {plan.price.substring(1,plan.price.indexOf("/"))}
-                  <span className='text-neutral-gray'>
-                    {plan.price.charAt(plan.price.indexOf("/"))}
-                  </span>
-                  <span className='text-sm text-neutral-gray group-hover:text-cta duration-300'>
-                    {plan.price.substring(plan.price.indexOf("/")+1)}
-                  </span>
-                </p>
-                <ul className='w-full flex flex-col items-start justify-around gap-y-10 text-lg lg:text-xl xl:text-2xl'>
-                  {plan.features.map((feature) => (
-                    <li key={feature} className='group text-neutral-gray'><span className='text-primary-blue group-hover:text-cta'>•</span> {feature}</li>
-                  ))}
-                </ul>
-                
+              <div key={plan.name} className={`relative flex flex-col items-center justify-around gap-y-20 w-1/3 h-full ${idx == 0 && 'border-l-2'} border-r-2 border-primary-blue p-20`}>
                 <div>
+                  <h3 className='text-primary-blue text-2xl xl:text-3xl font-semibold underline'>{plan.name}</h3>
+                </div>
+
+                <div className='flex flex-col items-center justify-center gap-y-10'>
+                  <p className='group text-primary-blue text-xl lg:text-2xl xl:text-4xl font-bold underline underline-offset-4 decoration-neutral-gray decoration-2'>
+                    <sup className='text-sm text-neutral-gray group-hover:text-cta duration-300'>
+                      {plan.price[0]}
+                    </sup>
+                    {plan.price.substring(1,plan.price.indexOf("/"))}
+                    <span className='text-neutral-gray'>
+                      {plan.price.charAt(plan.price.indexOf("/"))}
+                    </span>
+                    <span className='text-sm text-neutral-gray group-hover:text-cta duration-300'>
+                      {plan.price.substring(plan.price.indexOf("/")+1)}
+                    </span>
+                  </p>
+
+                  <ul className='w-full h-full flex flex-col items-start justify-center gap-y-10 text-lg lg:text-xl xl:text-2xl'>
+                    {plan.features.map((feature) => (
+                      <li key={feature} className='group text-neutral-gray'><span className='text-primary-blue group-hover:text-cta'>•</span> {feature}</li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div className=''>
                   <Link href={'#'} className=' p-3 border-1 border-primary-blue rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
                   Choose Plan
                 </Link>
