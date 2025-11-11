@@ -44,7 +44,7 @@ export default function Home() {
         </section>
 
         {/* UseCases section */}
-        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center bg-neutral-surface py-[2.5%]">
+        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center py-[2.5%]">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Use Cases
@@ -109,7 +109,7 @@ export default function Home() {
         </section>
         
         {/* Pricing section*/}
-        <section className=" h-[110vh] w-full flex flex-col items-center justify-center bg-neutral-surface pt-[2.5%]">
+        <section className=" h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%]">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Pricing
