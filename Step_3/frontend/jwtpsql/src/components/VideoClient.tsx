@@ -21,7 +21,7 @@ const VideoClient = ({idx}:{idx: number}) => {
         muted
         playsInline
         // onLoadedMetadata={(e) => (e.currentTarget.playbackRate=0.5)} //this doesn't seem to work
-        className="rounded-xl absolute inset-0 w-full h-full object-cover z-[-1] opacity-80 brightness-75"
+        className="rounded-xl absolute inset-0 w-full h-full object-cover opacity-80 brightness-75 pointer-events-none"
     />
   )
 }

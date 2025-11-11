@@ -44,7 +44,7 @@ export default function Home() {
         </section>
 
         {/* UseCases section */}
-        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center bg-neutral-surface z-[-1] py-[2.5%]">
+        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center bg-neutral-surface py-[2.5%]">
           <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Use Cases
@@ -56,14 +56,14 @@ export default function Home() {
 
           <div className="flex gap-8 lg:gap-12 items-center justify-center w-4/5 h-4/5">
             {UseCases.map((useCase, idx) => (
-              <div key={useCase.title} className="relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] p-5 rounded-xl">
+              <Link href={"#"} key={useCase.title} className="group relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] hover:scale-105 duration-300 p-5 rounded-xl cursor-pointer z-10">
                 <VideoClient idx={idx} />
+
+                <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-0% from-neutral-black to-transparent to-50% pointer-events-none' />
                 
-                <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-0% from-neutral-black to-transparent to-50% z-[-1]' />
-                
-                <h3 className="text-xl font-semibold ml-4 mb-4">{useCase.title}</h3>
-                <p className='text-center text-neutral-gray'>{useCase.description}</p>
-              </div>
+                <h3 className="relative text-xl font-semibold group-hover:translate-y-[-10px] duration-300 ml-4 mb-4 z-10 overflow-hidden before:absolute before:bottom-[2%] before:left-0 before:w-full before:h-[2%] before:bg-primary-purple before:translate-x-[-100%] group-hover:before:translate-x-[0] before:duration-300">{useCase.title}</h3>
+                <p className='text-center text-neutral-gray z-10'>{useCase.description}</p>
+              </Link>
             ))}
           </div>
 
@@ -123,7 +123,7 @@ export default function Home() {
             {PricingPlans.map((plan, idx) => (
               <div key={plan.name} className={`relative flex flex-col items-center justify-around gap-y-10 w-1/3 h-full ${idx == 0 && 'border-l-2'} border-r-2 border-primary-blue p-10`}>
                 <div>
-                  <h3 className='text-primary-blue text-2xl xl:text-3xl font-semibold underline'>{plan.name}</h3>
+                  <h3 className='text-neutral-white text-2xl xl:text-3xl font-semibold underline underline-offset-4 decoration-primary-blue'>{plan.name}</h3>
                 </div>
 
                 <div className='flex flex-col items-center justify-center gap-y-8'>
@@ -142,14 +142,14 @@ export default function Home() {
 
                   <ul className='w-full h-full flex flex-col items-start justify-center gap-y-10 text-lg lg:text-xl xl:text-2xl'>
                     {plan.features.map((feature) => (
-                      <li key={feature} className='group text-neutral-gray'><span className='text-primary-blue group-hover:text-cta'>•</span> {feature}</li>
+                      <li key={feature} className='group text-neutral-white'><span className='text-primary-blue group-hover:text-cta'>•</span> {feature}</li>
                     ))}
                   </ul>
                 </div>
                 
                 <div className=''>
                   <Link href={'#'} className=' p-3 border-1 border-primary-blue rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
-                  Choose Plan
+                  Choose {plan.name}
                 </Link>
                 </div>
               </div>
@@ -163,8 +163,8 @@ export default function Home() {
           <div className='relative w-full flex flex-col gap-y-4 items-center justify-center'>
 
             <h1 className="text-primary-purple text-lg md:text-xl lg:text-lg xl:text-3xl 2xl:text-4xl font-semibold uppercase tracking-widest">
-              Get <span className='text-neutral-white font-semibold hover:text-cta-hover hover:text-shadow-sm hover:text-shadow-neutral-white scale-115 duration-300'>Started</span> <br/>
-              <span className='text-primary-blue font-semibold hover:text-cta hover:text-shadow-sm hover:text-shadow-primary-blue scale-115 duration-300'>Free</span> Today
+              Get <span className='text-neutral-white font-semibold hover:text-cta-hover hover:text-shadow-sm hover:text-shadow-neutral-white scale-115 duration-500'>Started</span> <br/>
+              <span className='text-primary-blue font-semibold hover:text-cta hover:text-shadow-sm hover:text-shadow-primary-blue scale-115 duration-500'>Free</span> Today
             </h1>
 
             <Link href={'#'} className='mt-5 p-4 border-1 border-primary-purple rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-primary-blue hover:scale-118 duration-300'>
