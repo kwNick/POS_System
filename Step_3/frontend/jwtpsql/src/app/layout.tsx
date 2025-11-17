@@ -4,6 +4,8 @@ import "./globals.css";
 import NavAuth from "../components/NavAuth";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import Lenis from "lenis";
+import LenisGsapContext from "@/context/LenisGsapContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,17 +33,19 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
         <AuthProvider>
-          <nav className="w-full h-1/5 bg-neutral-black text-neutral-white flex items-center justify-center">
-            <NavAuth />
-          </nav>
+          <LenisGsapContext>
+            <nav className="w-full h-1/5 bg-neutral-black text-neutral-white flex items-center justify-center">
+              <NavAuth />
+            </nav>
 
-          <div className="relative w-full h-full bg-neutral-black text-neutral-white flex flex-col items-center z-10">
-            {children}
-          </div>
+            <div className="relative w-full h-full bg-neutral-black text-neutral-white flex flex-col items-center z-10">
+              {children}
+            </div>
 
-          <footer className="w-full min-h-[30vh] flex items-center justify-around md:sticky md:bottom-0 bg-neutral-gray text-neutral-surface">
-            <Footer />
-          </footer>
+            <footer className="w-full min-h-[30vh] flex items-center justify-around md:sticky md:bottom-0 bg-neutral-gray text-neutral-surface">
+              <Footer />
+            </footer>
+          </LenisGsapContext>
         </AuthProvider>
       </body>
     </html>
