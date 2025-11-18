@@ -1,3 +1,5 @@
+import FeaturesSection from '@/components/FeaturesSection';
+import HorizontalScroll from '@/components/HorizontalScroll';
 import VideoClient from '@/components/VideoClient';
 import { Features } from '@/lib/lists/Features';
 import { PricingPlans } from '@/lib/lists/Pricing';
@@ -45,7 +47,7 @@ export default function Home() {
 
         {/* UseCases section */}
         <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center py-[2.5%]">
-          <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
+          <div className='relative w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Use Cases
             </h1>
@@ -69,9 +71,10 @@ export default function Home() {
 
         </section>
 
-        {/* Features section */}
-        <section className=" h-[300vh] w-full flex flex-col items-center justify-center gap-y-8 py-[2.5%]">
-          <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
+        {/* Features section h-[calc(400vh+300vw)]*/}
+        <FeaturesSection />
+        <section className=" h-[calc(280vh+200vw)] w-full flex flex-col items-center justify-center gap-y-8 py-[2.5%]">
+          <div className='relative w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Features
             </h1>
@@ -81,36 +84,27 @@ export default function Home() {
           </div>
 
           {/* Vertical Scroll */}
-          <div className='w-full h-full flex flex-col items-center justify-center gap-y-8 pt-10'>
+          <div className='w-full h-[200vh] flex flex-col items-center justify-center gap-y-8 pt-10'>
             {
               Features.slice(0,2).map((feature, idx) => (
-                <div key={feature.title} className='w-[90%] h-[85vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
+                <div key={feature.title} className='w-[90vw] h-[85vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
                   <h3 className='text-xl lg:text-2xl xl:text-3xl font-semibold mb-4'><sup className='text-sm'>{idx}</sup>{feature.title}</h3>
                   <p className='text-lg lg:text-xl xl:text-2xl text-neutral-gray'>{feature.description}</p>
                 </div>
               ))
             }
           </div>
-
+          
           {/* Horizontal Scroll */}
-          <div className='w-full h-full overflow-x-hidden flex '>
-            <div className='w-max h-full flex items-center justify-around gap-x-8 px-[5%] '>
-                {
-                  Features.slice(2,5).map((feature, idx) => (
-                    <div key={feature.title} className='w-[90vw] h-[80vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
-                      <h3 className='text-xl lg:text-2xl xl:text-3xl font-semibold mb-4'><sup className='text-sm'>{idx + 2}</sup>{feature.title}</h3>
-                      <p className='text-lg lg:text-xl xl:text-2xl text-neutral-gray'>{feature.description}</p>
-                    </div>
-                  ))
-                }
-            </div>
+          <div className='w-full h-full overflow-hidden flex '>
+            <HorizontalScroll />
           </div>
 
         </section>
         
         {/* Pricing section*/}
         <section className=" h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%]">
-          <div className='relative w-full h-[15%] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
+          <div className='relative w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Pricing
             </h1>
