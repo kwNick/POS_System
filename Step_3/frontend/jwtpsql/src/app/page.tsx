@@ -71,9 +71,9 @@ export default function Home() {
 
         </section>
 
-        {/* Features section h-[calc(400vh+300vw)]*/}
+        {/* Features section */}
         <FeaturesSection />
-        <section className=" h-[calc(280vh+200vw)] w-full flex flex-col items-center justify-center gap-y-8 py-[2.5%]">
+        {/* <section className=" h-[calc(280vh+200vw)] w-full flex flex-col items-center justify-center gap-y-8 py-[2.5%]">
           <div className='relative w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Features
@@ -81,10 +81,10 @@ export default function Home() {
             <h2 className="text-neutral-gray text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold translate-x-[10vw]">
               Everything you need to run your business.
             </h2>
-          </div>
+          </div> */}
 
           {/* Vertical Scroll */}
-          <div className='w-full h-[200vh] flex flex-col items-center justify-center gap-y-8 pt-10'>
+          {/* <div className='w-full h-[200vh] flex flex-col items-center justify-center gap-y-8 pt-10'>
             {
               Features.slice(0,2).map((feature, idx) => (
                 <div key={feature.title} className='w-[90vw] h-[85vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
@@ -93,14 +93,14 @@ export default function Home() {
                 </div>
               ))
             }
-          </div>
+          </div> */}
           
           {/* Horizontal Scroll */}
-          <div className='w-full h-full overflow-hidden flex '>
+          {/* <div className='w-full h-full overflow-hidden flex '>
             <HorizontalScroll />
           </div>
 
-        </section>
+        </section> */}
         
         {/* Pricing section*/}
         <section className=" h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%]">
