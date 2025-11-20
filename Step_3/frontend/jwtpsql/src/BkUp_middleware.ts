@@ -1,5 +1,5 @@
 // middleware.ts
-import { redirect, RedirectType } from 'next/navigation';
+
 import { NextRequest, NextResponse } from 'next/server';
 // import { jwtVerify } from 'jose';
 
@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
     // If the user is trying to access a protected route without a token
     if (isProtected && !isLoggedIn) {
-        return redirect('/login-client', RedirectType.push);
+        return NextResponse.redirect(new URL('/login-client', request.url));
     }
 
     const isAdminDash = request.nextUrl.pathname.startsWith('/admin');
