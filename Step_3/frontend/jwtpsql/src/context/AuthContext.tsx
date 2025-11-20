@@ -118,10 +118,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(null);
     setRole(null);
     setUser(null);
+    setUsersWDetails(null);
+    setUsers(null);
+    setShops(null);
+    setRoles(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
 
-    // optionally call backend /auth/logout-refresh to clear refreshToken
+    // call backend /auth/logout-refresh to clear refreshToken
     try {
       await fetch(`http://${API_URL}/auth/logout-refresh`, {
         method: "POST",

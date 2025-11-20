@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const AuthButtons = () => {
     const [isPending, startTransition] = useTransition();
-    const { user,role, logout } = useAuth();
+    const { user, role, logout } = useAuth();
 
     const router = useRouter();
 
