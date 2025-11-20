@@ -5,7 +5,7 @@ import Shop from "@/lib/models/shopModel";
 import User from "@/lib/models/userModel";
 import { jwtVerify } from "jose";
 import { useRouter } from "next/navigation";
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type AuthContextType = {
   token: string | null;
