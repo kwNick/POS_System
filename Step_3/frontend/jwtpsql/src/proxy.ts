@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function proxy(request: NextRequest) {
+
     const role = request.cookies.get('role'); // use NextRequest in middleware to access cookies
     // console.log("role: " + role?.value);
 
