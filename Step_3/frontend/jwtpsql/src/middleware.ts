@@ -1,23 +1,24 @@
 // middleware.ts
+import { redirect, RedirectType } from 'next/navigation';
 import { NextRequest, NextResponse } from 'next/server';
 // import { jwtVerify } from 'jose';
 
 export async function middleware(request: NextRequest) {
     const role = request.cookies.get('role'); // use NextRequest in middleware to access cookies
-    console.log("role: " + role?.value);
+    // console.log("role: " + role?.value);
 
     let isLoggedIn = false; // Default to false
     if (role?.value) {
         isLoggedIn = true; // If token exists, user is logged in
     }
-    console.log("isLoggedIn: " + isLoggedIn);
+    // console.log("isLoggedIn: " + isLoggedIn);
 
     let isAdmin = false; // Default to false
     // const roles = role?.value || '';
     if (role?.value.includes('ROLE_ADMIN')) {
         isAdmin = true; // If roles include 'ROLE_ADMIN', user is admin
     }
-    console.log("isAdmin: " + isAdmin);
+    // console.log("isAdmin: " + isAdmin);
 
     // Define protected routes
     const isProtected = ['/dashboard', '/admin'].some(path =>
@@ -26,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
     // If the user is trying to access a protected route without a token
     if (isProtected && !isLoggedIn) {
-        return NextResponse.redirect(new URL('/login-client', request.url));
+        return redirect('/login-client', RedirectType.push);
     }
 
     const isAdminDash = request.nextUrl.pathname.startsWith('/admin');

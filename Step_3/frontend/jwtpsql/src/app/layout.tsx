@@ -4,7 +4,6 @@ import "./globals.css";
 import NavAuth from "../components/NavAuth";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
-import Lenis from "lenis";
 import LenisGsapContext from "@/context/LenisGsapContext";
 
 const geistSans = Geist({

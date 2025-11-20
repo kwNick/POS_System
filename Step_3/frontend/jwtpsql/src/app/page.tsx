@@ -1,7 +1,5 @@
 import FeaturesSection from '@/components/FeaturesSection';
-import HorizontalScroll from '@/components/HorizontalScroll';
 import VideoClient from '@/components/VideoClient';
-import { Features } from '@/lib/lists/Features';
 import { PricingPlans } from '@/lib/lists/Pricing';
 import { UseCases } from '@/lib/lists/UseCases';
 import Link from 'next/link';
