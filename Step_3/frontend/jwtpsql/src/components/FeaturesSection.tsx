@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap";
 import { useRef } from "react";
 import FeatureCard from "./FeatureCard";
+import Image from "next/image";
 
 const FeaturesSection = () => {
     const wrapperRef = useRef<HTMLElement>(null);
@@ -27,7 +28,8 @@ const FeaturesSection = () => {
       </div>
 
       {/* Vertical Scroll */}
-      <div className='w-full h-[200vh] flex flex-col items-center justify-center gap-y-8 pt-10'>
+      <div className='relative w-full h-[200vh] flex flex-col items-center justify-center gap-y-8 pt-10'>
+        <Image src={'/mesh-gradient-2.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute -top-1/5 left-[30%] w-full h-full z-[-10] transform-origin-left  [filter:_blur(50px)] rotate-90 mix-blend-color'/>
         {
           Features.slice(0,2).map((feature, idx) => (
             <FeatureCard key={idx} feature={feature} idx={idx} />
@@ -36,7 +38,7 @@ const FeaturesSection = () => {
       </div>
       
       {/* Horizontal Scroll */}
-      <div className='w-full h-full overflow-hidden flex '>
+      <div className='w-full h-full flex '>
         <HorizontalScroll />
       </div>
 
