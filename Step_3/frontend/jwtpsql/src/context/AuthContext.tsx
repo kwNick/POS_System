@@ -436,7 +436,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         })();
       }
-      router.refresh()
   }, [role]);
 
   return (

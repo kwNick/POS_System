@@ -37,7 +37,7 @@ export default function RootLayout({
               <NavAuth />
             </nav>
 
-            <div className="relative w-full h-full bg-neutral-black text-neutral-white flex flex-col items-center z-10">
+            <div className="relative w-full h-full bg-neutral-black text-neutral-white flex flex-col items-center z-10 overflow-hidden">
               {children}
             </div>
 
