@@ -57,6 +57,8 @@ export default function Home() {
           </div>
 
           <div className="flex gap-8 lg:gap-12 items-center justify-center w-4/5 h-4/5">
+            
+
             {UseCases.map((useCase, idx) => (
               <Link href={"#"} key={useCase.title} className="group relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] hover:scale-105 duration-300 p-5 rounded-xl cursor-pointer z-10">
                 <VideoClient idx={idx} />
