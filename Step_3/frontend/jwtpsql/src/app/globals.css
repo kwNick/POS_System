@@ -8,14 +8,14 @@
   --neutral-gray: #B0B0B8;
 
   /* Purple Theme */
-  --primary-purple: #450693;
+  --primary-purple: rgb(69, 6, 147);
   --accent-purple: #7B2FFF;
-  --gradient-purple: #300064;
+  --gradient-purple: rgb(48, 0, 100);
 
   /* Blue Theme */
-  --primary-blue: #0046FF;
+  --primary-blue: rgb(0, 70, 255);
   --accent-blue: #5A8CFF;
-  --gradient-blue: #002C99;
+  --gradient-blue: rgb(0, 44, 153);
 
   /* CTA */
   --cta: #00FFD1;

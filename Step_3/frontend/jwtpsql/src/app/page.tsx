@@ -2,6 +2,7 @@ import FeaturesSection from '@/components/FeaturesSection';
 import VideoClient from '@/components/VideoClient';
 import { PricingPlans } from '@/lib/lists/Pricing';
 import { UseCases } from '@/lib/lists/UseCases';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
@@ -9,7 +10,8 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center w-full h-full font-[family-name:var(--font-geist-sans)]">
 
       {/* landing page */}
-        <section className=" h-[110vh] w-full flex flex-col gap-y-25 items-center justify-center">
+        <section className="relative h-[110vh] w-full flex flex-col gap-y-25 items-center justify-center">
+          <Image src={'/mesh-gradient.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute inset-0 w-full h-full z-[-10] [filter:_blur(50px)] mix-blend-color'/>
 
           <div className='flex flex-col items-center justify-center gap-y-12'>
 
@@ -71,34 +73,6 @@ export default function Home() {
 
         {/* Features section */}
         <FeaturesSection />
-        {/* <section className=" h-[calc(280vh+200vw)] w-full flex flex-col items-center justify-center gap-y-8 py-[2.5%]">
-          <div className='relative w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
-            <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
-              Features
-            </h1>
-            <h2 className="text-neutral-gray text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold translate-x-[10vw]">
-              Everything you need to run your business.
-            </h2>
-          </div> */}
-
-          {/* Vertical Scroll */}
-          {/* <div className='w-full h-[200vh] flex flex-col items-center justify-center gap-y-8 pt-10'>
-            {
-              Features.slice(0,2).map((feature, idx) => (
-                <div key={feature.title} className='w-[90vw] h-[85vh] flex flex-col items-start justify-center bg-neutral-black border-1 border-primary-purple p-5 rounded-lg hover:shadow-md hover:shadow-primary-blue hover:scale-105 duration-300 overflow-hidden'>
-                  <h3 className='text-xl lg:text-2xl xl:text-3xl font-semibold mb-4'><sup className='text-sm'>{idx}</sup>{feature.title}</h3>
-                  <p className='text-lg lg:text-xl xl:text-2xl text-neutral-gray'>{feature.description}</p>
-                </div>
-              ))
-            }
-          </div> */}
-          
-          {/* Horizontal Scroll */}
-          {/* <div className='w-full h-full overflow-hidden flex '>
-            <HorizontalScroll />
-          </div>
-
-        </section> */}
         
         {/* Pricing section*/}
         <section className=" h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%]">
