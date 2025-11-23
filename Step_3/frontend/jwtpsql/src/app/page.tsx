@@ -1,4 +1,5 @@
 import FeaturesSection from '@/components/FeaturesSection';
+import LandingFadeIn from '@/components/LandingFadeIn';
 import VideoClient from '@/components/VideoClient';
 import { PricingPlans } from '@/lib/lists/Pricing';
 import { UseCases } from '@/lib/lists/UseCases';
@@ -13,7 +14,8 @@ export default function Home() {
         <section className="relative h-[110vh] w-full flex flex-col gap-y-25 items-center justify-center">
           <Image src={'/mesh-gradient.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute inset-0 w-full h-full z-[-10] [filter:_blur(50px)] mix-blend-color'/>
 
-          <div className='flex flex-col items-center justify-center gap-y-12'>
+          <LandingFadeIn />
+          {/* <div className='flex flex-col items-center justify-center gap-y-12'>
 
             <div className="relative text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-widest uppercase perspective-near transform-3d -rotate-y-[12.5]">
               POS
@@ -41,7 +43,7 @@ export default function Home() {
             <Link href={'#'} className='p-4 border-1 border-primary-purple bg-neutral-white rounded-full uppercase text-primary-purple hover:text-cta hover:bg-neutral-gray hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
               Learn More
             </Link>
-          </div>
+          </div> */}
           
         </section>
 
