@@ -13,43 +13,18 @@ export default function Home() {
       {/* landing page */}
         <section className="relative h-[110vh] w-full flex flex-col gap-y-25 items-center justify-center">
           <Image src={'/mesh-gradient.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute inset-0 w-full h-full z-[-10] [filter:_blur(50px)] mix-blend-color'/>
+          <Image src={'/app-data.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(30vh-250px)] left-[calc(30vw-200px)] w-[400px] h-[500px] z-[-10]'/>
+          <Image src={'/finance-app.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(27.5vh-250px)] left-[calc(70vw-200px)] w-[400px] h-[500px] z-[-10]'/>
+          <Link href="https://storyset.com/business" className='absolute bottom-0 right-0 text-xs'>Business illustrations by Storyset</Link>
 
           <LandingFadeIn />
-          {/* <div className='flex flex-col items-center justify-center gap-y-12'>
-
-            <div className="relative text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-widest uppercase perspective-near transform-3d -rotate-y-[12.5]">
-              POS
-              <h1 className="absolute top-0 left-[5%] text-cta text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-widest uppercase">
-                POS
-              </h1>
-              <h1 className="absolute top-0 left-[10%] text-primary-purple text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-widest uppercase">
-                POS
-              </h1>
-              <h1 className="absolute top-0 left-[15%] text-primary-blue text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-widest uppercase">
-                POS
-              </h1>
-            </div>
-
-            <h2 className="text-neutral-gray text-2xl md:text-3xl lg:text-4xl xl:text-5xl uppercase">
-              Sales never been easier
-            </h2>
-          </div>
-
-          <div className='flex gap-5 '>
-            <Link href={'#'} className='p-4 border-1 border-primary-purple rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
-              Get Started
-            </Link>
-
-            <Link href={'#'} className='p-4 border-1 border-primary-purple bg-neutral-white rounded-full uppercase text-primary-purple hover:text-cta hover:bg-neutral-gray hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
-              Learn More
-            </Link>
-          </div> */}
-          
         </section>
 
         {/* UseCases section */}
-        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center py-[2.5%]">
-          <div className='relative w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
+        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center py-[2.5%] ">
+          {/* <Image src={'/stacked-steps.svg'} width={400} height={500} alt="coolbackground" className='absolute top-0 left-0 w-full h-full z-[-10]'/> */}
+
+          <div className='w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Use Cases
             </h1>
@@ -79,8 +54,9 @@ export default function Home() {
         <FeaturesSection />
         
         {/* Pricing section*/}
-        <section className=" h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%]">
-          <div className='relative w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
+        <section className=" h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%] bg-[url('/circle-scatter-purple.svg')] bg-cover bg-center">
+
+          <div className='w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
               Pricing
             </h1>
@@ -89,7 +65,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className='bg-neutral-black flex items-center justify-center gap-x-6 w-[90%] h-full'>
+          <div className=' flex items-center justify-center gap-x-6 w-[90%] h-full'>
             {PricingPlans.map((plan, idx) => (
               <div key={plan.name} className={`relative flex flex-col items-center justify-around gap-y-10 w-1/3 h-full ${idx == 0 && 'border-l-2'} border-r-2 border-primary-blue p-10`}>
                 <div>
@@ -129,7 +105,14 @@ export default function Home() {
         </section>
 
         {/* Closing Section/Call-to-Action */}
-        <section className="h-[110vh] w-full flex flex-col items-center justify-center border-t-1 border-primary-purple">
+        <section className="relative h-[110vh] w-full flex flex-col items-center justify-center border-t-1 border-primary-purple">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className='absolute bottom-0 '>
+            <path fill="#450693" fillOpacity="1" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className='origin-bottom scale-90 absolute bottom-0 translate-y-[15%]'>
+            <path fill="#0046ff" fillOpacity="1" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          </svg>
+
           <div className='relative w-full flex flex-col gap-y-4 items-center justify-center'>
 
             <h1 className="text-primary-purple text-lg md:text-xl lg:text-lg xl:text-3xl 2xl:text-4xl font-semibold uppercase tracking-widest">
