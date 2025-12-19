@@ -1,5 +1,6 @@
 import FeaturesSection from '@/components/FeaturesSection';
 import LandingFadeIn from '@/components/LandingFadeIn';
+import LandingImages from '@/components/LandingImages';
 import VideoClient from '@/components/VideoClient';
 import { PricingPlans } from '@/lib/lists/Pricing';
 import { UseCases } from '@/lib/lists/UseCases';
@@ -13,8 +14,12 @@ export default function Home() {
       {/* landing page */}
         <section className="relative h-[110vh] w-full flex flex-col gap-y-25 items-center justify-center">
           <Image src={'/mesh-gradient.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute inset-0 w-full h-full z-[-10] [filter:_blur(50px)] mix-blend-color'/>
-          <Image src={'/app-data.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(30vh-250px)] left-[calc(30vw-200px)] w-[400px] h-[500px] z-[-10]'/>
-          <Image src={'/finance-app.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(27.5vh-250px)] left-[calc(70vw-200px)] w-[400px] h-[500px] z-[-10]'/>
+
+          {/* <Image src={'/app-data.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(30vh-250px)] left-[calc(30vw-200px)] w-[400px] h-[500px] z-[-10]'/>
+          <Image src={'/finance-app.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(27.5vh-250px)] left-[calc(70vw-200px)] w-[400px] h-[500px] z-[-10]'/> */}
+
+          <LandingImages />
+
           <Link href="https://storyset.com/business" className='absolute bottom-0 right-0 text-xs'>Business illustrations by Storyset</Link>
 
           <LandingFadeIn />
