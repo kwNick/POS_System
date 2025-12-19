@@ -120,12 +120,12 @@ export default function Home() {
 
           <div className='relative w-full flex flex-col gap-y-4 items-center justify-center'>
 
-            <h1 className="text-primary-purple text-lg md:text-xl lg:text-lg xl:text-3xl 2xl:text-4xl font-semibold uppercase tracking-widest">
+            <h1 className="text-primary-purple text-xl md:text-2xl lg:text-3xl xl:text-5xl 2xl:text-6xl font-semibold uppercase tracking-widest">
               Get <span className='text-neutral-white font-semibold hover:text-cta-hover hover:text-shadow-sm hover:text-shadow-neutral-white scale-115 duration-500'>Started</span> <br/>
               <span className='text-primary-blue font-semibold hover:text-cta hover:text-shadow-sm hover:text-shadow-primary-blue scale-115 duration-500'>Free</span> Today
             </h1>
 
-            <Link href={'#'} className='mt-5 p-4 border-1 border-primary-purple rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-primary-blue hover:scale-118 duration-300'>
+            <Link href={'#'} className='mt-5 p-8 border-1 border-primary-purple rounded-full uppercase text-xl lg:text-2xl xl:text-3xl hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-primary-blue hover:scale-118 duration-300'>
               Sign Up
             </Link>
           </div>
