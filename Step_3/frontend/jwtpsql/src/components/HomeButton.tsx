@@ -39,10 +39,10 @@ const HomeButton = () => {
 
             <div ref={listRef} className="w-fit h-full flex items-center justify-center">
                 <ul className="w-fit flex items-center justify-center gap-x-6">
-                    <li className="w-fit"><Link href={"#"}>Business Types</Link></li>
-                    <li className="w-fit"><Link href={"#"}>Products</Link></li>
-                    <li className="w-fit"><Link href={"#"}>Hardware</Link></li>
-                    <li className="w-fit"><Link href={"#"}>Pricing</Link></li>
+                    <li className="w-fit hover:text-neutral-gray hover:scale-110 duration-300"><Link href={"#"}>Business Types</Link></li>
+                    <li className="w-fit hover:text-neutral-gray hover:scale-110 duration-300"><Link href={"#"}>Products</Link></li>
+                    <li className="w-fit hover:text-neutral-gray hover:scale-110 duration-300"><Link href={"#"}>Hardware</Link></li>
+                    <li className="w-fit hover:text-neutral-gray hover:scale-110 duration-300"><Link href={"#"}>Pricing</Link></li>
                 </ul>
             </div>
         </div>
