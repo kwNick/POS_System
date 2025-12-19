@@ -12,7 +12,7 @@ const LandingImages = () => {
     useGSAP(() => {
         gsap.to(landImage1.current,
             { 
-                scale: 1.5,
+                scale: 1.25,
                 opacity: 0.1,
                 ease: 'none',
                 scrollTrigger:{
@@ -26,7 +26,7 @@ const LandingImages = () => {
         )
         gsap.to(landImage2.current,
             { 
-                scale: 1.5,
+                scale: 1.25,
                 opacity: 0.1,
                 ease: 'none',
                 scrollTrigger:{
