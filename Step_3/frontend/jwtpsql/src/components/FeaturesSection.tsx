@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { useRef } from "react";
 import FeatureCard from "./FeatureCard";
 import Image from "next/image";
+// import circleScatter from '@/public/circle-scatter.svg';
 
 const FeaturesSection = () => {
     const wrapperRef = useRef<HTMLElement>(null);
@@ -27,9 +28,11 @@ const FeaturesSection = () => {
         </h2>
       </div>
 
-      {/* Vertical Scroll */}
-      <div className='relative w-full h-[200vh] flex flex-col items-center justify-center gap-y-8 pt-10 bg-[url("/circle-scatter.svg")] bg-cover bg-center'>
-        <Image src={'/mesh-gradient-2.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute -top-1/5 left-[30%] w-full h-full z-[-10] transform-origin-left  [filter:_blur(50px)] rotate-90 mix-blend-color'/>
+      {/* Vertical Scroll  -- --  bg-[url("/circle-scatter.svg")] bg-cover bg-center*/}
+      <div className='relative w-full h-[200vh] flex flex-col items-center justify-center gap-y-8 pt-10'>
+        <Image src={'/circle-scatter.svg'} width={1000} height={1000} alt="circle-scatter" className='absolute inset-0 w-full h-full z-[-10]' />
+
+        <Image src={'/mesh-gradient-2.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute -top-1/5 left-[30%] w-full h-full z-[-10] transform-origin-left [filter:_blur(50px)] rotate-90 mix-blend-color'/>
         {
           Features.slice(0,2).map((feature, idx) => (
             <FeatureCard key={idx} feature={feature} idx={idx} />

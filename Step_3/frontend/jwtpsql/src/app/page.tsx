@@ -15,9 +15,6 @@ export default function Home() {
         <section className="relative h-[110vh] w-full flex flex-col gap-y-25 items-center justify-center">
           <Image src={'/mesh-gradient.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute inset-0 w-full h-full z-[-10] [filter:_blur(50px)] mix-blend-color'/>
 
-          {/* <Image src={'/app-data.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(30vh-250px)] left-[calc(30vw-200px)] w-[400px] h-[500px] z-[-10]'/>
-          <Image src={'/finance-app.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(27.5vh-250px)] left-[calc(70vw-200px)] w-[400px] h-[500px] z-[-10]'/> */}
-
           <LandingImages />
 
           <Link href="https://storyset.com/business" className='absolute bottom-0 right-0 text-xs'>Business illustrations by Storyset</Link>
@@ -39,7 +36,6 @@ export default function Home() {
           </div>
 
           <div className="flex gap-8 lg:gap-12 items-center justify-center w-4/5 h-4/5">
-            
 
             {UseCases.map((useCase, idx) => (
               <Link href={"#"} key={useCase.title} className="group relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] hover:scale-105 duration-300 p-5 rounded-xl cursor-pointer z-10">
@@ -59,7 +55,8 @@ export default function Home() {
         <FeaturesSection />
         
         {/* Pricing section*/}
-        <section className=" h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%] bg-[url('/circle-scatter-purple.svg')] bg-cover bg-center">
+        <section className="relative h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%] bg-[url('/circle-scatter-purple.svg')] bg-cover bg-center ">
+        <div className='absolute inset-0 bg-gradient-to-b from-neutral-white to-transparent opacity-50'></div>
 
           <div className='w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5'>
             <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
@@ -74,11 +71,11 @@ export default function Home() {
             {PricingPlans.map((plan, idx) => (
               <div key={plan.name} className={`relative flex flex-col items-center justify-around gap-y-10 w-1/3 h-full ${idx == 0 && 'border-l-2'} border-r-2 border-primary-blue p-10`}>
                 <div>
-                  <h3 className='text-neutral-white text-2xl xl:text-3xl font-semibold underline underline-offset-4 decoration-primary-blue'>{plan.name}</h3>
+                  <h3 className='text-neutral-white text-4xl xl:text-5xl font-semibold underline underline-offset-4 decoration-primary-blue'>{plan.name}</h3>
                 </div>
 
                 <div className='flex flex-col items-center justify-center gap-y-8'>
-                  <p className='group text-primary-blue text-xl lg:text-2xl xl:text-4xl font-bold underline underline-offset-4 decoration-neutral-gray decoration-2'>
+                  <p className='group text-primary-blue text-2xl lg:text-3xl xl:text-5xl font-bold underline underline-offset-4 decoration-neutral-gray decoration-2'>
                     <sup className='text-sm text-neutral-gray group-hover:text-cta duration-300'>
                       {plan.price[0]}
                     </sup>
@@ -91,7 +88,7 @@ export default function Home() {
                     </span>
                   </p>
 
-                  <ul className='w-full h-full flex flex-col items-start justify-center gap-y-10 text-lg lg:text-xl xl:text-2xl'>
+                  <ul className='w-full h-full flex flex-col items-start justify-center gap-y-10 text-xl lg:text-2xl xl:text-3xl'>
                     {plan.features.map((feature) => (
                       <li key={feature} className='group text-neutral-white'><span className='text-primary-blue group-hover:text-cta'>•</span> {feature}</li>
                     ))}
