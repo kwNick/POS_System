@@ -20,7 +20,7 @@ const LandingImages = () => {
                     start: 'top top',
                     end: 'bottom 10%',
                     scrub: true,
-                    markers: true,
+                    // markers: true,
                 }
             }
         )
@@ -34,7 +34,7 @@ const LandingImages = () => {
                     start: 'top top',
                     end: 'bottom 10%',
                     scrub: true,
-                    markers: true,
+                    // markers: true,
                 }
             }
         )
