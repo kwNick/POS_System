@@ -12,7 +12,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HorizontalScroll = () => {
     const horizScroll = useRef<HTMLDivElement>(null);
-    const imageRef = useRef<HTMLImageElement>(null);
+    // const imageRef = useRef<HTMLImageElement>(null);
+    const lineFill1 = useRef<HTMLDivElement>(null);
+    // const lineFill2 = useRef<HTMLDivElement>(null);
 
     useGSAP(()=>{
         gsap.to(horizScroll.current, {
@@ -25,12 +27,26 @@ const HorizontalScroll = () => {
                 scrub: true,
                 pin: true,
                 anticipatePin: 1,
+                invalidateOnRefresh: true,
             }
         });
 
-        gsap.to(imageRef.current, {
-            // rotation: 360,
-            x: (horizScroll.current!.scrollWidth - window.innerHeight),
+        // gsap.to(imageRef.current, {
+        //     // rotation: 360,
+        //     x: (horizScroll.current!.scrollWidth - window.innerHeight),
+        //     ease: "none",
+        //     scrollTrigger: {
+        //         trigger: horizScroll.current,
+        //         start: "top 8%",
+        //         end: () => `+=${horizScroll.current!.scrollWidth - window.innerWidth}`,
+        //         scrub: true,
+        //         // pin: true,
+        //         // anticipatePin: 1,
+        //     }
+        // });
+
+        gsap.to(lineFill1.current, {
+            scaleX: 1,
             ease: "none",
             scrollTrigger: {
                 trigger: horizScroll.current,
@@ -39,15 +55,31 @@ const HorizontalScroll = () => {
                 scrub: true,
                 // pin: true,
                 // anticipatePin: 1,
+                invalidateOnRefresh: true,
             }
-        }
-        );
+        });
+
+        // gsap.to(lineFill2.current, {
+        //     scaleX: 1,
+        //     ease: "none",
+        //     scrollTrigger: {
+        //         trigger: horizScroll.current,
+        //         start: "top 8%",
+        //         end: () => `+=${horizScroll.current!.scrollWidth - window.innerWidth}`,
+        //         scrub: true,
+        //         // pin: true,
+        //         // anticipatePin: 1,
+        //         invalidateOnRefresh: true,
+        //     }
+        // });
 
     }, []);
 
   return (
-    <div ref={horizScroll} className='relative w-max h-full flex items-start justify-center gap-x-8 px-[5%] pt-8 '>
-        <Image ref={imageRef} src={'/mesh-gradient-2.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute top-0 left-0 w-[33vw] h-[33vh] z-[-10] [filter:_blur(50px)] mix-blend-color'/>
+    <div ref={horizScroll} className='relative w-max h-screen flex items-start justify-center gap-x-8 px-[5%] pt-8 pb-8'>
+        {/* <Image ref={imageRef} src={'/mesh-gradient-2.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute top-0 left-0 w-[33vw] h-[33vh] z-[-10] [filter:_blur(50px)] mix-blend-color'/> */}
+        <div ref={lineFill1} className="absolute h-1 w-full top-0 left-0 bg-accent-blue origin-left scale-x-0" />
+        {/* <div ref={lineFill2} className="absolute h-1 w-full bottom-[9%] right-5% bg-accent-blue origin-right scale-x-0" /> */}
 
         {
             Features.slice(2,5).map((feature, idx) => (

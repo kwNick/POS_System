@@ -87,6 +87,7 @@
   --animate-fade-in: fadeIn 0.5s ease-in-out;
 
   --animate-rotatey-repeat: rotateYRepeat 3s ease-in-out infinite;
+
 }
 /* KeyFrames For @theme config */
 @keyframes fadeIn {
