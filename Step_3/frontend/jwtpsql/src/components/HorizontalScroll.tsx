@@ -17,6 +17,7 @@ const HorizontalScroll = () => {
     // const fadeInButton = useRef<HTMLDivElement>(null);
 
     useGSAP(()=>{
+
         gsap.to(horizScroll.current, {
             x: -(horizScroll.current!.scrollWidth - window.innerWidth),
             ease: "none",
