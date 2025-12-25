@@ -32,20 +32,6 @@ const HorizontalScroll = () => {
             }
         });
 
-        // gsap.to(imageRef.current, {
-        //     // rotation: 360,
-        //     x: (horizScroll.current!.scrollWidth - window.innerHeight),
-        //     ease: "none",
-        //     scrollTrigger: {
-        //         trigger: horizScroll.current,
-        //         start: "top 8%",
-        //         end: () => `+=${horizScroll.current!.scrollWidth - window.innerWidth}`,
-        //         scrub: true,
-        //         // pin: true,
-        //         // anticipatePin: 1,
-        //     }
-        // });
-
         gsap.to(lineFill1.current, {
             scaleX: 1.25,
             ease: "none",
