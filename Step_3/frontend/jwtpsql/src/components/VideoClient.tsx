@@ -7,7 +7,7 @@ const VideoClient = ({idx}:{idx: number}) => {
 
   useEffect(() => {
     if(videoRef.current) {
-      videoRef.current.playbackRate = 0.75;
+      videoRef.current.playbackRate = 0.5;
     }
   }, []);
 
