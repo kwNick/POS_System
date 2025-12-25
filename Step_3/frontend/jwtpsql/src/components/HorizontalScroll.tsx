@@ -104,7 +104,7 @@ const HorizontalScroll = () => {
     }, []);
 
   return (
-    <div ref={horizScroll} className='relative w-max h-screen flex items-center justify-center gap-x-8 pl-[5%] py-8'>
+    <div ref={horizScroll} className='relative w-max h-screen flex items-center justify-center gap-x-10 lg:gap-x-14 xl:gap-x-16 pl-[5%] '>
         {/* <Image ref={imageRef} src={'/mesh-gradient-2.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute top-0 left-0 w-[33vw] h-[33vh] z-[-10] [filter:_blur(50px)] mix-blend-color'/> */}
         <div ref={lineFill1} className="absolute h-1 w-full top-0 left-0 bg-accent-blue origin-left scale-x-0" />
         <div ref={lineFill2} className="absolute h-1 w-full bottom-0 right-[-25%] bg-accent-blue origin-right scale-x-0" />

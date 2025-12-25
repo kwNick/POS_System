@@ -52,7 +52,7 @@ const BgPricingSection = () => {
            backgroundImage: "linear-gradient(to bottom, rgb(69, 6, 147), transparent)",
             scrollTrigger: {
                 trigger: gradientRef.current,
-                start: "top top",
+                start: "top 20%",
                 end: "bottom top",
                 scrub: true,
             },
