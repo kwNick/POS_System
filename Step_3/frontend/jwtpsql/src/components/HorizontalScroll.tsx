@@ -110,7 +110,7 @@ const HorizontalScroll = () => {
         <div ref={lineFill2} className="absolute h-1 w-full bottom-0 right-[-25%] bg-accent-blue origin-right scale-x-0" />
 
         {
-            Features.slice(2,5).map((feature, idx) => (
+            Features.slice(2,Features.length).map((feature, idx) => (
                 <FeatureCard key={idx} feature={feature} idx={idx + 2} />
             ))
         }

@@ -12,12 +12,12 @@ import Image from "next/image";
 const FeaturesSection = () => {
   
     const wrapperRef = useRef<HTMLElement>(null);
-    const horizSections = (Features.slice(2).length-1) * 100;
+    const horizSections = (Features.slice(2).length-1) * 50;
 
     useGSAP(() => {
-        gsap.set(wrapperRef.current, {height: `calc(280vh + ${horizSections}vw)`});
 
-
+        gsap.set(wrapperRef.current, {height: `calc(140vh + ${horizSections}vw)`}); //i cut it in half 280 -> 140 + horizSections*100 -> *50
+        
     }, []);
 
   return (

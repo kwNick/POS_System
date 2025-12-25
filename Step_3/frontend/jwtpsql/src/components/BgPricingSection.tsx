@@ -5,14 +5,17 @@ import { useGSAP } from "@gsap/react"
 import { useRef } from "react";
 
 const BgPricingSection = () => {
+
     const blobRefContainer = useRef<HTMLDivElement>(null);
     const gradientRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
         // GSAP animations can be added here if needed
         const images = blobRefContainer.current?.querySelectorAll('.blob-scale');
+
         images?.forEach((image, index) => {
             const delay = index * 0.2; // Stagger the animations
+        
             if(index%2 === 0){
                 gsap.to(image, {
                     scale: 2.0,
@@ -24,6 +27,7 @@ const BgPricingSection = () => {
                     },
                 });
             }
+        
             if(index%2 !== 0){
                 gsap.to(image, {
                     scale: 0.25,
