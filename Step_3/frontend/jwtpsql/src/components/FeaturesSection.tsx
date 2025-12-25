@@ -22,7 +22,7 @@ const FeaturesSection = () => {
 
   return (
       // h-[calc(280vh+200vw)]
-    <section ref={wrapperRef} className="  w-full flex flex-col items-center justify-center gap-y-8  pt-[2.5%] ">
+    <section ref={wrapperRef} className="  w-full flex flex-col items-center justify-center pt-[2.5%] ">
       <div className='relative w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-blue p-5 '>
         <h1 className="text-neutral-white text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-light underline underline-offset-4 decoration-primary-purple decoration-2 translate-x-[10vw] uppercase">
           Features
