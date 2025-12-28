@@ -1,7 +1,6 @@
 import BgGradientCta from '@/components/BgGradientCta';
 import BgPricingSection from '@/components/BgPricingSection';
 import FeaturesSection from '@/components/FeaturesSection';
-import GradientHovers from '@/components/GradientHovers';
 import LandingFadeIn from '@/components/LandingFadeIn';
 import LandingImages from '@/components/LandingImages';
 import VideoClient from '@/components/VideoClient';
@@ -24,6 +23,11 @@ export default function Home() {
           <Link href="https://storyset.com/business" className='absolute bottom-0 right-0 text-xs text-neutral-black'>Business illustrations by Storyset</Link>
 
           <LandingFadeIn />
+
+          {/* <div className='absolute inset-0 bg-gradient-to-t from-0% from-neutral-white to-transparent to-40% pointer-events-none' /> */}
+          <div className='absolute inset-0 bg-gradient-to-t from-0% from-neutral-surface to-transparent to-35% pointer-events-none' />
+          <div className='absolute inset-0 bg-gradient-to-t from-0% from-primary-blue/35 to-transparent to-25% pointer-events-none' />
+          <div className='absolute inset-0 bg-gradient-to-t from-0% from-neutral-black/50 to-transparent to-15% pointer-events-none' />
         </section>
 
         {/* UseCases section */}
@@ -47,8 +51,8 @@ export default function Home() {
 
                 <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-0% from-neutral-black to-transparent to-50% pointer-events-none' />
 
-                <div className="gradient-hover absolute inset-0 translate-y-[25%] rounded-xl bg-gradient-to-t from-0% from-neutral-white to-transparent to-50% pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-y-0 duration-400" />
-                <div className="gradient-hover absolute inset-0 translate-y-[25%] rounded-xl bg-gradient-to-t from-0% from-primary-purple to-transparent to-65% pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-y-0 duration-400" />
+                <div className="absolute inset-0 translate-y-[25%] rounded-xl bg-gradient-to-t from-0% from-neutral-white to-transparent to-50% pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-y-0 duration-400" />
+                <div className="absolute inset-0 translate-y-[25%] rounded-xl bg-gradient-to-t from-0% from-primary-purple to-transparent to-65% pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-y-0 duration-400" />
 
                 <h3 className="relative text-xl font-semibold text-shadow-neutral-black text-shadow-md group-hover:translate-y-[-10px] duration-300 ml-4 mb-4 z-10 overflow-hidden before:absolute before:bottom-[2%] before:left-0 before:w-full before:h-[2%] before:bg-primary-purple before:translate-x-[-100%] group-hover:before:translate-x-[0] before:duration-300">{useCase.title}</h3>
                 <p className='text-center text-neutral-gray z-10 group-hover:text-shadow-neutral-black group-hover:text-shadow-md'>{useCase.description}</p>
@@ -106,7 +110,7 @@ export default function Home() {
                 </div>
                 
                 <div className=''>
-                  <Link href={'#'} className=' p-3 border-1 border-primary-blue rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
+                  <Link href={'#'} className=' p-5 lg:p-7 xl:p-9 lg:text-lg xl:text-xl  border-1 border-primary-blue rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
                   Choose {plan.name}
                 </Link>
                 </div>
