@@ -39,13 +39,13 @@ const AuthButtons = () => {
                 <div ref={authRef} className={`w-full h-full flex items-center justify-end gap-4`}>
                     {/* <Activity mode={role?.includes('ROLE_ADMIN') ? 'visible' : 'hidden'}> */}
                     <Link href="/login-client" className={`${!user ? 'block' : 'hidden'} hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4`}>
-                        LoginClient
+                        Login
                     </Link>
                     {/* </Activity> */}
 
                     {/* <Activity mode={role?.includes('ROLE_ADMIN') ? 'visible' : 'hidden'}> */}
                     <Link href="/register-client" className={`${!user ? 'block' : 'hidden'} hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4`}>
-                        RegisterClient
+                        Register
                     </Link>
                     {/* </Activity> */}
 

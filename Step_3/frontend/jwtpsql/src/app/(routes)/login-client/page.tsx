@@ -7,7 +7,7 @@ export default function LoginPage() {
 
       <div>
         <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
-          Login-Client
+          Login
         </h2>
       </div>
 
