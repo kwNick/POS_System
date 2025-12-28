@@ -1,6 +1,7 @@
 import BgGradientCta from '@/components/BgGradientCta';
 import BgPricingSection from '@/components/BgPricingSection';
 import FeaturesSection from '@/components/FeaturesSection';
+import GradientHovers from '@/components/GradientHovers';
 import LandingFadeIn from '@/components/LandingFadeIn';
 import LandingImages from '@/components/LandingImages';
 import VideoClient from '@/components/VideoClient';
@@ -41,13 +42,16 @@ export default function Home() {
           <div className="flex gap-8 lg:gap-12 items-center justify-center w-4/5 h-4/5">
 
             {UseCases.map((useCase, idx) => (
-              <Link href={"#"} key={useCase.title} className="group relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] hover:scale-105 hover:[box-shadow:_2px_2px_3px_2px_var(--neutral-white)] duration-300 p-5 rounded-xl cursor-pointer z-10">
+              <Link href={"#"} key={useCase.title} className="group relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] hover:scale-105 hover:[box-shadow:_2px_2px_3px_2px_var(--neutral-white)] duration-300 p-5 rounded-xl cursor-pointer z-10 overflow-hidden">
                 <VideoClient idx={idx} />
 
                 <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-0% from-neutral-black to-transparent to-50% pointer-events-none' />
-                
-                <h3 className="relative text-xl font-semibold group-hover:translate-y-[-10px] duration-300 ml-4 mb-4 z-10 overflow-hidden before:absolute before:bottom-[2%] before:left-0 before:w-full before:h-[2%] before:bg-primary-purple before:translate-x-[-100%] group-hover:before:translate-x-[0] before:duration-300">{useCase.title}</h3>
-                <p className='text-center text-neutral-gray z-10'>{useCase.description}</p>
+
+                <div className="gradient-hover absolute inset-0 translate-y-[25%] rounded-xl bg-gradient-to-t from-0% from-neutral-white to-transparent to-50% pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-y-0 duration-400" />
+                <div className="gradient-hover absolute inset-0 translate-y-[25%] rounded-xl bg-gradient-to-t from-0% from-primary-purple to-transparent to-65% pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-y-0 duration-400" />
+
+                <h3 className="relative text-xl font-semibold text-shadow-neutral-black text-shadow-md group-hover:translate-y-[-10px] duration-300 ml-4 mb-4 z-10 overflow-hidden before:absolute before:bottom-[2%] before:left-0 before:w-full before:h-[2%] before:bg-primary-purple before:translate-x-[-100%] group-hover:before:translate-x-[0] before:duration-300">{useCase.title}</h3>
+                <p className='text-center text-neutral-gray z-10 group-hover:text-shadow-neutral-black group-hover:text-shadow-md'>{useCase.description}</p>
               </Link>
             ))}
           </div>
