@@ -68,7 +68,7 @@ export default function Home() {
         {/* Pricing section*/}
         <section className="relative h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%] ">
 
-        <BgPricingSection />
+          <BgPricingSection />
 
         {/* <div className='absolute inset-0 bg-gradient-to-b from-neutral-white to-transparent opacity-50'/> */}
 
