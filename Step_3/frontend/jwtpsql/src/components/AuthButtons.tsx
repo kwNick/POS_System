@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap"
+import LightDarkMode from "./LightDarkMode";
 
 const AuthButtons = () => {
     const [isPending, setIsPending] = useState(false);
@@ -66,6 +67,8 @@ const AuthButtons = () => {
                         className={`${user ? 'block' : 'hidden'} justify-end hover:text-neutral-gray hover:scale-110 duration-300 font-bold py-2 px-4 `}>
                         {isPending ? 'Logging Out...' : 'Logout'}
                     </button>
+
+                    <LightDarkMode />
                 </div>
             {/* </Activity> */}
 
