@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Default (light mode) */
 :root {
   /* Neutrals */
   --neutral-black: #0B0B0E;
@@ -22,6 +23,7 @@
   --cta-hover: #00CBAA;
 }
 
+/* System preference — used only if no manual override */
 @media (prefers-color-scheme: dark) {
   :root {
     /* Neutrals */
@@ -44,6 +46,29 @@
     --cta: #00FFD1;
     --cta-hover: #00CBAA;
   }
+}
+
+/* Manual override — always wins visually */
+:root.dark{
+  /* Neutrals */
+    --neutral-black: #0B0B0E;
+    --neutral-surface: #15151B;
+    --neutral-white: #F5F5F7;
+    --neutral-gray: #B0B0B8;
+
+    /* Purple Theme */
+    --primary-purple: #450693;
+    --accent-purple: #7B2FFF;
+    --gradient-purple: #300064;
+
+    /* Blue Theme */
+    --primary-blue: #0046FF;
+    --accent-blue: #5A8CFF;
+    --gradient-blue: #002C99;
+
+    /* CTA */
+    --cta: #00FFD1;
+    --cta-hover: #00CBAA;
 }
 
 @theme {
