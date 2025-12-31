@@ -51,10 +51,10 @@
 /* Manual override — always wins visually */
 :root.dark{
   /* Neutrals */
-    --neutral-black: #0B0B0E;
-    --neutral-surface: #15151B;
-    --neutral-white: #F5F5F7;
-    --neutral-gray: #B0B0B8;
+    --neutral-black: #F5F5F7;
+    --neutral-surface: #B0B0B8;
+    --neutral-white: #0B0B0E;
+    --neutral-gray: #15151B;
 
     /* Purple Theme */
     --primary-purple: #450693;
