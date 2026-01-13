@@ -52,7 +52,7 @@ const RegisterForm = () => {
     };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-12 w-3/5">
+    <form onSubmit={handleSubmit} className="space-y-12 w-full">
         <div className="w-1/2 flex flex-col gap-y-6 mx-auto">
           <label htmlFor="username">Username</label>
           <input
