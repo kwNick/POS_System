@@ -12,30 +12,34 @@ const ProfileDashboard = () => {
           <>
             <div className="">
               <h1 className="text-3xl font-semibold mb-4">
-                Hello, {user.username} -{" "}
-                <span className="text-xs">{user.roles.map(r => r.name).join(", ")}</span>
+                <span className="underline">Hello, {user.username}{" "}</span>
+                <span className="text-xs">-{user.roles.map(r => r.name).join(", ")}</span>
               </h1>
             </div>
 
-            <div className="flex flex-col gap-8">
+            <div className="p-6 w-[clamp(300px, 100%, 800px)] flex bg-neutral-surface rounded-lg">
               <div className="w-full max-w-2xl ">
-                <h1 className="text-xl font-semibold mb-4 underline">Profile:</h1>
-                <div className="flex flex-col gap-2">
+                <h1 className="text-xl font-semibold mb-4 lg:mb-8 underline">Profile:</h1>
+                <div className="flex flex-col gap-4">
                   <p><span className="font-semibold">Username</span>: {user.username}</p>
                   <p><span className="font-semibold">Email</span>: {user.email}</p>
                   <p><span className="font-semibold">Password</span>: {user.password}</p>
-                  <p><span className="font-semibold">Shops</span>:
+                  <p><span className="font-semibold">Roles:<br /></span>
+                    {user.roles.map(role => (
+                      <span className="italic" key={role.name}>{role.name}<br /></span>
+                    ))}
+                  </p>
+
+                  <p>
+                    <span className="font-semibold">Shops:<br /></span>
                     {user.shops.map(shop => (
                       <span className="italic" key={shop.name}>
                         {shop.name} - {shop.location} - {shop.user_id}
+                        <br />
                       </span>
                     ))}
                   </p>
-                  <p><span className="font-semibold">Roles</span>:
-                    {user.roles.map(role => (
-                      <span className="italic" key={role.name}>{role.name}</span>
-                    ))}
-                  </p>
+                  
                 </div>
               </div>
             </div>
