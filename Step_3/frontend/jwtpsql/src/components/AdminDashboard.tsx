@@ -18,8 +18,8 @@ const AdminDashboard = () => {
                     <h1 className="text-3xl font-semibold mb-4">Hello, Admin - <span className='capitalize'>{user?.username}</span> - <span className='text-xs'>{user?.roles.map((role: Role) => role.name)}</span></h1>
                 </div>
 
-                <div className="flex gap-8">
-                    <div className="w-full max-w-2xl p-3 bg-neutral-surface rounded-tl-2xl rounded-br-2xl shadow-md">
+                <div className="flex  gap-8">
+                    <div className="p-10 lg:p-14 xl:p-16 w-[clamp(400px, 90%, 1000px)] bg-neutral-surface rounded-lg shadow-md">
 
                         <h1 className="text-xl font-semibold mb-4">Profile:</h1>
 
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
                     </div>
 
 
-                    <div className="w-full max-w-2xl p-3 bg-neutral-surface rounded-tl-2xl rounded-br-2xl shadow-md">
+                    <div className="p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
 
                         <h2 className="text-xl font-semibold mb-4">Your Shops</h2>
 
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
         )}
 
 
-        <div className='flex flex-col gap-y-5'>
+        <div className='p-10 lg:p-14 xl:p-16 flex flex-col gap-y-5 rounded-lg bg-neutral-surface'>
             {usersWDetails && (
                 <div>
                     <h1 className="text-xl font-semibold ">All Connections: </h1>
