@@ -31,7 +31,7 @@ export default function Home() {
         </section>
 
         {/* UseCases section */}
-        <section className="h-[110vh] w-full flex flex-col gap-y-8 items-center justify-center py-[2.5%] ">
+        <section className="h-[140vh] w-full flex flex-col gap-y-8 items-center justify-center py-[2.5%] ">
           {/* <Image src={'/stacked-steps.svg'} width={400} height={500} alt="coolbackground" className='absolute top-0 left-0 w-full h-full z-[-10]'/> */}
 
           <div className='w-full h-[15vh] flex flex-col gap-y-4 items-start justify-center border-b-2 border-primary-purple p-5'>
@@ -44,9 +44,8 @@ export default function Home() {
           </div>
 
           <div className="flex gap-8 lg:gap-12 items-center justify-center w-4/5 h-4/5">
-
             {UseCases.map((useCase, idx) => (
-              <Link href={"#"} key={useCase.title} className="group relative flex flex-col items-start justify-end min-w-1/8 max-w-1/5 h-4/5 border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] hover:scale-105 hover:[box-shadow:_2px_2px_3px_2px_var(--neutral-white)] duration-300 p-5 rounded-xl cursor-pointer z-10 overflow-hidden">
+              <Link href={"#"} key={useCase.title} className="group relative flex flex-col items-start justify-end w-[clamp(300px,20vw+4rem,500px)] h-[clamp(500px,60vh+4rem,900px)] border-1 border-primary-purple [box-shadow:_2px_2px_3px_2px_var(--primary-purple)] hover:scale-105 hover:[box-shadow:_2px_2px_3px_2px_var(--neutral-white)] duration-300 p-5 rounded-xl cursor-pointer z-10 overflow-hidden">
                 <VideoClient idx={idx} />
 
                 <div className='absolute inset-0 rounded-xl bg-gradient-to-t from-0% from-neutral-black to-transparent to-50% pointer-events-none' />
