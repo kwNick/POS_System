@@ -52,61 +52,72 @@ const RegisterForm = () => {
     };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-12 w-full">
-        <div className="w-1/2 flex flex-col gap-y-6 mx-auto">
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="border p-2 w-full"
-            required
-          />
+    <div className="relative p-10 lg:p-12 xl:p-14 w-[clamp(400px,2rem+38vw,700px)] h-[clamp(700px,2rem+60vh,1000px)] flex flex-col items-center justify-center gap-y-10 bg-neutral-surface shadow-md shadow-neutral-white rounded-md">
+      
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-purple to-accent-blue opacity-10 rounded-md z-0 pointer-events-none"/>
 
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border p-2 w-full"
-            required
-          />
-
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border p-2 w-full"
-            required
-          />
-        </div>
-
-        <div className="flex items-center justify-center">
-          <button
-            type="submit"
-            disabled={!isUpdated || isPending}
-            className="px-4 py-2 rounded-md bg-primary-blue text-neutral-white hover:bg-accent-blue hover:scale-110 duration-300 disabled:bg-gray-400 disabled:pointer-events-none"
-          >
+        <div className="">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
             Register
-          </button>
+          </h2>
         </div>
 
-        {error && <p className="text-cta text-center">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-12 w-full">
+          <div className="w-1/2 flex flex-col gap-y-6 mx-auto">
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="border p-2 w-full"
+              required
+            />
 
-        <p className={`relative opacity-0 text-cta text-xs text-center duration-500 ${(isPending || !isUpdated) && "opacity-100"}`}>
-          {formMessage}
-        </p>
-      </form>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="border p-2 w-full"
+              required
+            />
+
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border p-2 w-full"
+              required
+            />
+          </div>
+
+          <div className="flex items-center justify-center">
+            <button
+              type="submit"
+              disabled={!isUpdated || isPending}
+              className="px-4 py-2 rounded-md bg-primary-blue text-neutral-white hover:bg-accent-blue hover:scale-110 duration-300 disabled:bg-gray-400 disabled:pointer-events-none"
+            >
+              Register
+            </button>
+          </div>
+
+          {error && <p className="text-cta text-center">{error}</p>}
+
+          <p className={`relative opacity-0 text-cta text-xs text-center duration-500 ${(isPending || !isUpdated) && "opacity-100"}`}>
+            {formMessage}
+          </p>
+        </form>
+      </div>
   )
 }
 export default RegisterForm
