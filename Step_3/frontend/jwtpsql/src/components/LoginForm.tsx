@@ -51,7 +51,17 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-12 w-full">
+    <div className="relative p-10 lg:p-12 xl:p-14 w-[clamp(400px,2rem+38vw,700px)] h-[clamp(700px,2rem+60vh,1000px)] flex flex-col items-center justify-center gap-y-10 bg-neutral-surface shadow-md shadow-neutral-white rounded-md">
+      
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-purple to-accent-blue opacity-10 rounded-md z-0 pointer-events-none"/>
+
+        <div className="">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
+            Login
+          </h2>
+        </div>
+
+      <form onSubmit={handleSubmit} className="space-y-12 w-full">
         <div className="w-1/2 flex flex-col gap-y-6 mx-auto">
           <label htmlFor="username">Username</label>
           <input
@@ -94,6 +104,8 @@ const LoginForm = () => {
           {formMessage}
         </p>
       </form>
+    </div>
+    
   )
 }
 export default LoginForm
