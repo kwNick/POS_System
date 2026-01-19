@@ -65,7 +65,7 @@ export default function Home() {
         <FeaturesSection />
         
         {/* Pricing section*/}
-        <section className="relative h-[110vh] w-full flex flex-col items-center justify-center pt-[2.5%] ">
+        <section className="relative h-[140vh] w-full flex flex-col items-center justify-center pt-[2.5%] ">
 
           <BgPricingSection />
 
@@ -80,7 +80,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className=' flex items-center justify-center gap-x-6 w-[90%] h-full'>
+          <div className=' flex items-center justify-center gap-x-6 w-[90%] h-[80%]'>
             {PricingPlans.map((plan, idx) => (
               <div key={plan.name} className={`relative flex flex-col items-center justify-around gap-y-10 w-1/3 h-full ${idx == 0 && 'border-l-2'} border-r-2 border-primary-blue p-10`}>
                 <div>
@@ -101,7 +101,7 @@ export default function Home() {
                     </span>
                   </p>
 
-                  <ul className='w-full h-full flex flex-col items-start justify-center gap-y-10 text-xl lg:text-2xl xl:text-3xl'>
+                  <ul className='w-full h-full flex flex-col items-start justify-center gap-y-10 lg:gap-y-14 xl:gap-y-16 text-xl lg:text-2xl xl:text-3xl'>
                     {plan.features.map((feature) => (
                       <li key={feature} className='group text-neutral-white'><span className='text-primary-blue group-hover:text-cta'>•</span> {feature}</li>
                     ))}
@@ -109,7 +109,7 @@ export default function Home() {
                 </div>
                 
                 <div className=''>
-                  <Link href={'#'} className=' p-5 lg:p-7 xl:p-9 lg:text-lg xl:text-xl  border-1 border-primary-blue rounded-full uppercase hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
+                  <Link href={'#'} className=' p-5 lg:p-7 xl:p-9 lg:text-lg xl:text-xl  border-1 border-primary-blue rounded-full uppercase hover:bg-neutral-surface hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-120 duration-300'>
                   Choose {plan.name}
                 </Link>
                 </div>
@@ -120,7 +120,7 @@ export default function Home() {
         </section>
 
         {/* Closing Section/Call-to-Action */}
-        <section className="relative h-[110vh] w-full flex flex-col items-center justify-center border-t-1 border-primary-purple">
+        <section className="relative h-[130vh] w-full flex flex-col items-center justify-center ">
           <BgGradientCta />
 
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className='absolute bottom-0 '>
