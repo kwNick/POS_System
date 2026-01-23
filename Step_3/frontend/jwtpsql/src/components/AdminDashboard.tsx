@@ -18,10 +18,10 @@ const AdminDashboard = () => {
                     <h1 className="text-3xl font-semibold mb-4">Hello, Admin - <span className='capitalize'>{user?.username}</span> - <span className='text-xs'>{user?.roles.map((role: Role) => role.name)}</span></h1>
                 </div>
 
-                <div className="flex  gap-8">
+                <div className="flex gap-8">
                     <div className="p-10 lg:p-14 xl:p-16 w-[clamp(400px, 90%, 1000px)] bg-neutral-surface rounded-lg shadow-md">
 
-                        <h1 className="text-xl font-semibold mb-4">Profile:</h1>
+                        <h1 className="text-3xl font-semibold mb-4">Profile:</h1>
 
                         <div className="flex flex-col gap-2">
                             <p><span className="font-semibold">Username</span>: {user?.username}</p>
@@ -34,7 +34,7 @@ const AdminDashboard = () => {
                                     );
                                 })}
                             </p>
-                            <p><span className="font-semibold">Roles</span>:
+                            <p><span className="font-semibold">Roles</span>:&nbsp;
                                 {user.roles.map((role: Role) => {
                                     return (
                                         <span className="italic" key={role.name}>{role.name}</span>
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
 
                     <div className="p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
 
-                        <h2 className="text-xl font-semibold mb-4">Your Shops</h2>
+                        <h2 className="text-3xl font-semibold mb-4">Your Shops</h2>
 
                         <div>
                             {user.shops.length > 0 ? (
@@ -66,10 +66,10 @@ const AdminDashboard = () => {
         )}
 
 
-        <div className='p-10 lg:p-14 xl:p-16 flex flex-col gap-y-5 rounded-lg bg-neutral-surface'>
+        <div className='p-10 mt-10 lg:p-14 xl:p-16 flex flex-col gap-y-5 rounded-lg bg-neutral-surface'>
             {usersWDetails && (
                 <div>
-                    <h1 className="text-xl font-semibold ">All Connections: </h1>
+                    <h1 className="text-3xl font-semibold ">All Connections: </h1>
                     {/* <UsersList /> */}
                     <ul>
                         {usersWDetails?.map((user: User) => (
@@ -89,7 +89,7 @@ const AdminDashboard = () => {
 
             {users && (
                 <div>
-                    <h1 className="text-xl font-semibold ">Users</h1>
+                    <h1 className="text-3xl font-semibold ">Users</h1>
                     {/* <UsersList /> */}
                     <ul>
                         {users?.map((user: User) => (
@@ -101,7 +101,7 @@ const AdminDashboard = () => {
 
             {shops && (
                 <div>
-                    <h1 className="text-xl font-semibold ">Shops</h1>
+                    <h1 className="text-3xl font-semibold ">Shops</h1>
                     {/* <ShopsList /> */}
                     <ul>
                         {shops?.map((shop: Shop) => (
@@ -113,7 +113,7 @@ const AdminDashboard = () => {
 
             {roles && (
                 <div>
-                    <h1 className="text-xl font-semibold ">Roles</h1>
+                    <h1 className="text-3xl font-semibold ">Roles</h1>
                     {/* <RolesList /> */}
                     <ul>
                         {roles?.map((role: Role) => (

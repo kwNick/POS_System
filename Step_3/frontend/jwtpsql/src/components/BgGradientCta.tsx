@@ -12,8 +12,8 @@ const BgGradientCta = () => {
        backgroundImage: "linear-gradient(to top, rgb(0, 70, 255), transparent)",
         scrollTrigger: {
             trigger: gradientRef.current,
-            start: "bottom bottom",
-            end: "bottom 80%",
+            start: "top top",
+            end: "bottom 90%",
             scrub: true
         },
     });
