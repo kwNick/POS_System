@@ -16,7 +16,7 @@ export default function AdminPage(){
                 <div>
                     <p>
                         To delete a user, you can use the <code>DELETE</code> HTTP method on the endpoint:
-                    </p>DELETE on http://localhost:8080/api/delete`
+                    </p>DELETE on http://localhost:8080/api/delete
                     <p>
                         Note: Make sure to handle this operation carefully as it will permanently remove the user and their associated data.
                     </p>
