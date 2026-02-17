@@ -141,7 +141,7 @@ export default function Home() {
               Sign Up
             </Link>
           </div>
-        </section> 
+        </section>
 
     </div>
   );
