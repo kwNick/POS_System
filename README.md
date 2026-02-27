@@ -1,5 +1,7 @@
 # POS_System
 
+Projects have self-hosted SpringBoot API on a Rocky Linux PC, reverse-proxied through Nginx with SSL termination using Let’s Encrypt, and assigned a public-facing subdomain: jwt-auth.duckdns.org. The API is connected to a locally-hosted Postgresql database on the same machine. Vercel hosts the Nextjs frontend: pos-system-two-alpha.vercel.app, which communicates securely with the database via the RESTful API.
+
 <details>
 <summary>
 
@@ -101,6 +103,7 @@ Fast CDN: Serves your static content quickly, even globally.
     PostgreSQL  |   Reliable, structured, and ACID-compliant data storage
     Docker      |   Portable, consistent deployments
     Nginx       |   SSL, routing, reverse proxy
+    Redis       |   Caching for optimized data querying
     Vercel      |   Seamless deployment for your frontend
 </details>
 
@@ -237,6 +240,9 @@ You’re building a web-based POS system. So your architecture will likely look 
             |
             v
     [ Spring Boot REST API ]
+            |
+            v
+    [ Redis Caching (chceks availability) ]
             |
             v
     [ Database (PostgreSQL) ]
