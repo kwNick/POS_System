@@ -1,5 +1,9 @@
 package com.example.jwt_rest.services;
 
+import java.util.List;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.jwt_rest.dtos.ShopAddRequest;
@@ -14,7 +18,8 @@ public class ShopService {
     public ShopService(ShopRepository shopRepo){
         this.shopRepo = shopRepo;
     }
-
+    
+    @CacheEvict(value = "shops", key = "#userId")
     public Shop createShop(ShopAddRequest request, User user) throws RuntimeException {
         if(shopRepo.existsByUserAndName(user, request.getName())){
             throw new RuntimeException("Shop with this name already exists for this user.");
@@ -30,6 +35,12 @@ public class ShopService {
         shop.setUser(user); // Set the user for the shop
         
         return shopRepo.save(shop);
+    }
+
+    @Cacheable(value = "shops", key = "#userId")
+    public List<Shop> getShopsByUserId(Long userId) {
+        System.out.println("Fetching shops from DB...");
+        return shopRepo.findByUserId(userId);
     }
 
 }

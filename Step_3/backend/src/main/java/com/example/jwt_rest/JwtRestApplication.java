@@ -3,8 +3,10 @@ package com.example.jwt_rest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 // import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
+@EnableCaching
 public class JwtRestApplication {
 
 	public static void main(String[] args) {
