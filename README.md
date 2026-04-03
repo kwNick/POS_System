@@ -401,7 +401,9 @@ Will there be a dashboard/admin view?
 
 - Containerize with Docker
 
-- Deploy backend (on mini PC)
+- Deploy SpringBoot backend (on mini PC)
+
+- Deploy PostgreSQL database to Neon
 
 - Host frontend on Vercel
 
