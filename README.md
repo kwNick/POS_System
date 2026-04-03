@@ -2,6 +2,9 @@
 
 Projects have self-hosted SpringBoot API on a Rocky Linux PC, reverse-proxied through Nginx with SSL termination using Let’s Encrypt, and assigned a public-facing subdomain: jwt-auth.duckdns.org. The API is connected to a locally-hosted Postgresql database on the same machine. Vercel hosts the Nextjs frontend: pos-system-two-alpha.vercel.app, which communicates securely with the database via the RESTful API.
 
+## Demo Video
+<video src="https://youtu.be/HpIIT2wax2g" controls width="600"></video>
+[![Demo Video](image.png)](https://youtu.be/YOUR_VIDEO_LINK)
 <details>
 <summary>
 
