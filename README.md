@@ -4,7 +4,9 @@ Projects have self-hosted SpringBoot API on a Rocky Linux PC, reverse-proxied th
 
 ## Demo Video
 <video src="https://youtu.be/HpIIT2wax2g" controls width="600"></video>
+
 [![Demo Video](image.png)](https://youtu.be/YOUR_VIDEO_LINK)
+
 <details>
 <summary>
 
