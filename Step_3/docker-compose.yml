@@ -21,3 +21,4 @@ services:
       SPRING_DATASOURCE_PASSWORD: <password>
       # If using MongoDB instead:
       # SPRING_DATA_MONGODB_URI: mongodb+srv://<user>:<password>@cluster.mongodb.net/<db>
+f
