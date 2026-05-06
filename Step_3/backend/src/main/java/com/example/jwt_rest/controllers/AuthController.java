@@ -65,14 +65,14 @@ public class AuthController {
     // For access token and refresh token
     @PostMapping("/login-refresh")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request, HttpServletRequest request_1, HttpServletResponse response) {
-            
+        
         String ip = request_1.getRemoteAddr();
         Bucket bucket = resolveBucket(ip);
         if (bucket.tryConsume(1)) {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
-
+            
             // final UserDetails user = userDetailsService.loadUserByUsername(request.getUsername()); //userDetailsService returns UserDetails object: username, password, authorities
             final User resultUser = userService.findByUsername(request.getUsername()); //userService returns the User model
             

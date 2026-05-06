@@ -170,13 +170,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined,
       });
 
-      // If token expired, refresh
+      // If token expired, refresh and try again
       if (res.status == 403) {
         const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
           method: "POST",
           credentials: "include", // refreshToken cookie
         });
 
+        
         if (!refreshRes.ok) {
           console.log("Logging out due to failed refresh!");
           logout();
@@ -222,7 +223,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
       });
 
-      // If token expired, refresh
+      // If token expired, refresh and try again
       if (res.status == 403) {
         const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
           method: "POST",
@@ -273,7 +274,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
       });
 
-      // If token expired, refresh
+      // If token expired, refresh and try again
       if (res.status == 403) {
         const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
           method: "POST",
@@ -375,7 +376,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
       });
 
-      // If token expired, refresh
+      // If token expired, refresh and try again
       if (res.status == 403) {
         const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
           method: "POST",
@@ -433,13 +434,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             fetchShops(),
             fetchRoles(),
           ]);
-
         })();
       }
   }, [role]);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, loading, login, register, logout, deleteProfile, fetchProfile,  fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles}}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, loading, login, register, logout, deleteProfile, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles}}>
       {children}
     </AuthContext.Provider>
   );
