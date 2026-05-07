@@ -43,7 +43,7 @@ const LandingImages = () => {
 
   return (
     <>
-        <Image ref={landImage1} src={'/app-data.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(30vh-250px)] left-[calc(30vw-200px)] w-[400px] h-[500px] z-[-10]'/>
+        <Image ref={landImage1}  loading="eager" src={'/app-data.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(30vh-250px)] left-[calc(30vw-200px)] w-[400px] h-[500px] z-[-10]'/>
         <Image ref={landImage2} src={'/finance-app.svg'} width={400} height={500} alt="app-data" className='absolute top-[calc(27.5vh-250px)] left-[calc(70vw-200px)] w-[400px] h-[500px] z-[-10]'/>
     </>
   )
