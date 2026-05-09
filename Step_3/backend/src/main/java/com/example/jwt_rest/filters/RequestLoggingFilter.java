@@ -20,7 +20,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter{
     private static final Logger log = LoggerFactory.getLogger(RequestLoggingFilter.class);
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         // Log the request details
         System.out.println("Request Method: " + request.getMethod());
         System.out.println("Request URI: " + request.getRequestURI());
