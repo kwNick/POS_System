@@ -24,6 +24,7 @@ public class ShopService {
         if(shopRepo.existsByUserAndName(user, request.getName())){
             throw new RuntimeException("Shop with this name already exists for this user.");
         }
+        
         if(user == null) {
             throw new RuntimeException("User cannot be null.");
 
