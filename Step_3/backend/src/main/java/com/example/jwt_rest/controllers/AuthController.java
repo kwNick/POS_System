@@ -93,7 +93,7 @@ public class AuthController {
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());      // When you call cookie.toString(), Spring generates a properly formatted Set-Cookie header
 
             return ResponseEntity.ok(new AuthResponse(fullToken));
-
+  
         } else {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
         }
