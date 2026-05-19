@@ -24,9 +24,9 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api")
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserRepository userRepository; //constructor injection is generally preferred for better testability and immutability
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository) {    //constructor injection is generally preferred for better testability and immutability
         this.userRepository = userRepository;
     }
 

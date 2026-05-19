@@ -15,14 +15,20 @@ import com.example.jwt_rest.repositories.UserRepository;
 @Service
 public class UserService {
 
-    @Autowired
-    private final UserRepository userRepo;
+    // @Autowired
+    // private UserRepository userRepo; //Field injection is not recommended, but for simplicity in this example, we will use it. Constructor injection is generally preferred for better testability and immutability.
 
-    @Autowired
+    private final UserRepository userRepo; 
+
     private final RoleRepository roleRepository;
     
-    @Autowired
     private final PasswordEncoder passwordEncoder;
+
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepo, RoleRepository roleRepository) {
+        this.userRepo = userRepo;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
     
     public UserService(UserRepository userRepo, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
