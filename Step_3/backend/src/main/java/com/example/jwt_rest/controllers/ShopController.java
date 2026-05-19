@@ -22,7 +22,7 @@ public class ShopController {
     private final ShopService shopService;
     private final UserService userService;
 
-    public ShopController(ShopService shopService, UserService userService) {
+    public ShopController(ShopService shopService, UserService userService) { //constructor injection is generally preferred for better testability and immutability
         this.shopService = shopService;
         this.userService = userService;
     }

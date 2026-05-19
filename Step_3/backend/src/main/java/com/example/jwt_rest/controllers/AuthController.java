@@ -40,17 +40,23 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    // @Autowired
+    // private AuthenticationManager authenticationManager; //Field injection
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private UserService userService;
+    private final UserDetailsService userDetailsService;
+
+    private final UserService userService;
+
+    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserDetailsService userDetailsService, UserService userService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+        this.userService = userService;
+    }
 
     private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();
 
