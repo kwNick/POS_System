@@ -22,13 +22,13 @@ public class UserService {
 
     private final RoleRepository roleRepository;
     
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;// constructor injection for better testability and immutability
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepo, RoleRepository roleRepository) {
-        this.userRepo = userRepo;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    // public UserService(PasswordEncoder passwordEncoder, UserRepository userRepo, RoleRepository roleRepository) {
+    //     this.userRepo = userRepo;
+    //     this.roleRepository = roleRepository;
+    //     this.passwordEncoder = passwordEncoder;
+    // }
     
     public UserService(UserRepository userRepo, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
