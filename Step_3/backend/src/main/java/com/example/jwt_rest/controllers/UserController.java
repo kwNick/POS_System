@@ -47,7 +47,7 @@ public class UserController {
         // }
         return ResponseEntity.ok(user);
     }
-
+    
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteUserData(HttpServletResponse response, @AuthenticationPrincipal UserDetails userDetails) {
         // String username = getCurrentUsername();
@@ -78,7 +78,12 @@ public class UserController {
 
         SecurityContextHolder.clearContext();
 
-        userRepository.delete(user.get());
+        User existingUser = user.orElseThrow();
+        if(existingUser != null) {
+            userRepository.delete(existingUser);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
         
         return ResponseEntity.ok("Your personal data has been deleted.");
     }
