@@ -103,7 +103,7 @@ public class AuthController {
     // Works perfect over postman, but in production, the cookie is not being sent back to the server
     // when the client makes a request to the server, so the refresh token is not being validated.
     
-    //     Why your refresh fails today
+    // Why your refresh fails today
     // Because you’re calling /refresh from a server environment (Next.js RSC / server action) where the browser’s cookies don’t exist.
     // The backend is correct: refreshToken is null.
 
