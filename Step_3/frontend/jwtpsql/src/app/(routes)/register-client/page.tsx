@@ -29,10 +29,10 @@ export default function RegisterPage() {
         <h2 className="text-xl lg:text-2xl xl:text-3xl font-semibold">Begin Your Sales Journey!</h2>
 
         <div className="flex flex-col items-start justify-center gap-y-6 lg:gap-y-8 text-md lg:text-lg xl:text-xl ">
-          <p className="group"><span className='text-primary-blue group-hover:text-cta'>•</span> View inventory!</p>
-          <p className="group"><span className='text-primary-blue group-hover:text-cta'>•</span> Manage customers!</p>
-          <p className="group"><span className='text-primary-blue group-hover:text-cta'>•</span> Track sales!</p>
-          <p className="group"><span className='text-primary-blue group-hover:text-cta'>•</span> Generate reports!</p>
+          <p className="group hover:text-primary-blue"><span className='text-primary-blue group-hover:text-cta'>•</span> View inventory!</p>
+          <p className="group hover:text-primary-blue"><span className='text-primary-blue group-hover:text-cta'>•</span> Manage customers!</p>
+          <p className="group hover:text-primary-blue"><span className='text-primary-blue group-hover:text-cta'>•</span> Track sales!</p>
+          <p className="group hover:text-primary-blue"><span className='text-primary-blue group-hover:text-cta'>•</span> Generate reports!</p>
         </div>
       
       </div>

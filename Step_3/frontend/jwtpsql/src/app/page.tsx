@@ -16,7 +16,7 @@ export default function Home() {
       {/* landing page */}
         <section className="relative h-[110vh] w-full flex flex-col gap-y-25 items-center justify-center">
           <span className='absolute inset-0 w-full h-full bg-neutral-white z-[-10]'/>
-          <Image src={'/mesh-gradient.png'} width={400} height={500} alt="mesh-gradient-blue-purple" className='absolute inset-0 w-full h-full z-[-10] [filter:_blur(50px)] mix-blend-color'/>
+          <Image src={'/mesh-gradient.png'} width={400} height={500} alt="mesh-gradient-blue-purple" loading="eager" className='absolute inset-0 w-full h-full z-[-10] [filter:_blur(50px)] mix-blend-color'/>
 
           <LandingImages />
 
