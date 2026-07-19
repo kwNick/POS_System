@@ -27,13 +27,7 @@ const AdminDashboard = () => {
                             <p><span className="font-semibold">Username</span>: {user?.username}</p>
                             <p><span className="font-semibold">Email</span>: {user?.email}</p>
                             <p><span className="font-semibold">Password</span>: {user?.password}</p>
-                            <p><span className="font-semibold">Shops</span>:
-                                {user?.shops.map((shop: Shop) => {
-                                    return (
-                                        <span className="italic" key={shop.name}>{shop.name} - {shop.location} - {shop.user_id}</span>
-                                    );
-                                })}
-                            </p>
+
                             <p><span className="font-semibold">Roles</span>:&nbsp;
                                 {user.roles.map((role: Role) => {
                                     return (
@@ -41,6 +35,19 @@ const AdminDashboard = () => {
                                     )
                                 })}
                             </p>
+
+                            <div><span className="font-semibold">Shops</span>:
+                                {user.shops.length > 0 ? (
+                                    <ul>
+                                        {user.shops.map((shop: Shop) => (
+                                            <li className="italic" key={shop.name}>{shop.name} - {shop.location}</li>
+                                        ))}
+                                    </ul>
+                                    ) : (
+                                    <p>You have no shops.</p>
+                                )}
+                            </div>
+                            
                         </div>
                     </div>
 
@@ -53,7 +60,7 @@ const AdminDashboard = () => {
                             {user.shops.length > 0 ? (
                                 <ul>
                                     {user.shops.map((shop: Shop) => (
-                                        <li key={shop.name}>{shop.name} - {shop.location}</li>
+                                        <li className="italic" key={shop.name}>{shop.name} - {shop.location}</li>
                                     ))}
                                 </ul>
                             ) : (
@@ -89,7 +96,7 @@ const AdminDashboard = () => {
 
             {users && (
                 <div>
-                    <h1 className="text-3xl font-semibold ">Users</h1>
+                    <h1 className="text-3xl font-semibold ">All Users</h1>
                     {/* <UsersList /> */}
                     <ul>
                         {users?.map((user: User) => (
@@ -101,7 +108,7 @@ const AdminDashboard = () => {
 
             {shops && (
                 <div>
-                    <h1 className="text-3xl font-semibold ">Shops</h1>
+                    <h1 className="text-3xl font-semibold ">All Shops</h1>
                     {/* <ShopsList /> */}
                     <ul>
                         {shops?.map((shop: Shop) => (
@@ -113,7 +120,7 @@ const AdminDashboard = () => {
 
             {roles && (
                 <div>
-                    <h1 className="text-3xl font-semibold ">Roles</h1>
+                    <h1 className="text-3xl font-semibold ">All Roles</h1>
                     {/* <RolesList /> */}
                     <ul>
                         {roles?.map((role: Role) => (

@@ -1,5 +1,6 @@
 'use client';
 import { useAuth } from "@/context/AuthContext";
+import Shop from "@/lib/models/shopModel";
 
 const ProfileDashboard = () => {
   const { user, loading } = useAuth();
@@ -30,17 +31,18 @@ const ProfileDashboard = () => {
                     ))}
                   </p>
 
-                  <p>
+                  <div>
                     <span className="font-semibold">Shops:<br /></span>
-                    {user.shops !&& <span>No shops available.</span>}
-                    {user.shops.map(shop => (
-                      <span className="italic" key={shop.name}>
-                        {shop.name} - {shop.location} - {shop.user_id}
-                        <br />
-                      </span>
-                    ))}
-                  </p>
-                  
+                    {user.shops.length > 0 ? (
+                      <ul>
+                          {user.shops.map((shop: Shop) => (
+                              <li className="italic" key={shop.name}>{shop.name} - {shop.location}</li>
+                          ))}
+                      </ul>
+                      ) : (
+                        <p>You have no shops.</p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
