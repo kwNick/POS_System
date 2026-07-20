@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import Role from "@/lib/models/roleModel";
 import Shop from "@/lib/models/shopModel";
 import User from "@/lib/models/userModel";
+import Link from "next/link";
 
 const AdminDashboard = () => {
     const {user, usersWDetails, users, shops, roles, loading} = useAuth();
@@ -52,9 +53,17 @@ const AdminDashboard = () => {
                     </div>
 
 
-                    <div className="relative p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
-
-                        <h2 className="text-3xl font-semibold mb-4">Your Shops</h2> <span className="absolute top-4 right-4 rounded-full bg-blue-500 p-2"> + </span>
+                    <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
+                        
+                        <div className="flex gap-5">
+                            <h2 className="text-3xl font-semibold mb-4">Your Shops</h2> 
+                             <Link href="#" className="group w-fit h-full flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-2 hover:bg-blue-500 duration-300">
+                                <div className="relative rounded-full bg-blue-500 group-hover:bg-blue-400 duration-300 w-10 h-10">
+                                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">+</span>
+                                </div>
+                                <div>Add Shop</div>
+                            </Link>
+                        </div>
 
                         <div>
                             {user.shops.length > 0 ? (
