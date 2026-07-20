@@ -2,6 +2,7 @@
 import { useAuth } from "@/context/AuthContext";
 import Shop from "@/lib/models/shopModel";
 import Link from "next/link";
+import AddShopButton from "./AddShopButton";
 
 const ProfileDashboard = () => {
   const { user, loading } = useAuth();
@@ -54,12 +55,7 @@ const ProfileDashboard = () => {
                 
                 <div className="flex gap-5">
                   <h2 className="text-3xl font-semibold mb-4">Your Shops</h2> 
-                    <Link href="#" className="group w-fit h-full flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-2 hover:bg-blue-500 duration-300">
-                      <div className="relative rounded-full bg-blue-500 group-hover:bg-blue-400 duration-300 w-10 h-10">
-                          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">+</span>
-                      </div>
-                      <div>Add Shop</div>
-                  </Link>
+                    <AddShopButton />
               </div>
                 
                 <div>
