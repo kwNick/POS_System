@@ -52,9 +52,9 @@ const AdminDashboard = () => {
                     </div>
 
 
-                    <div className="p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
+                    <div className="relative p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
 
-                        <h2 className="text-3xl font-semibold mb-4">Your Shops</h2>
+                        <h2 className="text-3xl font-semibold mb-4">Your Shops</h2> <span className="absolute top-4 right-4 rounded-full bg-blue-500 p-2"> + </span>
 
                         <div>
                             {user.shops.length > 0 ? (
