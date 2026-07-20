@@ -19,7 +19,7 @@ public class ShopService {
         this.shopRepo = shopRepo;
     }
     
-    @CacheEvict(value = "shops", key = "#userId")
+    // @CacheEvict(value = "shops", key = "#userId")
     public Shop createShop(ShopAddRequest request, User user) throws RuntimeException {
         if(shopRepo.existsByUserAndName(user, request.getName())){
             throw new RuntimeException("Shop with this name already exists for this user.");
@@ -27,7 +27,6 @@ public class ShopService {
         
         if(user == null) {
             throw new RuntimeException("User cannot be null.");
-
         }
 
         Shop shop = new Shop();
@@ -38,7 +37,7 @@ public class ShopService {
         return shopRepo.save(shop);
     }
 
-    @Cacheable(value = "shops", key = "#userId")
+    // @Cacheable(value = "shops", key = "#userId")
     public List<Shop> getShopsByUserId(Long userId) {
         System.out.println("Fetching shops from DB...");
         return shopRepo.findByUserId(userId);

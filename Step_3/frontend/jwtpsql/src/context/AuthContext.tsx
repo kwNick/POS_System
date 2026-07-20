@@ -20,6 +20,7 @@ type AuthContextType = {
   logout: () => void;
   register: (username: string, email: string, password: string) => Promise<boolean | null>;
   deleteProfile: () => void;
+  addShop: (name: string, location: string, overrideToken?: string) => Promise<boolean | null>;
   fetchProfile: () => Promise<User | null>;
   fetchUsersWithDetails: () => Promise<User[] | null>;
   fetchUsers: () => Promise<User[] | null>;
@@ -79,6 +80,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   };
 
+  
+
   // Register a User
   const register = async (username: string, email: string, password: string): Promise<boolean | null> => {
     if (!API_URL) return null;
@@ -90,6 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         body: JSON.stringify({ username, email, password }),
         credentials: "include",
       });
+
       if (!res.ok) return false;
 
       const data = await res.json();
@@ -154,6 +158,59 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
     } catch (error) {
       console.error("Delete Request Failed: " + error);
+    }
+  };
+
+  // Add Shop function
+  const addShop = async (name: string, location: string, overrideToken?: string): Promise<boolean | null> => {
+    if(!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try{
+      let res = await fetch(`http://${API_URL}/shops/addShop`, {
+        method: "POST",
+        credentials: "include", // sets HttpOnly refresh token
+        body: JSON.stringify({ name, location }),
+        headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403) {
+        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
+          method: "POST",
+          credentials: "include", // refreshToken cookie
+        });
+        
+        if (!refreshRes.ok) {
+          console.log("Logging out due to failed refresh!");
+          logout();
+          return null;
+        }
+
+        const data = await refreshRes.json();
+
+        const { payload }: {payload: {roles: string[], username: string}} = await jwtVerify(data.fullToken, new TextEncoder().encode("secret-key-making-it-very-strong"));
+        setRole(payload.roles);
+        setToken(data.fullToken);
+
+        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+
+        // Retry add Shop fetch with new token
+        res = await fetch(`http://${API_URL}/shops/addShop`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${data.fullToken}` },
+        });
+      }
+      
+      if (!res.ok) throw new Error("Failed to Add Shop again, after refresh.");
+
+      // await fetchShops(); maybe don't need it
+      return true;
+      // const data = await res.json();
+
+    }catch(err){
+      console.error("Failed to add Shop: " + err);
+      return false;
     }
   };
 
@@ -353,7 +410,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
       }
 
-      if (!res.ok) throw new Error("Failed to fetch Users again, after refresh.");
+      if (!res.ok) throw new Error("Failed to fetch shops again, after refresh.");
 
       const shopsData: {_embedded: {shops: Shop[] } } = await res.json();
 
@@ -439,7 +496,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [role]);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, loading, login, register, logout, deleteProfile, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles}}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, loading, login, register, logout, deleteProfile, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles}}>
       {children}
     </AuthContext.Provider>
   );
