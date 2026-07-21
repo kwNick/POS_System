@@ -20,6 +20,7 @@ type AuthContextType = {
   logout: () => void;
   register: (username: string, email: string, password: string) => Promise<boolean | null>;
   deleteProfile: () => void;
+  deleteShop: (shopId: string, overrideToken?: string) => Promise<boolean | null>;
   addShop: (name: string, location: string, overrideToken?: string) => Promise<boolean | null>;
   fetchProfile: () => Promise<User | null>;
   fetchUsersWithDetails: () => Promise<User[] | null>;
@@ -212,6 +213,59 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     }catch(err){
       console.error("Failed to add Shop: " + err);
+      return false;
+    }
+  };
+
+  // Delete Shop function
+  const deleteShop = async (shopId: string, overrideToken?: string): Promise<boolean | null> => {
+    if(!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try{
+      let res = await fetch(`http://${API_URL}/shops/${shopId}`, {
+        method: "DELETE",
+        credentials: "include", // sets HttpOnly refresh token
+        headers: authToken ? { Authorization: `Bearer ${authToken}`, "Content-Type": "application/json" } : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403) {
+        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
+          method: "POST",
+          credentials: "include", // refreshToken cookie
+        });
+        
+        if (!refreshRes.ok) {
+          console.log("Logging out due to failed refresh!");
+          logout();
+          return null;
+        }
+
+        const data = await refreshRes.json();
+
+        const { payload }: {payload: {roles: string[], username: string}} = await jwtVerify(data.fullToken, new TextEncoder().encode("secret-key-making-it-very-strong"));
+        setRole(payload.roles);
+        setToken(data.fullToken);
+
+        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+
+        // Retry delete Shop fetch with new token
+        res = await fetch(`http://${API_URL}/shops/${shopId}`, {
+          method: "DELETE",
+          credentials: "include",
+          headers: { Authorization: `Bearer ${data.fullToken}`, "Content-Type": "application/json" },
+        });
+      }
+      
+      if (!res.ok) throw new Error("Failed to Delete Shop again, after refresh.");
+
+      // await fetchShops(); maybe don't need it
+      return true;
+      // const data = await res.json();
+
+    }catch(err){
+      console.error("Failed to delete Shop: " + err);
       return false;
     }
   };
@@ -498,7 +552,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [role]);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, loading, login, register, logout, deleteProfile, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles}}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, loading, login, register, logout, deleteProfile, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles}}>
       {children}
     </AuthContext.Provider>
   );

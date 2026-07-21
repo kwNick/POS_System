@@ -4,8 +4,8 @@ import { useAuth } from "@/context/AuthContext";
 import Role from "@/lib/models/roleModel";
 import Shop from "@/lib/models/shopModel";
 import User from "@/lib/models/userModel";
-import Link from "next/link";
 import AddShopButton from "./AddShopButton";
+import DeleteShopButton from "./DeleteShopButton";
 
 const AdminDashboard = () => {
     const {user, usersWDetails, users, shops, roles, loading} = useAuth();
@@ -65,7 +65,10 @@ const AdminDashboard = () => {
                             {user.shops.length > 0 ? (
                                 <ul>
                                     {user.shops.map((shop: Shop) => (
-                                        <li className="italic" key={shop.name}>{shop.name} - {shop.location}</li>
+                                        <div key={shop.name} >
+                                            <li className="italic" >{shop.name} - {shop.location}</li>
+                                            <DeleteShopButton shopId={shop.id.toString()} />
+                                        </div>
                                     ))}
                                 </ul>
                             ) : (
