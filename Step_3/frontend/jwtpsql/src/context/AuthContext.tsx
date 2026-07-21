@@ -171,7 +171,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         method: "POST",
         credentials: "include", // sets HttpOnly refresh token
         body: JSON.stringify({ name, location }),
-        headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined,
+        headers: authToken ? { Authorization: `Bearer ${authToken}`, "Content-Type": "application/json" } : undefined,
       });
 
       // If token expired, refresh and try again
@@ -197,8 +197,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // Retry add Shop fetch with new token
         res = await fetch(`http://${API_URL}/shops/addShop`, {
+          method: "POST",
+          body: JSON.stringify({ name, location }),
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}` },
+          headers: { Authorization: `Bearer ${data.fullToken}`, "Content-Type": "application/json" },
         });
       }
       

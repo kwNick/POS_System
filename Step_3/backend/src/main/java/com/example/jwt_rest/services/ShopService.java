@@ -37,6 +37,14 @@ public class ShopService {
         return shopRepo.save(shop);
     }
 
+    @SuppressWarnings("null")
+    public Shop deleteShop(String shopId) {
+        Long longShopId = Long.parseLong(shopId);
+        Shop shop = shopRepo.findById(longShopId).orElseThrow(() -> new RuntimeException("Shop not found"));
+        shopRepo.delete(shop);
+        return shop;
+    }
+
     // @Cacheable(value = "shops", key = "#userId")
     public List<Shop> getShopsByUserId(Long userId) {
         System.out.println("Fetching shops from DB...");
