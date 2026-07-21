@@ -4,6 +4,8 @@ package com.example.jwt_rest.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +28,13 @@ public class ShopController {
         this.shopService = shopService;
         this.userService = userService;
     }
-    
+
+    @DeleteMapping("/{shopId}")
+    public ResponseEntity<Void> deleteShop(@PathVariable String shopId) {
+        shopService.deleteShop(shopId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/addShop")
     public ResponseEntity<ShopAddResponse> getAddShop(@RequestBody ShopAddRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByUsername(userDetails.getUsername());
