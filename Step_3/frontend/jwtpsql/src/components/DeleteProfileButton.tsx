@@ -3,7 +3,7 @@
 import { useTransition } from 'react';
 import { useAuth } from '@/context/AuthContext';
 
-const DeleteButton = () => {
+const DeleteProfileButton = () => {
     const [isPending, startTransition] = useTransition();
     const { deleteProfile} = useAuth();
     // const router = useRouter();
@@ -27,4 +27,4 @@ const DeleteButton = () => {
     );
 };
 
-export default DeleteButton;
+export default DeleteProfileButton;

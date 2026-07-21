@@ -1,5 +1,5 @@
 import AdminDashboard from "@/components/AdminDashboard";
-import DeleteButton from "@/components/DeleteButton";
+import DeleteProfileButton from "@/components/DeleteProfileButton";
 
 export default function AdminPage(){
 
@@ -22,7 +22,7 @@ export default function AdminPage(){
                     </p>
                 </div>
                 <div>
-                    <DeleteButton />
+                    <DeleteProfileButton />
                 </div>
             </div>
         </div>

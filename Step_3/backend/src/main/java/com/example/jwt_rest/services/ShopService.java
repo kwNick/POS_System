@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.jwt_rest.dtos.ShopAddRequest;
 import com.example.jwt_rest.models.Shop;
@@ -37,12 +38,23 @@ public class ShopService {
         return shopRepo.save(shop);
     }
 
-    @SuppressWarnings("null")
-    public Shop deleteShop(String shopId) {
-        Long longShopId = Long.parseLong(shopId);
-        Shop shop = shopRepo.findById(longShopId).orElseThrow(() -> new RuntimeException("Shop not found"));
+    // @SuppressWarnings("null")
+    @Transactional
+    public void deleteShop(Long shopId) {
+        // Long longShopId = Long.valueOf(shopId);
+        System.out.println("Deleting ID: " + shopId);
+        Shop shop = shopRepo.findById(shopId).orElseThrow(() -> new RuntimeException("Shop not found"));
+        
+        System.out.println("Found shop: " + shop.getName());
+
         shopRepo.delete(shop);
-        return shop;
+
+        // shopRepo.flush();
+
+        System.out.println("Delete called");
+
+        // shopRepo.deleteById(shopId);
+        // return shop;
     }
 
     // @Cacheable(value = "shops", key = "#userId")
