@@ -3,6 +3,9 @@ import { useAuth } from "@/context/AuthContext";
 import Shop from "@/lib/models/shopModel";
 import Link from "next/link";
 import AddShopButton from "./AddShopButton";
+import DashboardUserData from "./DashboardUserData";
+import DeleteProfileButton from "./DeleteProfileButton";
+import DashboardShopData from "./DashboardShopData";
 
 const ProfileDashboard = () => {
   const { user, loading } = useAuth();
@@ -15,14 +18,16 @@ const ProfileDashboard = () => {
           <>
             <div className="">
               <h1 className="text-3xl font-semibold mb-4">
-                <span className="underline">Hello, {user.username}{" "}</span>
+                <span className="capitalize underline">Hello, {user.username}{" "}</span>
                 <span className="text-xs">-{user.roles.map(r => r.name).join(", ")}</span>
               </h1>
             </div>
 
             <div className="flex gap-8">
 
-              <div className="p-6 w-full flex bg-neutral-surface rounded-lg">
+              <DashboardUserData user={user} />
+
+              {/* <div className="p-6 w-full flex bg-neutral-surface rounded-lg shadow-md">
                 <div className="w-[clamp(300px, 100%, 800px)] ">
                   <h1 className="text-xl font-semibold mb-4 lg:mb-8 underline">Profile:</h1>
                   <div className="flex flex-col gap-4">
@@ -49,14 +54,16 @@ const ProfileDashboard = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
+                <DashboardShopData user={user} />
+
+              {/* <div className="p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
                 
                 <div className="flex gap-5">
                   <h2 className="text-3xl font-semibold mb-4">Your Shops</h2> 
                     <AddShopButton />
-              </div>
+                </div>
                 
                 <div>
                     {user.shops.length > 0 ? (
@@ -69,7 +76,7 @@ const ProfileDashboard = () => {
                         <p>You have no shops.</p>
                     )}
                 </div>
-              </div>
+              </div> */}
 
             </div>
           </>

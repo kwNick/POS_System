@@ -13,8 +13,11 @@ export default function ProfilePage() {
             <h1 className="text-3xl font-semibold">DeleteUser...</h1>
           </div>
           <div>
-            <p>To delete a user, use the <code>DELETE</code> HTTP method on the endpoint: <code>DELETE http://localhost:8080/api/delete</code></p>
-            <p>Note: This will permanently remove the user and all associated data.</p>
+            <p>
+              To delete a user, use the <code>DELETE</code> HTTP method on the endpoint: <code>DELETE http://localhost:8080/api/delete</code></p>
+            <p>
+              Note: This will permanently remove the user and all associated data.
+              </p>
           </div>
           <div>
             <DeleteProfileButton />

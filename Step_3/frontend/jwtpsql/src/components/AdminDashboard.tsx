@@ -6,6 +6,8 @@ import Shop from "@/lib/models/shopModel";
 import User from "@/lib/models/userModel";
 import AddShopButton from "./AddShopButton";
 import DeleteShopButton from "./DeleteShopButton";
+import DashboardUserData from "./DashboardUserData";
+import DashboardShopData from "./DashboardShopData";
 
 const AdminDashboard = () => {
     const {user, usersWDetails, users, shops, roles, loading} = useAuth();
@@ -18,11 +20,15 @@ const AdminDashboard = () => {
         {user && (
             <>
                 <div className="">
-                    <h1 className="text-3xl font-semibold mb-4">Hello, Admin - <span className='capitalize'>{user?.username}</span> - <span className='text-xs'>{user?.roles.map((role: Role) => role.name)}</span></h1>
+                    <h1 className="text-3xl font-semibold mb-4">
+                        <span className='capitalize underline'>Hello, Admin - {user?.username}</span>
+                        <span className='text-xs'>-{user?.roles.map((role: Role) => role.name)}</span>
+                    </h1>
                 </div>
 
                 <div className="flex gap-8">
-                    <div className="p-10 lg:p-14 xl:p-16 w-[clamp(400px, 90%, 1000px)] bg-neutral-surface rounded-lg shadow-md">
+                    <DashboardUserData user={user} />
+                    {/* <div className="p-10 lg:p-14 xl:p-16 w-[clamp(400px, 90%, 1000px)] bg-neutral-surface rounded-lg shadow-md">
 
                         <h1 className="text-3xl font-semibold mb-4">Profile:</h1>
 
@@ -52,10 +58,11 @@ const AdminDashboard = () => {
                             </div>
                             
                         </div>
-                    </div>
+                    </div> */}
 
 
-                    <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
+                    <DashboardShopData user={user} />
+                    {/* <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
                         
                         <div className="flex gap-5 items-center justify-center">
                             <h2 className="text-3xl font-semibold mb-4">Your Shops</h2>
@@ -76,7 +83,7 @@ const AdminDashboard = () => {
                                 <p>You have no shops.</p>
                             )}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </>
         )}
