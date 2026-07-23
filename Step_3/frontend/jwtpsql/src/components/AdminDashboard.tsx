@@ -12,6 +12,7 @@ const AdminDashboard = () => {
 
     if(loading) return <div className="min-w-3/5"><p>Loading...</p></div>;
     if(!user && !loading) return <div className="min-w-3/5"><p>You are not logged in.</p></div>;
+    
   return (
     <>
         {user && (

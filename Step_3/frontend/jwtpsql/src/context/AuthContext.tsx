@@ -207,7 +207,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       if (!res.ok) throw new Error("Failed to Add Shop again, after refresh.");
 
-      // await fetchShops(); maybe don't need it
+      await fetchShops(); //maybe don't need it
+      await fetchProfile(); //maybe don't need it
+      // await fetchUsersWithDetails(); //maybe don't need it
+
       return true;
       // const data = await res.json();
 
@@ -222,6 +225,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if(!API_URL) return null;
 
     const authToken = overrideToken ?? token;
+
     try{
       let res = await fetch(`http://${API_URL}/shops/${shopId}`, {
         method: "DELETE",
@@ -260,7 +264,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       if (!res.ok) throw new Error("Failed to Delete Shop again, after refresh.");
 
-      // await fetchShops(); maybe don't need it
+      await fetchShops(); // maybe don't need it
+      await fetchProfile(); // maybe don't need it
       return true;
       // const data = await res.json();
 
@@ -534,6 +539,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     (async () => {
       await fetchProfile();
+      await fetchShops();
       setLoading(false);
     })();
   }, []);

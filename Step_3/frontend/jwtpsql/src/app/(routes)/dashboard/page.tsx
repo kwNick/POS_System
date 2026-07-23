@@ -1,4 +1,4 @@
-import DeleteButton from "@/components/DeleteButton";
+import DeleteProfileButton from "@/components/DeleteProfileButton";
 import ProfileDashboard from "@/components/ProfileDashboard";
 
 export default function ProfilePage() {
@@ -17,7 +17,7 @@ export default function ProfilePage() {
             <p>Note: This will permanently remove the user and all associated data.</p>
           </div>
           <div>
-            <DeleteButton />
+            <DeleteProfileButton />
           </div>
         </div>
       </div>
