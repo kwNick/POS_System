@@ -1,13 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 function AddShopForm() {
-  const { addShop, token } = useAuth();
-
-  const router = useRouter();
+  const { addShop } = useAuth();
 
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -24,7 +21,6 @@ function AddShopForm() {
 
     if (success) {
         alert("Shop added successfully!");
-      router.push("/dashboard");
     } else {
       alert("Failed to add shop.");
     }
