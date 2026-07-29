@@ -45,7 +45,7 @@ const LandingFadeIn = () => {
         </div>
 
         <div ref={buttonRef} className='flex gap-5 '>
-            <Link href={'#'} className='p-4 lg:p-6 border-2 bg-neutral-black border-primary-purple rounded-full uppercase hover:bg-neutral-surface hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
+            <Link href={'/login-client'} className='p-4 lg:p-6 border-2 bg-neutral-black border-primary-purple rounded-full uppercase hover:bg-neutral-surface hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-cta hover:scale-118 duration-300'>
                 Get Started
             </Link>
 

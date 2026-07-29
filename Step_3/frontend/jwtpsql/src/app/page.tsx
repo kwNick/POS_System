@@ -137,7 +137,7 @@ export default function Home() {
               <span className='text-primary-blue font-semibold hover:text-cta hover:text-shadow-sm hover:text-shadow-primary-blue scale-115 duration-500'>Free</span> Today
             </h1>
 
-            <Link href={'#'} className='mt-5 p-8 border-1 border-primary-purple rounded-full uppercase text-xl lg:text-2xl xl:text-3xl hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-primary-blue hover:scale-118 duration-300'>
+            <Link href={'/register-client'} className='mt-5 p-8 border-1 border-primary-purple rounded-full uppercase text-xl lg:text-2xl xl:text-3xl hover:text-cta hover:text-shadow-sm hover:text-shadow-cta hover:shadow-sm hover:shadow-primary-blue hover:scale-118 duration-300'>
               Sign Up
             </Link>
           </div>
