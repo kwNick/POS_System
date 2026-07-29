@@ -4,8 +4,6 @@ import { useAuth } from "@/context/AuthContext";
 import Role from "@/lib/models/roleModel";
 import Shop from "@/lib/models/shopModel";
 import User from "@/lib/models/userModel";
-import AddShopButton from "./AddShopButton";
-import DeleteShopButton from "./DeleteShopButton";
 import DashboardUserData from "./DashboardUserData";
 import DashboardShopData from "./DashboardShopData";
 

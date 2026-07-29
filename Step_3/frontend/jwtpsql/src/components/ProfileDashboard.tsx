@@ -1,10 +1,7 @@
 'use client';
+
 import { useAuth } from "@/context/AuthContext";
-import Shop from "@/lib/models/shopModel";
-import Link from "next/link";
-import AddShopButton from "./AddShopButton";
 import DashboardUserData from "./DashboardUserData";
-import DeleteProfileButton from "./DeleteProfileButton";
 import DashboardShopData from "./DashboardShopData";
 
 const ProfileDashboard = () => {
