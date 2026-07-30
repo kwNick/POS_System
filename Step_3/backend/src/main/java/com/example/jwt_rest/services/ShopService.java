@@ -2,8 +2,8 @@ package com.example.jwt_rest.services;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+// import org.springframework.cache.annotation.CacheEvict;
+// import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +38,11 @@ public class ShopService {
         return shopRepo.save(shop);
     }
 
-    // @SuppressWarnings("null")
+    public Shop getShopById(Long shopId) {
+        Shop shop = shopRepo.findById(shopId).orElseThrow(() -> new RuntimeException("Shop not found"));
+        return shop;
+    }
+
     @Transactional
     public void deleteShop(Long shopId) {
         // Long longShopId = Long.valueOf(shopId);

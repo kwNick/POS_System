@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,12 @@ public class ShopController {
     public ResponseEntity<Void> deleteShop(@PathVariable Long shopId) {
         shopService.deleteShop(shopId);
         return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping("/{shopId}")
+    public ResponseEntity<Shop> getShop(@PathVariable Long shopId){
+        Shop shop = shopService.getShopById(shopId);
+        return ResponseEntity.ok(shop);
     }
 
     @PostMapping("/addShop")

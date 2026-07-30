@@ -1,6 +1,7 @@
 import Role from "@/lib/models/roleModel"
 import Shop from "@/lib/models/shopModel"
 import User from "@/lib/models/userModel"
+import Link from "next/link"
 
 const DashboardUserData = ({ user }: { user: User }) => {
   return (
@@ -25,7 +26,9 @@ const DashboardUserData = ({ user }: { user: User }) => {
                     {user.shops.length > 0 ? (
                         <ul>
                             {user.shops.map((shop: Shop) => (
-                                <li className="italic" key={shop.name}>{shop.name} - {shop.location}</li>
+                                <Link href={`/shops/${shop.id}`} key={shop.name}>
+                                    <li className="italic" >{shop.name} - {shop.location}</li>
+                                </Link>
                             ))}
                         </ul>
                         ) : (

@@ -44,7 +44,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username) {  // no longer using this
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
