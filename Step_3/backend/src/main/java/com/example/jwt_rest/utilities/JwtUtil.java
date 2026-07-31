@@ -28,7 +28,7 @@ public class JwtUtil {
 
     public String generateFullToken(String userId, String username, Set<Role> roles) { // For one token, we can have multiple claims
         long now = System.currentTimeMillis();
-        long expiry = now + (1000 * 60 * 3); // 15 min
+        long expiry = now + (1000 * 60 * 5); // 15 min
 
         List<String> roleNames = roles.stream()
                                   .map(Role::getName)
@@ -48,7 +48,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 3)) // 15 minutes
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15)) // 15 minutes
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

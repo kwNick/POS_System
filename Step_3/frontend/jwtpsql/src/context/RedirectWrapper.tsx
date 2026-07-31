@@ -16,7 +16,8 @@ const RedirectWrapper = ({ children }: { children: React.ReactNode }) => {
     // console.log(pathname);
 
     useEffect(() => {
-        if(!token && (pathname.startsWith('/dashboard') || pathname.startsWith('/admin'))){
+// && (pathname.startsWith('/dashboard') || pathname.startsWith('/admin') || pathname.startsWith('/shops'))
+        if(!token && (pathname.startsWith('/dashboard') || pathname.startsWith('/admin') || pathname.startsWith('/shops'))){
             // If user is not logged in and trying to access protected routes, redirect to login
             router.push('/login-client');
         }

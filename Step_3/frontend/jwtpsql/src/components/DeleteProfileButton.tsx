@@ -14,7 +14,7 @@ const DeleteProfileButton = () => {
             return;
         }
         setLoading(true);
-        await deleteProfile();
+        deleteProfile();
         setLoading(false);
 
     };

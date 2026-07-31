@@ -9,7 +9,7 @@ const DashboardShopData = ({ user }: { user: User }) => {
     <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
                         
         <div className="flex gap-5 items-center justify-center">
-            <h2 className="text-3xl font-semibold mb-4">Your Shops</h2>
+            <h2 className="text-3xl font-semibold mb-4"><Link href={`/shops`}>Your Shops</Link></h2>
                 <AddShopButton />
         </div>
 

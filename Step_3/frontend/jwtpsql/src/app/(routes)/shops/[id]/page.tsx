@@ -2,7 +2,7 @@ import ShopDetails from "@/components/ShopDetails";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-  console.log(id);
+  // console.log(id);
 
   return (
     <div className="w-3/4 h-[110vh] flex-col items-center justify-center">

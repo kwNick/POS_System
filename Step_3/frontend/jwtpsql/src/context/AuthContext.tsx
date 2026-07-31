@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (username: string, password: string): Promise<boolean | null> => {
     if (!API_URL) return null;
     try {
-      const res = await fetch(`http://${API_URL}/auth/login-refresh`, {
+      const res = await fetch(`https://${API_URL}/auth/login-refresh`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -66,13 +66,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const data = await res.json();
 
-      console.log("Logged in: "+ JSON.stringify(data));
+      // console.log("Logged in: "+ JSON.stringify(data));
 
       
       const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
       // console.log(data.fullToken);
       // console.log(payload.roles);
-      console.log(payload);
+      // console.log(payload);
 
       setToken(data.fullToken);
       setRole(payload.roles); // comment out payload line, just use data.roles and data.fullToken
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (!API_URL) return null;
 
     try {
-      const res = await fetch(`http://${API_URL}/auth/register-refresh`, {
+      const res = await fetch(`https://${API_URL}/auth/register-refresh`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
@@ -140,7 +140,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // call backend /auth/logout-refresh to clear refreshToken
     try {
-      await fetch(`http://${API_URL}/auth/logout-refresh`, {
+      await fetch(`https://${API_URL}/auth/logout-refresh`, {
         method: "POST",
         credentials: "include", // sets HttpOnly refresh token
       });
@@ -161,7 +161,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
     try {
-      await fetch(`http://${API_URL}/api/delete`, {
+      await fetch(`https://${API_URL}/api/delete`, {
         method: "DELETE",
         credentials: "include", // sets HttpOnly refresh token
       });
@@ -175,7 +175,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const authToken = overrideToken ?? token;
     try{
-      let res = await fetch(`http://${API_URL}/shops/${shopId}`, {
+      let res = await fetch(`https://${API_URL}/shops/${shopId}`, {
         method: "GET",
         credentials: "include", // sets HttpOnly refresh token
         // body: JSON.stringify({ name, location }),
@@ -184,33 +184,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // If token expired, refresh and try again
       if (res.status == 403 || res.status == 401) {
-        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include", // refreshToken cookie
-        });
         
-        if (!refreshRes.ok) {
-          console.log("Logging out due to failed refresh!");
-          logout();
+         const newToken = await checkRefresh();
+
+        if(!newToken){
           return null;
         }
 
-        const data = await refreshRes.json();
-
-        // 
-        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
-
-        setRole(payload.roles);
-        setToken(data.fullToken);
-
-        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
-
         // Retry add Shop fetch with new token
-        res = await fetch(`http://${API_URL}/shops/${shopId}`, {
+        res = await fetch(`https://${API_URL}/shops/${shopId}`, {
           method: "GET",
           // body: JSON.stringify({ name, location }),
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}`},
+          headers: { Authorization: `Bearer ${newToken}`},
         });
       }
       
@@ -237,7 +223,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const authToken = overrideToken ?? token;
     try{
-      let res = await fetch(`http://${API_URL}/shops/addShop`, {
+      let res = await fetch(`https://${API_URL}/shops/addShop`, {
         method: "POST",
         credentials: "include", // sets HttpOnly refresh token
         body: JSON.stringify({ name, location }),
@@ -246,33 +232,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // If token expired, refresh and try again
       if (res.status == 403 || res.status == 401) {
-        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include", // refreshToken cookie
-        });
-        
-        if (!refreshRes.ok) {
-          console.log("Logging out due to failed refresh!");
-          logout();
+
+         const newToken = await checkRefresh();
+
+        if(!newToken){
           return null;
         }
 
-        const data = await refreshRes.json();
-
-        // 
-        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
-
-        setRole(payload.roles);
-        setToken(data.fullToken);
-
-        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
-
         // Retry add Shop fetch with new token
-        res = await fetch(`http://${API_URL}/shops/addShop`, {
+        res = await fetch(`https://${API_URL}/shops/addShop`, {
           method: "POST",
           body: JSON.stringify({ name, location }),
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}`, "Content-Type": "application/json" },
+          headers: { Authorization: `Bearer ${newToken}`, "Content-Type": "application/json" },
         });
       }
       
@@ -298,7 +270,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const authToken = overrideToken ?? token;
 
     try{
-      let res = await fetch(`http://${API_URL}/shops/${shopId}`, {
+      let res = await fetch(`https://${API_URL}/shops/${shopId}`, {
         method: "DELETE",
         credentials: "include", // sets HttpOnly refresh token
         headers: authToken ? { Authorization: `Bearer ${authToken}`, "Content-Type": "application/json" } : undefined,
@@ -306,32 +278,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // If token expired, refresh and try again
       if (res.status == 403 || res.status == 401) {
-        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include", // refreshToken cookie
-        });
-        
-        if (!refreshRes.ok) {
-          console.log("Logging out due to failed refresh!");
-          logout();
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
           return null;
         }
 
-        const data = await refreshRes.json();
-
-        // 
-        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
-
-        setRole(payload.roles);
-        setToken(data.fullToken);
-
-        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
-
         // Retry delete Shop fetch with new token
-        res = await fetch(`http://${API_URL}/shops/${shopId}`, {
+        res = await fetch(`https://${API_URL}/shops/${shopId}`, {
           method: "DELETE",
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}`, "Content-Type": "application/json" },
+          headers: { Authorization: `Bearer ${newToken}`, "Content-Type": "application/json" },
         });
       }
       
@@ -348,6 +306,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const checkRefresh = async (): Promise <string | null> => {
+        // console.log("Token expired, trying to refresh\n");
+
+        if(!API_URL) return null;
+    // if (res.status == 403 || res.status == 401) {
+        const refreshRes = await fetch(`https://${API_URL}/auth/refresh`, {
+          method: "POST",
+          credentials: "include", // refreshToken cookie
+        });
+
+        if (!refreshRes.ok) {  // If refresh also fails, logout
+          console.log("Logging out due to failed refresh!");
+          logout();
+          return null;
+        }
+
+        const data = await refreshRes.json();
+
+        // 
+        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
+
+        setRole(payload.roles);
+        setToken(data.fullToken);
+
+        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+
+        // console.log("refreshed access token\n");
+        // console.log(data);
+        return data.fullToken;
+
+  }
+
   /* - - - - - Fetch Data Functions - - - - - */
 
   // Fetch profile from backend, refresh access token if needed
@@ -356,39 +346,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const authToken = overrideToken ?? token;
     try {
-      let res = await fetch(`http://${API_URL}/api/profile`, {
+      let res = await fetch(`https://${API_URL}/api/profile`, {
         credentials: "include", // sends HttpOnly refresh token
         headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined,
       });
 
       // If token expired, refresh and try again
       if (res.status == 403 || res.status == 401) {
-        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include", // refreshToken cookie
-        });
+         const newToken = await checkRefresh();
 
-        
-        if (!refreshRes.ok) {
-          console.log("Logging out due to failed refresh!");
-          logout();
+        if(!newToken){
           return null;
         }
-
-        const data = await refreshRes.json();
-
         
-        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
-
-        setRole(payload.roles);
-        setToken(data.fullToken);
-
-        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
-
         // Retry profile fetch with new token
-        res = await fetch(`http://${API_URL}/api/profile`, {
+        res = await fetch(`https://${API_URL}/api/profile`, {
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}` },
+          headers: { Authorization: `Bearer ${newToken}` },
         });
       }
 
@@ -411,38 +385,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const authToken = overrideToken ?? token;
     try {
-      let res = await fetch(`http://${API_URL}/api/users`, {
+      let res = await fetch(`https://${API_URL}/api/users`, {
         credentials: "include", // sends HttpOnly refresh token
         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
       });
 
       // If token expired, refresh and try again
       if (res.status == 403 || res.status == 401) {
-        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include", // refreshToken cookie
-        });
+        
+        const newToken = await checkRefresh();
 
-        if (!refreshRes.ok) {  // If refresh also fails, logout
-          console.log("Logging out due to failed refresh!");
-          logout();
+        if(!newToken){
           return null;
         }
-
-        const data = await refreshRes.json();
-
-        // 
-        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
-
-        setRole(payload.roles);
-        setToken(data.fullToken);
-
-        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
-
+        
         // Retry profile fetch with new token
-        res = await fetch(`http://${API_URL}/api/users`, {
+        res = await fetch(`https://${API_URL}/api/users`, {
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}` },
+          headers: { Authorization: `Bearer ${newToken}` },
         });
       }
 
@@ -464,38 +424,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const authToken = overrideToken ?? token;
     try {
-      let res = await fetch(`http://${API_URL}/users`, {
+      let res = await fetch(`https://${API_URL}/users`, {
         credentials: "include", // sends HttpOnly refresh token
         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
       });
 
       // If token expired, refresh and try again
       if (res.status == 403 || res.status == 401) {
-        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include", // refreshToken cookie
-        });
 
-        if (!refreshRes.ok) {  // If refresh also fails, logout
-          console.log("Logging out due to failed refresh!");
-          logout();
+        const newToken = await checkRefresh();
+
+        if(!newToken){
           return null;
         }
 
-        const data = await refreshRes.json();
-
-        // 
-        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
-
-        setRole(payload.roles);
-        setToken(data.fullToken);
-
-        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
-
         // Retry profile fetch with new token
-        res = await fetch(`http://${API_URL}/users`, {
+        res = await fetch(`https://${API_URL}/users`, {
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}` },
+          headers: { Authorization: `Bearer ${newToken}` },
         });
       }
 
@@ -517,39 +463,53 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const authToken = overrideToken ?? token;
     try {
-      let res = await fetch(`http://${API_URL}/shops`, {
+      let res = await fetch(`https://${API_URL}/shops`, {
         credentials: "include", // sends HttpOnly refresh token
         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
       });
 
+      
       // If token expired, refresh
       if (res.status == 403 || res.status == 401) {
-        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include", // refreshToken cookie
-        });
 
-        if (!refreshRes.ok) {  // If refresh also fails, logout
-          console.log("Logging out due to failed refresh!");
-          logout();
+
+        // const refreshRes = await fetch(`https://${API_URL}/auth/refresh`, {
+        //   method: "POST",
+        //   credentials: "include", // refreshToken cookie
+        // });
+
+        // if (!refreshRes.ok) {  // If refresh also fails, logout
+        //   console.log("Logging out due to failed refresh!");
+        //   logout();
+        //   return null;
+        // }
+
+        // const data = await refreshRes.json();
+
+        // // 
+        // const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
+
+        // setRole(payload.roles);
+        // setToken(data.fullToken);
+
+        // document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
           return null;
         }
 
-        const data = await refreshRes.json();
-
-        // 
-        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
-
-        setRole(payload.roles);
-        setToken(data.fullToken);
-
-        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
-
-        // Retry profile fetch with new token
-        res = await fetch(`http://${API_URL}/shops`, {
+        // // Retry profile fetch with new token
+        res = await fetch(`https://${API_URL}/shops`, {
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}` },
+          headers: { Authorization: `Bearer ${newToken}` },
         });
+
+        // res = await fetch(`https://${API_URL}/shops`, {
+        //   credentials: "include",
+        //   headers: { Authorization: `Bearer ${data.fullToken}` },
+        // });
       }
 
       if (!res.ok) throw new Error("Failed to fetch shops again, after refresh.");
@@ -570,38 +530,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const authToken = overrideToken ?? token;
     try {
-      let res = await fetch(`http://${API_URL}/roles`, {
+      let res = await fetch(`https://${API_URL}/roles`, {
         credentials: "include", // sends HttpOnly refresh token
         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
       });
 
       // If token expired, refresh and try again
       if (res.status == 403 || res.status == 401) {
-        const refreshRes = await fetch(`http://${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include", // refreshToken cookie
-        });
 
-        if (!refreshRes.ok) {  // If refresh also fails, logout
-          console.log("Logging out due to failed refresh!");
-          logout();
+        const newToken = await checkRefresh();
+
+        if(!newToken){
           return null;
         }
 
-        const data = await refreshRes.json();
-
-        // 
-        const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
-
-        setRole(payload.roles);
-        setToken(data.fullToken);
-
-        document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
-
         // Retry profile fetch with new token
-        res = await fetch(`http://${API_URL}/roles`, {
+        res = await fetch(`https://${API_URL}/roles`, {
           credentials: "include",
-          headers: { Authorization: `Bearer ${data.fullToken}` },
+          headers: { Authorization: `Bearer ${newToken}` },
         });
       }
 

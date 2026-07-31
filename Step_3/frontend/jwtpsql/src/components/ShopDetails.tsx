@@ -22,7 +22,7 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
 
         getShop();
 
-    }, [shopId, fetchShop]);
+    }, []);
 
 
     if (!shop) {
