@@ -2,9 +2,12 @@
 
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 function AddShopForm() {
-  const { addShop } = useAuth();
+  const { addShop, user } = useAuth();
+  const router = useRouter();
+  // console.log(user?.roles);
 
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -21,6 +24,13 @@ function AddShopForm() {
 
     if (success) {
         alert("Shop added successfully!");
+        setName("");
+        setLocation("");
+        if(user?.roles.filter((r) => r.name == 'ROLE_ADMIN')){
+          router.push('/admin');
+        }else{
+          router.push('/dashboard');
+        }
     } else {
       alert("Failed to add shop.");
     }

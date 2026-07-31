@@ -1,11 +1,13 @@
 'use client';
 
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 import { useState} from "react";
 
 const DeleteShopButton = ({ shopId }: { shopId: string }) => {
   const [loading, setLoading] = useState(false);
-    const { deleteShop } = useAuth();
+    const { deleteShop, user } = useAuth();
+    const router = useRouter();
 
     const handleClick = async () => {
         if (!confirm("Are you sure you want to delete this shop? This action cannot be undone.")) {
@@ -19,6 +21,11 @@ const DeleteShopButton = ({ shopId }: { shopId: string }) => {
 
         if(success) {
             alert("Shop deleted successfully!");
+            if(user?.roles.filter((r) => r.name == 'ROLE_ADMIN')){
+                router.push('/admin');
+            }else{
+                router.push('/dashboard');
+            }
         }else {
             alert("Failed to delete shop.");
         }

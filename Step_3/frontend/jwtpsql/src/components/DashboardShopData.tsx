@@ -1,7 +1,8 @@
 import User from "@/lib/models/userModel"
 import AddShopButton from "./AddShopButton"
-import DeleteShopButton from "./DeleteShopButton"
+// import DeleteShopButton from "./DeleteShopButton"
 import Shop from "@/lib/models/shopModel"
+import Link from "next/link"
 
 const DashboardShopData = ({ user }: { user: User }) => {
   return (
@@ -17,8 +18,10 @@ const DashboardShopData = ({ user }: { user: User }) => {
                 <ul>
                     {user.shops.map((shop: Shop) => (
                         <div key={shop.name} >
-                            <li className="italic" >{shop.name} - {shop.location}</li>
-                            <DeleteShopButton shopId={shop.id.toString()} />
+                            <Link href={`/shops/${shop.id}`} key={shop.name}>
+                                    <li className="italic" >{shop.name} - {shop.location}</li>
+                            </Link>
+                            {/* <DeleteShopButton shopId={shop.id.toString()} /> */}
                         </div>
                     ))}
                 </ul>

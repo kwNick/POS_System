@@ -22,7 +22,7 @@ const DashboardUserData = ({ user }: { user: User }) => {
                     })}
                 </p>
 
-                <div><span className="font-semibold">Shops</span>:
+                {/* <div><span className="font-semibold">Shops</span>:
                     {user.shops.length > 0 ? (
                         <ul>
                             {user.shops.map((shop: Shop) => (
@@ -34,7 +34,7 @@ const DashboardUserData = ({ user }: { user: User }) => {
                         ) : (
                         <p>You have no shops.</p>
                     )}
-                </div>
+                </div> */}
                 
             </div>
         </div>

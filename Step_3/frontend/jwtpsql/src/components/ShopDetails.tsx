@@ -3,6 +3,7 @@
 import { useAuth } from "@/context/AuthContext";
 import Shop from "@/lib/models/shopModel";
 import { useEffect, useState } from "react";
+import DeleteShopButton from "./DeleteShopButton";
 
 const ShopDetails = ({shopId}: {shopId: string}) => {
     const { fetchShop } = useAuth();
@@ -31,6 +32,7 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
     <div className="w-3/4 h-3/4 flex-col items-center justify-center">
         <h1>Name: {shop.name}</h1>
         <p>Location: {shop.location}</p>
+        <DeleteShopButton shopId={shop.id.toString()} />
     </div>
   )
 }
