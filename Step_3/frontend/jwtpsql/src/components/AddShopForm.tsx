@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +12,7 @@ function AddShopForm() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -26,15 +27,24 @@ function AddShopForm() {
         alert("Shop added successfully!");
         setName("");
         setLocation("");
-        if(user?.roles.filter((r) => r.name == 'ROLE_ADMIN')){
-          router.push('/admin');
-        }else{
-          router.push('/dashboard');
-        }
+        router.back();
+        // if(user?.roles.filter((r) => r.name == 'ROLE_ADMIN')){
+        //   // router.back();
+        //   router.push('/admin');
+        // }else{
+        //   router.push('/dashboard');
+        // }
     } else {
       alert("Failed to add shop.");
     }
   }
+  useEffect(() => {
+    if(name == "" && location == ""){
+      setDisabled(true);
+    }else if(name != "" && location != ""){
+      setDisabled(false);
+    }
+  }, [name, location]);
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-10 lg:p-14 xl:p-16 w-[clamp(400px, 90%, 1000px)] bg-neutral-surface rounded-lg shadow-md">
@@ -56,7 +66,7 @@ function AddShopForm() {
         onChange={(e) => setLocation(e.target.value)}
       />
 
-      <button type="submit" disabled={loading}>
+      <button type="submit" disabled={loading || disabled}>
         {loading ? "Saving..." : "Add Shop"}
       </button>
     </form>

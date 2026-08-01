@@ -19,7 +19,7 @@ const DashboardShopData = ({ user }: { user: User }) => {
                     {user.shops.map((shop: Shop) => (
                         <div key={shop.name} >
                             <Link href={`/shops/${shop.id}`} key={shop.name}>
-                                    <li className="italic" >{shop.name} - {shop.location}</li>
+                                    <li className="italic underline" >{shop.name} - {shop.location}</li>
                             </Link>
                             {/* <DeleteShopButton shopId={shop.id.toString()} /> */}
                         </div>
