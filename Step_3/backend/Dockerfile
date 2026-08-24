@@ -3,7 +3,8 @@ WORKDIR /app
 
 COPY build.gradle settings.gradle gradlew ./
 COPY gradle gradle
-RUN ./gradlew build -x test || return 0
+# RUN ./gradlew build -x test || return 0
+RUN ./gradlew dependencies
 
 COPY . .
 RUN ./gradlew clean build -x test
