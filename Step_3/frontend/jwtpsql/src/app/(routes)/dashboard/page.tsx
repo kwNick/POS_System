@@ -8,7 +8,7 @@ export default function ProfilePage() {
       <div className="p-10 lg:p-14 xl:p-16 flex flex-col items-center justify-center gap-y-6 w-[clamp(300px, 100%, 800px)] ">
           <ProfileDashboard />
         
-        <div className="mb-6 mt-10 lg:mt-14 flex flex-col gap-y-4 lg:gap-y-6 xl:gap-y-8 w-[clamp(300px, 100%, 800px)] rounded-lg bg-neutral-surface p-6 lg:p-10 xl:p-12 shadow-md">
+        <div className="mb-6 mt-10 lg:mt-14 flex flex-col gap-y-4 lg:gap-y-6 xl:gap-y-8 w-[clamp(300px, 100%, 800px)] rounded-lg bg-neutral-surface p-6 lg:p-10 xl:p-12 shadow-md shadow-neutral-white">
           <div>
             <h1 className="text-3xl font-semibold">DeleteUser...</h1>
           </div>

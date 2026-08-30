@@ -24,70 +24,16 @@ const AdminDashboard = () => {
                     </h1>
                 </div>
 
-                <div className="flex gap-8">
+                <div className="flex flex-col gap-12 lg:gap-14 lg:flex-row">
                     <DashboardUserData user={user} />
-                    {/* <div className="p-10 lg:p-14 xl:p-16 w-[clamp(400px, 90%, 1000px)] bg-neutral-surface rounded-lg shadow-md">
-
-                        <h1 className="text-3xl font-semibold mb-4">Profile:</h1>
-
-                        <div className="flex flex-col gap-2">
-                            <p><span className="font-semibold">Username</span>: {user?.username}</p>
-                            <p><span className="font-semibold">Email</span>: {user?.email}</p>
-                            <p><span className="font-semibold">Password</span>: {user?.password}</p>
-
-                            <p><span className="font-semibold">Roles</span>:&nbsp;
-                                {user.roles.map((role: Role) => {
-                                    return (
-                                        <span className="italic" key={role.name}>{role.name}</span>
-                                    )
-                                })}
-                            </p>
-
-                            <div><span className="font-semibold">Shops</span>:
-                                {user.shops.length > 0 ? (
-                                    <ul>
-                                        {user.shops.map((shop: Shop) => (
-                                            <li className="italic" key={shop.name}>{shop.name} - {shop.location}</li>
-                                        ))}
-                                    </ul>
-                                    ) : (
-                                    <p>You have no shops.</p>
-                                )}
-                            </div>
-                            
-                        </div>
-                    </div> */}
-
-
+                    
                     <DashboardShopData user={user} />
-                    {/* <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
-                        
-                        <div className="flex gap-5 items-center justify-center">
-                            <h2 className="text-3xl font-semibold mb-4">Your Shops</h2>
-                             <AddShopButton />
-                        </div>
-
-                        <div>
-                            {user.shops.length > 0 ? (
-                                <ul>
-                                    {user.shops.map((shop: Shop) => (
-                                        <div key={shop.name} >
-                                            <li className="italic" >{shop.name} - {shop.location}</li>
-                                            <DeleteShopButton shopId={shop.id.toString()} />
-                                        </div>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>You have no shops.</p>
-                            )}
-                        </div>
-                    </div> */}
                 </div>
             </>
         )}
 
 
-        <div className='p-10 mt-10 lg:p-14 xl:p-16 flex flex-col gap-y-5 rounded-lg bg-neutral-surface'>
+        <div className='p-10 mt-10 lg:p-14 xl:p-16 flex flex-col gap-y-5 rounded-lg bg-neutral-surface shadow-md shadow-neutral-white'>
             {usersWDetails && (
                 <div>
                     <h1 className="text-3xl font-semibold ">All Connections: </h1>

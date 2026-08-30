@@ -5,7 +5,7 @@ import Link from "next/link"
 
 const DashboardUserData = ({ user }: { user: User }) => {
   return (
-    <div className="p-6 lg:p-8 xl:p-12 w-full bg-neutral-surface rounded-lg shadow-md">
+    <div className="p-6 lg:p-8 xl:p-12 mb-8 w-full bg-neutral-surface rounded-lg shadow-md shadow-neutral-white">
         <div className="w-[clamp(300px, 100%, 800px)]">
             <h1 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Profile:</h1>
 

@@ -15,6 +15,25 @@ const LoginForm = () => {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isUpdated) return;
+    
+    setIsPending(true);
+    setError(null);
+    
+    const success = await login(username, password);
+    // console.log("success: " + success);
+    
+    setIsPending(false);
+    
+    if (success) {
+      router.refresh(); // refresh on successful login
+    } else {
+      setError("Invalid username or password");
+    }
+  };
+
   // Validate form fields
   useEffect(() => {
     if (username === "" || password === "") {
@@ -30,33 +49,14 @@ const LoginForm = () => {
     else if (isUpdated) setFormMessage("");
     else setFormMessage("Must update fields to login!");
   }, [isPending, isUpdated]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isUpdated) return;
-
-    setIsPending(true);
-    setError(null);
-
-    const success = await login(username, password);
-    // console.log("success: " + success);
-
-    setIsPending(false);
-
-    if (success) {
-      router.refresh(); // refresh on successful login
-    } else {
-      setError("Invalid username or password");
-    }
-  };
-
+  
   return (
     <div className="relative p-10 lg:p-12 xl:p-14 w-[clamp(400px,2rem+38vw,700px)] h-[clamp(700px,2rem+60vh,1000px)] flex flex-col items-center justify-center gap-y-10 bg-neutral-surface shadow-md shadow-neutral-white rounded-md">
       
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-purple to-accent-blue opacity-10 rounded-md z-0 pointer-events-none"/>
 
         <div className="">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
+          <h2 className="text-accent-blue text-shadow-sm text-shadow-neutral-white text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
             Login
           </h2>
         </div>
@@ -71,7 +71,7 @@ const LoginForm = () => {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="border p-2 w-full"
+            className="rounded-md border p-2 w-full focus:outline-accent-blue"
             required
           />
 
@@ -83,7 +83,7 @@ const LoginForm = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border p-2 w-full"
+            className="rounded-md border p-2 w-full focus:outline-accent-blue"
             required
           />
         </div>
@@ -92,7 +92,7 @@ const LoginForm = () => {
           <button
             type="submit"
             disabled={!isUpdated || isPending}
-            className="px-4 py-2 rounded-md bg-primary-purple text-neutral-white hover:bg-accent-purple hover:scale-110 duration-300 disabled:bg-gray-400 disabled:pointer-events-none"
+            className="px-4 py-2 rounded-md bg-primary-blue text-neutral-white hover:bg-accent-blue hover:scale-110 duration-300 disabled:bg-gray-400 disabled:pointer-events-none"
           >
             Login
           </button>

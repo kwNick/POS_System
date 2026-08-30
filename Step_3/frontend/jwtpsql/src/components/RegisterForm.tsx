@@ -57,7 +57,7 @@ const RegisterForm = () => {
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-purple to-accent-blue opacity-10 rounded-md z-0 pointer-events-none"/>
 
         <div className="">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
+          <h2 className="text-accent-purple text-shadow-sm text-shadow-neutral-white text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-semibold underline">
             Register
           </h2>
         </div>
@@ -72,7 +72,7 @@ const RegisterForm = () => {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="border p-2 w-full"
+              className="rounded-md border p-2 w-full focus:outline-accent-purple"
               required
             />
 
@@ -84,7 +84,7 @@ const RegisterForm = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border p-2 w-full"
+              className="rounded-md border p-2 w-full focus:outline-accent-purple"
               required
             />
 
@@ -96,7 +96,7 @@ const RegisterForm = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border p-2 w-full"
+              className="rounded-md border p-2 w-full focus:outline-accent-purple"
               required
             />
           </div>
@@ -105,7 +105,7 @@ const RegisterForm = () => {
             <button
               type="submit"
               disabled={!isUpdated || isPending}
-              className="px-4 py-2 rounded-md bg-primary-blue text-neutral-white hover:bg-accent-blue hover:scale-110 duration-300 disabled:bg-gray-400 disabled:pointer-events-none"
+              className="px-4 py-2 rounded-md bg-primary-purple text-neutral-white hover:bg-accent-purple hover:scale-110 duration-300 disabled:bg-gray-400 disabled:pointer-events-none"
             >
               Register
             </button>

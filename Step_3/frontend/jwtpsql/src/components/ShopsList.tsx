@@ -10,22 +10,25 @@ const ShopsList = () => {
     if(loading) return <div className="min-w-3/5"><p>Loading...</p></div>;
     if(!user && !loading) return <div className="min-w-3/5"><p>You are not logged in.</p></div>;
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-3/4 py-2">
+    <div className="flex flex-col items-center justify-center h-[90%] min-h-[25vh] w-[90%] py-2">
         {user && (
-            <div className="flex flex-col items-center justify-center min-h-screen w-full py-2">
+            <div className="flex flex-col items-center justify-center h-[90%] min-h-[50%] w-full py-2">
                 {user?.shops.length > 0 ? (
-                    <ul className="w-3/4 flex flex-col items-center justify-center min-h-screen py-2">
+                    <ul className="w-full flex flex-col items-center justify-center h-[90%] py-2">
                         {user?.shops.map((shop: Shop) => (
-                            <div key={shop.name} className="w-3/4 flex flex-row items-center justify-around gap-4">
-                                <Link href={`/shops/${shop.id}`} key={shop.name}>
-                                        <li className="italic underline" >{shop.name} - {shop.location}</li>
+                            <div key={shop.name} className="w-full flex flex-row items-center justify-between gap-4 border-b-1 py-2">
+                                <Link href={`/shops/${shop.id}`} key={shop.name} className="w-full ">
+                                        <li className="italic underline font-semibold" >{shop.name} - {shop.location}</li>
                                 </Link>
-                                <DeleteShopButton shopId={shop.id.toString()} />
+                                <div>
+                                    <Link href={`/shops/${shop.id}/update`}>Update</Link>
+                                    <DeleteShopButton shopId={shop.id.toString()} />
+                                </div>
                             </div>
                         ))}
                     </ul>
                 ) : (
-                    <p>You have no shops.</p>
+                    <p className="text-2xl xl:text-3xl font-semibold">You have no shops.</p>
                 )}
             </div>
         )}

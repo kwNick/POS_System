@@ -25,7 +25,7 @@ export default function LoginPage() {
             </h1>
           </div>
         </div>
-        <h2 className="text-xl lg:text-2xl xl:text-3xl font-semibold">Get Back To Your Sales!</h2>
+        <h2 className="text-accent-blue text-shadow-xs text-shadow-neutral-white text-xl lg:text-2xl xl:text-3xl font-semibold">Get Back To Your Sales!</h2>
 
         <div className="flex flex-col items-start justify-center gap-y-6 lg:gap-y-8 text-md lg:text-lg xl:text-xl ">
           <p className="group hover:text-primary-blue"><span className='text-primary-blue group-hover:text-cta'>•</span> View inventory!</p>

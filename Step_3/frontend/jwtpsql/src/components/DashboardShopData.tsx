@@ -3,24 +3,31 @@ import AddShopButton from "./AddShopButton"
 // import DeleteShopButton from "./DeleteShopButton"
 import Shop from "@/lib/models/shopModel"
 import Link from "next/link"
+import DeleteShopButton from "./DeleteShopButton"
 
 const DashboardShopData = ({ user }: { user: User }) => {
   return (
-    <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md">
+    <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                         
-        <div className="flex gap-5 items-center justify-center">
-            <h2 className="text-3xl font-semibold mb-4"><Link href={`/shops`}>Your Shops</Link></h2>
-                <AddShopButton />
+        <div className="flex gap-5 items-center justify-between mb-8 border-b-2">
+            <h2 className="text-3xl font-semibold mb-4">
+                <Link href={`/shops`}>Your Shops</Link>
+            </h2>
+            <AddShopButton />
         </div>
 
-        <div>
+        <div className="w-full flex items-center justify-start p-2">
             {user.shops.length > 0 ? (
-                <ul>
+                <ul className="w-full flex flex-col gap-4">
                     {user.shops.map((shop: Shop) => (
-                        <div key={shop.name} >
-                            <Link href={`/shops/${shop.id}`} key={shop.name}>
-                                    <li className="italic underline" >{shop.name} - {shop.location}</li>
+                        <div key={shop.name} className="w-full flex justify-between">
+                            <Link href={`/shops/${shop.id}`} key={shop.name} className="">
+                                    <li className=" italic underline" ><span>{shop.name} - {shop.location}</span></li>
                             </Link>
+                            <div>
+                                <Link href={`/shops/${shop.id}/update`}>Update</Link>
+                                <DeleteShopButton shopId={`${shop.id}`} />
+                            </div>
                             {/* <DeleteShopButton shopId={shop.id.toString()} /> */}
                         </div>
                     ))}
