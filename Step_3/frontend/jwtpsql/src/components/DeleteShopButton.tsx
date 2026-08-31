@@ -37,7 +37,7 @@ const DeleteShopButton = ({ shopId }: { shopId: string }) => {
         <button
             onClick={handleClick}
             disabled={loading}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 hover:scale-110 duration-300 rounded disabled:opacity-50"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-1 hover:scale-110 duration-300 rounded disabled:opacity-50"
         >
             {loading ? 'Deleting...' : 'Delete'}
         </button>

@@ -4,6 +4,7 @@ import AddShopButton from "./AddShopButton"
 import Shop from "@/lib/models/shopModel"
 import Link from "next/link"
 import DeleteShopButton from "./DeleteShopButton"
+import UpdateShopLink from "./UpdateShopLink"
 
 const DashboardShopData = ({ user }: { user: User }) => {
   return (
@@ -24,8 +25,8 @@ const DashboardShopData = ({ user }: { user: User }) => {
                             <Link href={`/shops/${shop.id}`} key={shop.name} className="">
                                     <li className=" italic underline" ><span>{shop.name} - {shop.location}</span></li>
                             </Link>
-                            <div>
-                                <Link href={`/shops/${shop.id}/update`}>Update</Link>
+                            <div className="flex gap-4 lg:gap-8">
+                                <UpdateShopLink shopId={shop.id} />
                                 <DeleteShopButton shopId={`${shop.id}`} />
                             </div>
                             {/* <DeleteShopButton shopId={shop.id.toString()} /> */}

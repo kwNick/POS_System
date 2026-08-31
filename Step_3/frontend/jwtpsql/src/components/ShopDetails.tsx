@@ -5,6 +5,7 @@ import Shop from "@/lib/models/shopModel";
 import { useEffect, useState } from "react";
 import DeleteShopButton from "./DeleteShopButton";
 import Link from "next/link";
+import UpdateShopLink from "./UpdateShopLink";
 
 const ShopDetails = ({shopId}: {shopId: string}) => {
     const { fetchShop } = useAuth();
@@ -36,8 +37,8 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
             <p>Location: {shop.location}</p>
         </div>
 
-        <div className="w-full h-1/4 p-4 flex items-center justify-center">
-            <Link href={`/shops/${shop.id}/update`}>Update</Link>
+        <div className="w-full h-1/4 p-4 flex items-center justify-center lg:justify-start gap-4 lg:gap-8">
+            <UpdateShopLink shopId={shop.id} />
             <DeleteShopButton shopId={shop.id.toString()} />
         </div>
     </div>

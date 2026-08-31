@@ -274,7 +274,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       let res = await fetch(`http://${API_URL}/shops/${shopId}`, {
-        method: "PATCH",
+        method: "PUT",
         body: JSON.stringify({ name, location }),
         credentials: "include", // sets HttpOnly refresh token
         headers: authToken ? { Authorization: `Bearer ${authToken}`, "Content-Type": "application/json" } : undefined,

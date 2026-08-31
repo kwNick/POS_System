@@ -1,6 +1,7 @@
 package com.example.jwt_rest.services;
 
 import java.util.List;
+import java.util.Optional;
 
 // import org.springframework.cache.annotation.CacheEvict;
 // import org.springframework.cache.annotation.Cacheable;
@@ -18,6 +19,11 @@ public class ShopService {
 
     public ShopService(ShopRepository shopRepo){
         this.shopRepo = shopRepo;
+    }
+    
+    public Shop getShopById(Long shopId) {
+        Shop shop = shopRepo.findById(shopId).orElseThrow(() -> new RuntimeException("Shop not found"));
+        return shop;
     }
     
     // @CacheEvict(value = "shops", key = "#userId")
@@ -38,9 +44,20 @@ public class ShopService {
         return shopRepo.save(shop);
     }
 
-    public Shop getShopById(Long shopId) {
-        Shop shop = shopRepo.findById(shopId).orElseThrow(() -> new RuntimeException("Shop not found"));
-        return shop;
+    public Shop updateShop(Long id, String name, String location) {
+
+        Optional<Shop> optionalShop = shopRepo.findById(id);
+
+        if (optionalShop.isEmpty()) {
+            return null;
+        }
+
+        Shop shop = optionalShop.get();
+
+        shop.setName(name);
+        shop.setLocation(location);
+
+        return shopRepo.save(shop);
     }
 
     @Transactional

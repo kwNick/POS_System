@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import Shop from "@/lib/models/shopModel";
 import Link from "next/link";
 import DeleteShopButton from "./DeleteShopButton";
+import UpdateShopLink from "./UpdateShopLink";
 
 const ShopsList = () => {
     const {user, loading} = useAuth();
@@ -20,8 +21,8 @@ const ShopsList = () => {
                                 <Link href={`/shops/${shop.id}`} key={shop.name} className="w-full ">
                                         <li className="italic underline font-semibold" >{shop.name} - {shop.location}</li>
                                 </Link>
-                                <div>
-                                    <Link href={`/shops/${shop.id}/update`}>Update</Link>
+                                <div className="flex gap-4 lg:gap-8">
+                                    <UpdateShopLink shopId={shop.id} />
                                     <DeleteShopButton shopId={shop.id.toString()} />
                                 </div>
                             </div>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +41,24 @@ public class ShopController {
     public ResponseEntity<Shop> getShop(@PathVariable Long shopId){
         Shop shop = shopService.getShopById(shopId);
         return ResponseEntity.ok(shop);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Shop> updateShop(
+            @PathVariable Long id,
+            @RequestBody Shop shop) {
+
+        Shop updatedShop = shopService.updateShop(
+                id,
+                shop.getName(),
+                shop.getLocation()
+        );
+
+        if (updatedShop == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updatedShop);
     }
 
     @PostMapping("/addShop")

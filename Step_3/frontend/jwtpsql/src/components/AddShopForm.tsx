@@ -18,13 +18,14 @@ function AddShopForm() {
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
+    if(disabled) return;
 
     setLoading(true);
+    setError(null);
 
     const success = await addShop(name, location);
 
     setLoading(false);
-    setError(null);
 
     if (success) {
         alert("Shop added successfully!");
@@ -38,8 +39,9 @@ function AddShopForm() {
         //   router.push('/dashboard');
         // }
     } else {
+      console.log(success);
       alert("Failed to add shop.");
-      setError("Invalid shop name!");
+      setError("Shop with that name already exists!");
     }
   }
 
@@ -67,8 +69,9 @@ function AddShopForm() {
         type="text"
         placeholder="Shop Name"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => {setName(e.target.value); setError(null);}}
         className="w-full p-4 rounded-lg border-neutral-gray border-1 border-b-2 focus:outline-accent-purple"
+        required
       />
 
       <input
@@ -79,6 +82,7 @@ function AddShopForm() {
         value={location}
         onChange={(e) => setLocation(e.target.value)}
         className="w-full p-4 rounded-lg border-neutral-gray border-1 border-b-2 focus:outline-accent-purple"
+        required
       />
       </div>
 
