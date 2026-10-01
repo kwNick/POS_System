@@ -3,6 +3,7 @@
 import { useAuth } from "@/context/AuthContext";
 import DashboardUserData from "./DashboardUserData";
 import DashboardShopData from "./DashboardShopData";
+import DashboardAnalytics from "./DashboardAnalytics";
 
 const ProfileDashboard = () => {
   const { user, loading } = useAuth();
@@ -26,6 +27,10 @@ const ProfileDashboard = () => {
 
               <DashboardShopData user={user} />
 
+            </div>
+
+            <div className="flex flex-col gap-12 lg:gap-14 lg:flex-row">
+              <DashboardAnalytics user={user} />
             </div>
           </>
         )}

@@ -60,23 +60,100 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ```
 
 ```text
-                                ┌───────────┐
-                                │  users    │
-                                └─────┬─────┘
-                                │
-                                │
+                                 ┌───────────┐
+                                 │  users    │
+                                 └─────┬─────┘
+                                       │
+                                       │
         ┌───────────┐             ┌────▼─────┐
         │   shops   │────────────►│  sales   │
         └───────────┘             └────┬─────┘
-                                │
-                        ┌──────────┴──────────┐
-                        │                     │
-                ┌─────▼──────┐       ┌─────▼──────┐
-                │ sale_items │       │  payments  │
-                └─────┬──────┘       └────────────┘
-                        │
-                        │
-                ┌─────▼──────┐
-                │  products  │
-                └────────────┘
+                                       │
+                            ┌──────────┴──────────┐
+                            │                     │
+                      ┌─────▼──────┐        ┌─────▼──────┐
+                      │ sale_items │        │  payments  │
+                      └─────┬──────┘        └────────────┘
+                            │
+                            │
+                      ┌─────▼──────┐
+                      │  products  │
+                      └────────────┘
+```
+
+```text
+CREATE TABLE products (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    description TEXT,
+    sku VARCHAR(50) NOT NULL UNIQUE,
+    price NUMERIC(10, 2) NOT NULL CHECK (price >= 0),
+    stock_quantity INTEGER NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0),
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE sales (
+    id BIGSERIAL PRIMARY KEY,
+    shop_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+
+    subtotal NUMERIC(10, 2) NOT NULL CHECK (subtotal >= 0),
+    tax NUMERIC(10, 2) NOT NULL DEFAULT 0 CHECK (tax >= 0),
+    discount NUMERIC(10, 2) NOT NULL DEFAULT 0 CHECK (discount >= 0),
+    total NUMERIC(10, 2) NOT NULL CHECK (total >= 0),
+
+    status VARCHAR(30) NOT NULL DEFAULT 'COMPLETED',
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_sales_shop
+        FOREIGN KEY (shop_id)
+        REFERENCES shops(id),
+
+    CONSTRAINT fk_sales_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+);
+
+CREATE TABLE sale_items (
+    id BIGSERIAL PRIMARY KEY,
+
+    sale_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+
+    quantity INTEGER NOT NULL CHECK (quantity > 0),
+    unit_price NUMERIC(10, 2) NOT NULL CHECK (unit_price >= 0),
+    subtotal NUMERIC(10, 2) NOT NULL CHECK (subtotal >= 0),
+
+    CONSTRAINT fk_sale_items_sale
+        FOREIGN KEY (sale_id)
+        REFERENCES sales(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_sale_items_product
+        FOREIGN KEY (product_id)
+        REFERENCES products(id)
+);
+
+CREATE TABLE payments (
+    id BIGSERIAL PRIMARY KEY,
+
+    sale_id BIGINT NOT NULL,
+
+    payment_method VARCHAR(30) NOT NULL,
+    amount NUMERIC(10, 2) NOT NULL CHECK (amount > 0),
+
+    status VARCHAR(30) NOT NULL DEFAULT 'COMPLETED',
+
+    transaction_reference VARCHAR(150),
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_payments_sale
+        FOREIGN KEY (sale_id)
+        REFERENCES sales(id)
+        ON DELETE CASCADE
+);
 ```
