@@ -400,7 +400,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // If token expired, refresh and try again
       if (res.status == 403 || res.status == 401) {
-         const newToken = await checkRefresh();
+        const newToken = await checkRefresh();
 
         if(!newToken){
           return null;
