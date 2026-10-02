@@ -3,4 +3,5 @@ export default interface Shop {
     user_id: number;
     name: string;
     location: string;
+    // sales: Sale[];
 }

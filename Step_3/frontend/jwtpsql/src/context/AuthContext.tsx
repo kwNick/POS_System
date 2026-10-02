@@ -1,5 +1,6 @@
 "use client";
 
+import { ProductSalesReport } from "@/lib/models/ProductSalesReportModel";
 import Role from "@/lib/models/roleModel";
 import Shop from "@/lib/models/shopModel";
 import User from "@/lib/models/userModel";
@@ -17,6 +18,8 @@ type AuthContextType = {
   // shop: Shop | null;
   shops: Shop[] | null;
   roles: Role[] | null;
+  topProductsUnits: ProductSalesReport[] | null;
+  topProductsRevenue: ProductSalesReport[] | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<boolean | null>;
   logout: () => void;
@@ -31,6 +34,8 @@ type AuthContextType = {
   fetchUsers: () => Promise<User[] | null>;
   fetchShops: () => Promise<Shop[] | null>;
   fetchRoles: () => Promise<Role[] | null>;
+  fetchTopProductsUnits: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>;
+  fetchTopProductsRevenue: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>; // maybe shopId is a string depends how we pass it??????
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -46,6 +51,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // const [shop, setShop] = useState<Shop | null>(null);
   const [shops, setShops] = useState<Shop[] | null>(null);
   const [roles, setRoles] = useState<Role[] | null>(null);
+  const [topProductsUnits, setTopProductsUnits] = useState<ProductSalesReport[] | null>(null);
+  const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReport[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -136,6 +143,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(null);
     setShops(null);
     setRoles(null);
+    setTopProductsRevenue(null);
+    setTopProductsUnits(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
 
@@ -159,6 +168,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(null);
     setShops(null);
     setRoles(null);
+    setTopProductsRevenue(null);
+    setTopProductsUnits(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
     try {
@@ -611,6 +622,94 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  /* - - - - - Fetch Data(Analytics) Functions - - - - - */
+
+  const fetchTopProductsUnits = async (shopId: string, overrideToken?: string): Promise<ProductSalesReport[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/shops/${shopId}/reports/top-products-units`,{
+          // cache: 'no-store',
+          credentials: "include", // sends HttpOnly refresh token
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+        });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        // Retry profile fetch with new token
+        res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-units`, {
+          // cache: 'no-store',
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+
+      if (!res.ok) {
+          throw new Error('Failed to fetch top products by units at a shop again, after refresh!');
+      }
+
+      const topProductsUnitsData: ProductSalesReport[] = await res.json();
+
+      setTopProductsUnits(topProductsUnitsData);
+      return topProductsUnitsData as ProductSalesReport[];
+    } catch (err) {
+      console.error("Failed to fetch Top Products By Units at a Shop: " + err);
+      return null;
+    }
+  };
+
+  const fetchTopProductsRevenue = async (shopId: string, overrideToken?: string): Promise<ProductSalesReport[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue`,{
+          // cache: 'no-store',
+          credentials: "include", // sends HttpOnly refresh token
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+        });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        // Retry profile fetch with new token
+        res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue`, {
+          // cache: 'no-store',
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+
+      if (!res.ok) {
+          throw new Error('Failed to fetch top products by revenue at a shop again, after refresh!');
+      }
+
+      const topProductsRevenueData: ProductSalesReport[] = await res.json();
+
+      setTopProductsRevenue(topProductsRevenueData);
+      return topProductsRevenueData as ProductSalesReport[];
+    } catch (err) {
+      console.error("Failed to fetch Top Products By Revenue at a Shop: " + err);
+      return null;
+    }
+  };
+
   // On mount, attempt to refresh access token automatically
   useEffect(() => {
     (async () => {
@@ -628,13 +727,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             fetchUsers(),
             fetchShops(),
             fetchRoles(),
+            // fetchTopProductsUnits(),
+            // fetchTopProductsRevenue(),
           ]);
         })();
       }
   }, [role]);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles}}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchTopProductsUnits, fetchTopProductsRevenue }}>
       {children}
     </AuthContext.Provider>
   );
