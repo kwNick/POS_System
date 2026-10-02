@@ -18,57 +18,57 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                 WHERE shop_id == shop.id
             </p>
             <p>
-            Transactions             127
-            SELECT COUNT(*)
-            FROM sales
-            WHERE shop_id == shop.id
+                Transactions             127
+                SELECT COUNT(*)
+                FROM sales
+                WHERE shop_id == shop.id
             </p>
             <p>
-            Average Order          $34.51
-            SELECT AVG(total)
-            FROM sales
-            WHERE shop_id == shop.id
+                Average Order          $34.51
+                SELECT AVG(total)
+                FROM sales
+                WHERE shop_id == shop.id
             </p>
             <p>
                 
-            Top Product
-            └── Widget A          83 sold
-            SELECT product, COUNT(*)
-            FROM sales
-            WHERE shop_id == shop.id
-            GROUP BY product
-            ORDER BY COUNT(*) DESC
-            LIMIT 1
+                Top Product
+                └── Widget A          83 sold
+                SELECT product, COUNT(*)
+                FROM sales
+                WHERE shop_id == shop.id
+                GROUP BY product
+                ORDER BY COUNT(*) DESC
+                LIMIT 1
             </p>
             <p>
-            Sales by Shop
-            ├── Shop A          $2,431
-            ├── Shop B          $1,284
-            └── Shop C            $667
-            SELECT shop, SUM(total)
-            FROM sales
-            WHERE shop_id == shop.id
-            GROUP BY shop
-            ORDER BY SUM(total) DESC
+                Sales by Shop
+                ├── Shop A          $2,431
+                ├── Shop B          $1,284
+                └── Shop C            $667
+                SELECT shop, SUM(total)
+                FROM sales
+                WHERE shop_id == shop.id
+                GROUP BY shop
+                ORDER BY SUM(total) DESC
             </p>
             <p>
-            Most Selling Product
-            └── Widget A          83 sold
-            SELECT product, COUNT(*)
-            FROM sale_items
-            WHERE sale_id IN (SELECT id FROM sales WHERE shop_id == shop.id)
-            GROUP BY product
-            ORDER BY COUNT(*) DESC
-            LIMIT 1
+                Most Selling Product
+                └── Widget A          83 sold
+                SELECT product, COUNT(*)
+                FROM sale_items
+                WHERE sale_id IN (SELECT id FROM sales WHERE shop_id == shop.id)
+                GROUP BY product
+                ORDER BY COUNT(*) DESC
+                LIMIT 1
             </p>
             <p>
-            SELECT
-            p.name,
-            SUM(si.quantity) AS units_sold
-            FROM sale_items si
-            JOIN products p ON p.id = si.product_id
-            GROUP BY p.id, p.name
-            ORDER BY units_sold DESC;
+                SELECT
+                p.name,
+                SUM(si.quantity) AS units_sold
+                FROM sale_items si
+                JOIN products p ON p.id = si.product_id
+                GROUP BY p.id, p.name
+                ORDER BY units_sold DESC;
             </p>
             <p>
                 SELECT
@@ -79,41 +79,41 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                 ORDER BY sale_date;
             </p>
             <p>
-            "Show me every product sold"
-            SELECT
-                p.name,
-                si.quantity,
-                si.unit_price,
-                si.subtotal
-            FROM sale_items si
-            JOIN products p
-                ON si.product_id = p.id;
+                "Show me every product sold"
+                SELECT
+                    p.name,
+                    si.quantity,
+                    si.unit_price,
+                    si.subtotal
+                FROM sale_items si
+                JOIN products p
+                    ON si.product_id = p.id;
             </p>
             <p>
-            "Show me every sale and who made it"
-            SELECT
-                s.id AS sale_id,
-                u.username,
-                s.subtotal,
-                s.tax,
-                s.total,
-                s.created_at
-            FROM sales s
-            JOIN users u
-                ON s.user_id = u.id
-            ORDER BY s.created_at DESC;
+                "Show me every sale and who made it"
+                SELECT
+                    s.id AS sale_id,
+                    u.username,
+                    s.subtotal,
+                    s.tax,
+                    s.total,
+                    s.created_at
+                FROM sales s
+                JOIN users u
+                    ON s.user_id = u.id
+                ORDER BY s.created_at DESC;
             </p>
             <p>
-            "How many of each product have we sold?"
-            SELECT
-                p.name,
-                SUM(si.quantity) AS units_sold,
-                SUM(si.subtotal) AS revenue
-            FROM sale_items si
-            JOIN products p
-                ON si.product_id = p.id
-            GROUP BY p.id, p.name
-            ORDER BY revenue DESC;
+                "How many of each product have we sold?"
+                SELECT
+                    p.name,
+                    SUM(si.quantity) AS units_sold,
+                    SUM(si.subtotal) AS revenue
+                FROM sale_items si
+                JOIN products p
+                    ON si.product_id = p.id
+                GROUP BY p.id, p.name
+                ORDER BY revenue DESC;
             </p>
 
             
