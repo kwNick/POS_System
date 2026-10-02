@@ -63,10 +63,11 @@ const DashboardAnalytics = ({user}:{user: User}) => {
             </p>
             <p>
                 SELECT
-                p.name,
+                    p.name,
                 SUM(si.quantity) AS units_sold
                 FROM sale_items si
-                JOIN products p ON p.id = si.product_id
+                JOIN products p 
+                    ON p.id = si.product_id
                 GROUP BY p.id, p.name
                 ORDER BY units_sold DESC;
             </p>
@@ -116,16 +117,23 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                 ORDER BY revenue DESC;
             </p>
 
-            
-
-            
-
-
-
-
-
-
-
+            <p>
+                What are the top 5 products sold at shop #1?
+                SELECT
+                    p.id,
+                    p.name,
+                    SUM(si.quantity) AS units_sold,
+                    SUM(si.subtotal) AS revenue
+                FROM sale_items si
+                JOIN products p
+                    ON si.product_id = p.id
+                JOIN sales s
+                    ON si.sale_id = s.id
+                WHERE s.shop_id = :shopId
+                GROUP BY p.id, p.name
+                ORDER BY units_sold DESC
+                LIMIT 5;
+            </p>
         </div>
     </div>
   )

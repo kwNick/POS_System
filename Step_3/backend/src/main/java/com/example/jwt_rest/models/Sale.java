@@ -1,26 +1,42 @@
 package com.example.jwt_rest.models;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity 
 @Table(name = "sales")
-public class Sales {
+public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "shop_id", nullable = false)
-    private Long shop_id;
+    // @Column(name = "shop_id", nullable = false)
+    // private Long shop_id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long user_id;
+    // @Column(name = "user_id", nullable = false)
+    // private Long user_id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id", nullable = false)
+    private Shop shop;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "subtotal", nullable = false, precision = 10, scale = 2)
     private BigDecimal subtotal;
@@ -40,6 +56,16 @@ public class Sales {
     @Column(name = "created_at", nullable = false)
     private java.time.LocalDateTime created_at;
 
+    @OneToMany(mappedBy = "sale")
+    private List<SaleItem> saleItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sale")
+    private List<Payment> payments = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate() {
+        created_at = LocalDateTime.now();
+    }
 
 }
 

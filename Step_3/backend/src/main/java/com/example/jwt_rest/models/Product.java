@@ -1,15 +1,21 @@
 package com.example.jwt_rest.models;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity 
 @Table(name = "products")
-public class Products {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,17 +33,25 @@ public class Products {
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private java.math.BigDecimal price;
 
-    @Column(name = "stock_quantity", nullable = false, defaultValue = "0")
-    private Integer stock_quantity;
+    @Column(name = "stock_quantity", nullable = false) // , defaultValue = "0"
+    private Integer stock_quantity = 0;
 
-    @Column(name = "active", nullable = false, defaultValue = "true")
-    private Boolean active;
+    @Column(name = "active", nullable = false) //  defaultValue = "true"
+    private Boolean active = true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private java.time.Timestamp created_at;
+    private LocalDateTime created_at;
 
     @Column(name = "updated_at", nullable = false)
-    private java.time.Timestamp updated_at;
+    private LocalDateTime updated_at;
+
+    @OneToMany(mappedBy = "product")
+    private List<SaleItem> saleItems = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate() {
+        created_at = LocalDateTime.now();
+    }
 
 }
 

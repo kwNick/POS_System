@@ -81,6 +81,49 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
                       └────────────┘
 ```
 
+This is where your question about @OneToMany and @ManyToMany is important.
+
+You actually don't want a @ManyToMany between Sale and Product directly.
+
+Conceptually, yes:
+
+```text
+    Sale       Product
+    │           │
+    │ many      │ many
+    └─────┬─────┘
+            │
+        sale_items
+```
+
+A sale can contain many products.
+
+A product can appear in many sales.
+
+So mathematically that's a many-to-many relationship.
+
+But sale_items has additional information:
+
+quantity
+unit_price
+subtotal
+
+That makes SaleItem an association entity.
+
+So your JPA model should be:
+
+```text
+Sale
+ │
+ │ @OneToMany
+ ▼
+SaleItem
+ │
+ │ @ManyToOne
+ ▼
+Product
+```
+
 ```text
 CREATE TABLE products (
     id BIGSERIAL PRIMARY KEY,
