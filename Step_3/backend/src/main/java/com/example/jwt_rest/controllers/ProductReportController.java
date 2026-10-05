@@ -20,17 +20,23 @@ public class ProductReportController {
         this.productService = productService;
     }
 
-    @GetMapping("/{shopId}/reports/top-products-units")
-    public List<ProductSalesReport> getTopProductsUnits(
-            @PathVariable Long shopId) {
+    @GetMapping("/sales-report")
+    public List<ProductSalesReport> getProductSalesReport() {
+        return productService.getProductSalesReport();
+    }
 
+    @GetMapping("/{shopId}/sales-report")
+    public List<ProductSalesReport> getProductSalesReportById(@PathVariable Long shopId) {
+        return productService.getProductSalesReportById(shopId);
+    }
+
+    @GetMapping("/{shopId}/reports/top-products-units")
+    public List<ProductSalesReport> getTopProductsUnits(@PathVariable Long shopId) {
         return productService.getTopProductsUnitsByShop(shopId);
     }
 
     @GetMapping("/{shopId}/reports/top-products-revenue")
-    public List<ProductSalesReport> getTopProductsRevenue(
-            @PathVariable Long shopId) {
-
+    public List<ProductSalesReport> getTopProductsRevenue(@PathVariable Long shopId) {
         return productService.getTopProductsRevenueByShop(shopId);
     }
 }

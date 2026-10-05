@@ -16,6 +16,14 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    public List<ProductSalesReport> getProductSalesReport() {
+        return productRepository.findProductSalesReport();
+    }
+
+    public List<ProductSalesReport> getProductSalesReportById(Long shopId) {
+        return productRepository.findProductSalesReportById(shopId);
+    }
+
     public List<ProductSalesReport> getTopProductsUnitsByShop(Long shopId) {
         return productRepository.findTopProductsUnitsByShop(shopId);
     }

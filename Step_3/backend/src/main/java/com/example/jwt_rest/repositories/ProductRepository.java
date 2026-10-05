@@ -11,10 +11,12 @@ import com.example.jwt_rest.projection.ProductSalesReport;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByActiveTrue();
 
+    // it returns the report for all shops combined
     @Query(value = """
         SELECT
-            p.name,
-            SUM(si.quantity) AS units_sold,
+            p.id AS productId,
+            p.name AS productName,
+            SUM(si.quantity) AS unitsSold,
             SUM(si.subtotal) AS revenue
         FROM sale_items si
         JOIN products p
@@ -22,8 +24,26 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         GROUP BY p.id, p.name
         ORDER BY revenue DESC
         """, nativeQuery = true)
-    List<Object[]> findProductSalesReport();
+    List<ProductSalesReport> findProductSalesReport();
 
+    @Query(value = """
+        SELECT
+            p.id AS productId,
+            p.name AS productName,
+            SUM(si.quantity) AS unitsSold,
+            SUM(si.subtotal) AS revenue
+        FROM sale_items si
+        JOIN products p
+            ON si.product_id = p.id
+        JOIN sales s
+            ON si.sale_id = s.id
+        WHERE s.shop_id = :shopId
+        GROUP BY p.id, p.name
+        ORDER BY revenue DESC
+        """, nativeQuery = true)
+    List<ProductSalesReport> findProductSalesReportById(@Param("shopId") Long shopId);
+
+    // returns the top 5 products by units sold for a specific shop
     @Query(value = """
         SELECT
             p.id AS productId,
@@ -40,10 +60,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         ORDER BY unitsSold DESC
         LIMIT 5
         """, nativeQuery = true)
-    List<ProductSalesReport> findTopProductsUnitsByShop(
-        @Param("shopId") Long shopId
-    );
+    List<ProductSalesReport> findTopProductsUnitsByShop(@Param("shopId") Long shopId);
 
+    // returns the top 5 products by revenue for a specific shop
     @Query(value = """
         SELECT
             p.id AS productId,
@@ -60,7 +79,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         ORDER BY revenue DESC
         LIMIT 5
         """, nativeQuery = true)
-    List<ProductSalesReport> findTopProductsRevenueByShop(
-        @Param("shopId") Long shopId
-    );
+    List<ProductSalesReport> findTopProductsRevenueByShop(@Param("shopId") Long shopId);
 }

@@ -20,6 +20,8 @@ type AuthContextType = {
   roles: Role[] | null;
   topProductsUnits: ProductSalesReport[] | null;
   topProductsRevenue: ProductSalesReport[] | null;
+  productSalesReport: ProductSalesReport[] | null;
+  productSalesReportById: ProductSalesReport[] | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<boolean | null>;
   logout: () => void;
@@ -35,7 +37,10 @@ type AuthContextType = {
   fetchShops: () => Promise<Shop[] | null>;
   fetchRoles: () => Promise<Role[] | null>;
   fetchTopProductsUnits: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>;
-  fetchTopProductsRevenue: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>; // maybe shopId is a string depends how we pass it??????
+  fetchTopProductsRevenue: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>;
+  fetchProductSalesReport: (overrideToken?: string) => Promise<ProductSalesReport[] | null>;
+  fetchProductSalesReportById: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>;
+  fetchAnalytics: (overrideToken?: string) => Promise<any | null>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -53,6 +58,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [roles, setRoles] = useState<Role[] | null>(null);
   const [topProductsUnits, setTopProductsUnits] = useState<ProductSalesReport[] | null>(null);
   const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReport[] | null>(null);
+  const [productSalesReport, setProductSalesReport] = useState<ProductSalesReport[] | null>(null);
+  const [productSalesReportById, setProductSalesReportById] = useState<ProductSalesReport[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -88,6 +95,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
       await fetchProfile(data.fullToken);
+      await fetchAnalytics(data.fullToken);
       return true;
 
     } catch (err) {
@@ -125,6 +133,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
       await fetchProfile(data.fullToken);
+      await fetchAnalytics(data.fullToken);
       return true;
 
     } catch (err) {
@@ -145,6 +154,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setRoles(null);
     setTopProductsRevenue(null);
     setTopProductsUnits(null);
+    setProductSalesReport(null);
+    setProductSalesReportById(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
 
@@ -170,6 +181,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setRoles(null);
     setTopProductsRevenue(null);
     setTopProductsUnits(null);
+    setProductSalesReport(null);
+    setProductSalesReportById(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
     try {
@@ -624,6 +637,90 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   /* - - - - - Fetch Data(Analytics) Functions - - - - - */
 
+  const fetchAnalytics = async (overrideToken?: string): Promise<any | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      //call all the analytics fetching 
+      await fetchProductSalesReport(overrideToken);
+      // await fetchProductSalesReportById(overrideToken);
+    } catch (error) {
+      
+    }
+  };
+
+    
+  const fetchProductSalesReport = async (overrideToken?: string): Promise<ProductSalesReport[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(`http://${API_URL}/api/shops/sales-report`, {
+        credentials: "include", // sends HttpOnly refresh token
+        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+        res = await fetch(`http://${API_URL}/api/shops/sales-report`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+      if (!res.ok) throw new Error("Failed to fetch Product Sales Report again, after refresh.");
+
+      const productSalesReportData: ProductSalesReport[] = await res.json();
+
+      setProductSalesReport(productSalesReportData);
+      return productSalesReportData;
+    } catch (err) {
+      console.error("Failed to fetch Product Sales Report: " + err);
+      return null;
+    }
+  };
+
+  const fetchProductSalesReportById = async (shopId: string,overrideToken?: string): Promise<ProductSalesReport[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(`http://${API_URL}/api/shops/${shopId}/sales-report`, {
+        credentials: "include", // sends HttpOnly refresh token
+        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+        res = await fetch(`http://${API_URL}/api/shops/${shopId}/sales-report`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+      if (!res.ok) throw new Error("Failed to fetch Product Sales Report By ID again, after refresh.");
+
+      const productSalesReportData: ProductSalesReport[] = await res.json();
+      
+      setProductSalesReportById(productSalesReportData);
+      return productSalesReportData;
+    } catch (err) {
+      console.error("Failed to fetch Product Sales Report By ID: " + err);
+      return null;
+    }
+  };
+
   const fetchTopProductsUnits = async (shopId: string, overrideToken?: string): Promise<ProductSalesReport[] | null> => {
     if (!API_URL) return null;
 
@@ -715,6 +812,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     (async () => {
       await fetchProfile();
       await fetchShops();
+      await fetchAnalytics();
       setLoading(false);
     })();
   }, []);
@@ -734,8 +832,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
   }, [role]);
 
+  // Analytics
+  //   useEffect(() => {
+  //   (async () => {
+  //     await fetchAnalytics();
+  //     setLoading(false);
+  //   })();
+  // }, []);
+
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchTopProductsUnits, fetchTopProductsRevenue }}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue }}>
       {children}
     </AuthContext.Provider>
   );

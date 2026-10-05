@@ -29,7 +29,7 @@ const ProfileDashboard = () => {
 
             </div>
 
-            <div className="flex flex-col gap-12 lg:gap-14 lg:flex-row">
+            <div className="w-full min-h-[85vh] flex flex-col gap-12 lg:gap-14 lg:flex-row">
               <DashboardAnalytics user={user} />
             </div>
           </>
