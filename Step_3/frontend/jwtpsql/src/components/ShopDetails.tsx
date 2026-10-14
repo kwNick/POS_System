@@ -3,18 +3,24 @@
 import { useAuth } from "@/context/AuthContext";
 import Shop from "@/lib/models/shopModel";
 import { useEffect, useState } from "react";
-import {ProductSalesReport} from "@/lib/models/ProductSalesReportModel";
+import {ProductSalesReportModel} from "@/lib/models/ProductSalesReport";
 import DeleteShopButton from "./DeleteShopButton";
 // import Link from "next/link";
 import UpdateShopLink from "./UpdateShopLink";
 
 const ShopDetails = ({shopId}: {shopId: string}) => {
-    const { fetchShop, fetchTopProductsUnits, fetchTopProductsRevenue, fetchProductSalesReportById } = useAuth();
+    const { fetchShop,
+        fetchTopProductsUnits,
+        fetchTopProductsRevenue,
+        fetchProductSalesReportById,
+        fetchAverageSaleByShopId
+    } = useAuth();
 
     const [shop, setShop] = useState<Shop | null>(null);
-    const [topProductsUnits, setTopProductsUnits] = useState<ProductSalesReport[] | null>(null);
-    const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReport[] | null>(null);
-    const [productSalesReport, setProductSalesReport] = useState<ProductSalesReport[] | null>(null);
+    const [topProductsUnits, setTopProductsUnits] = useState<ProductSalesReportModel[] | null>(null);
+    const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReportModel[] | null>(null);
+    const [productSalesReport, setProductSalesReport] = useState<ProductSalesReportModel[] | null>(null);
+    const [averageSale, setAverageSale] = useState<number | null>(null);
 
     useEffect(() => {
         const getShop = async () => {
@@ -45,18 +51,29 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
                 setTopProductsRevenue(topProductsRevenueData);
             }
         };
+        const getAverageSale = async () => {
+            const averageSaleData = await fetchAverageSaleByShopId(shopId);
+            if (averageSaleData !== null) {
+                setAverageSale(averageSaleData);
+            }
+        };
 
         getShop();
         getShopTopProductsByUnits();
         getShopTopProductsByRevenue();
         getShopProductSalesReport();
+        getAverageSale();
 
     }, []);
 
     if (!shop) {
         return <div>Loading...</div>;
     }
-    console.log(productSalesReport);
+    console.log("productSalesReport:", productSalesReport,
+        " topProductsUnits:", topProductsUnits,
+        " topProductsRevenue:", topProductsRevenue,
+        " averageSale:", averageSale
+    );
   return (
     <div className="w-full h-full flex flex-col items-center justify-start">
         <div className="w-full h-3/4 p-6 flex gap-6 text-xl md:text-2xl">
@@ -109,9 +126,15 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
                     </div>
                 )
             }
+            {
+                averageSale &&  (
+                    <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
+                        <h2 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Average Sale for Shop all time</h2>
+                        <p>{averageSale}</p>
+                    </div>
+                )
+            }
         </div>
-
-
 
         <div className="w-full h-1/4 p-4 flex items-center justify-center gap-4 lg:gap-8">
             <UpdateShopLink shopId={shop.id} />

@@ -39,4 +39,10 @@ public class ProductReportController {
     public List<ProductSalesReport> getTopProductsRevenue(@PathVariable Long shopId) {
         return productService.getTopProductsRevenueByShop(shopId);
     }
+
+    // Not yet used in front end but maybe with form, either dates are path variables or form fields
+    @GetMapping("/{shopId}/reports/sales-by-date/{startDate}/{endDate}")
+    public List<ProductSalesReport> getProductSalesReportByShopAndDateRange(@PathVariable Long shopId, @PathVariable String startDate, @PathVariable String endDate) {
+        return productService.getProductSalesReportByShopAndDateRange(shopId, startDate, endDate);
+    }
 }

@@ -1,8 +1,12 @@
 "use client";
 
-import { ProductSalesReport } from "@/lib/models/ProductSalesReportModel";
+import { AllSalesByUsersModel } from "@/lib/models/AllSalesByUsers";
+import { AverageSaleByShopModel } from "@/lib/models/AverageSaleByShop";
+import { DailyRevenueModel } from "@/lib/models/DailyRevenue";
+import { ProductSalesReportModel } from "@/lib/models/ProductSalesReport";
 import Role from "@/lib/models/roleModel";
 import Shop from "@/lib/models/shopModel";
+import { TotalUnitsSoldPerProductModel } from "@/lib/models/TotalUnitsSoldPerProductModel";
 import User from "@/lib/models/userModel";
 // import { jwtVerify } from "jose";
 import { jwtDecode } from "jwt-decode";
@@ -18,10 +22,15 @@ type AuthContextType = {
   // shop: Shop | null;
   shops: Shop[] | null;
   roles: Role[] | null;
-  topProductsUnits: ProductSalesReport[] | null;
-  topProductsRevenue: ProductSalesReport[] | null;
-  productSalesReport: ProductSalesReport[] | null;
-  productSalesReportById: ProductSalesReport[] | null;
+  topProductsUnits: ProductSalesReportModel[] | null;
+  topProductsRevenue: ProductSalesReportModel[] | null;
+  productSalesReport: ProductSalesReportModel[] | null;
+  productSalesReportById: ProductSalesReportModel[] | null;
+  averageSaleByShopId: number | null;
+
+  allSalesByUsers: AllSalesByUsersModel[] | null;
+  dailyRevenue: DailyRevenueModel[] | null;
+  totalUnitsSoldPerProduct: TotalUnitsSoldPerProductModel[] | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<boolean | null>;
   logout: () => void;
@@ -36,10 +45,14 @@ type AuthContextType = {
   fetchUsers: () => Promise<User[] | null>;
   fetchShops: () => Promise<Shop[] | null>;
   fetchRoles: () => Promise<Role[] | null>;
-  fetchTopProductsUnits: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>;
-  fetchTopProductsRevenue: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>;
-  fetchProductSalesReport: (overrideToken?: string) => Promise<ProductSalesReport[] | null>;
-  fetchProductSalesReportById: (shopId: string, overrideToken?: string) => Promise<ProductSalesReport[] | null>;
+  fetchTopProductsUnits: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  fetchTopProductsRevenue: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  fetchProductSalesReport: (overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  fetchProductSalesReportById: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  fetchAverageSaleByShopId: (shopId: string, overrideToken?: string) => Promise<number | null>;
+  fetchAllSalesByUsers: (overrideToken?: string) => Promise<AllSalesByUsersModel[] | null>;
+  fetchDailyRevenue: (overrideToken?: string) => Promise<DailyRevenueModel[] | null>;
+  fetchTotalUnitsSoldPerProduct: (overrideToken?: string) => Promise<TotalUnitsSoldPerProductModel[] | null>;
   fetchAnalytics: (overrideToken?: string) => Promise<any | null>;
 };
 
@@ -56,10 +69,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // const [shop, setShop] = useState<Shop | null>(null);
   const [shops, setShops] = useState<Shop[] | null>(null);
   const [roles, setRoles] = useState<Role[] | null>(null);
-  const [topProductsUnits, setTopProductsUnits] = useState<ProductSalesReport[] | null>(null);
-  const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReport[] | null>(null);
-  const [productSalesReport, setProductSalesReport] = useState<ProductSalesReport[] | null>(null);
-  const [productSalesReportById, setProductSalesReportById] = useState<ProductSalesReport[] | null>(null);
+  const [topProductsUnits, setTopProductsUnits] = useState<ProductSalesReportModel[] | null>(null);
+  const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReportModel[] | null>(null);
+  const [productSalesReport, setProductSalesReport] = useState<ProductSalesReportModel[] | null>(null);
+  const [productSalesReportById, setProductSalesReportById] = useState<ProductSalesReportModel[] | null>(null);
+  const [allSalesByUsers, setAllSalesByUsers] = useState<AllSalesByUsersModel[] | null>(null);
+  const [dailyRevenue, setDailyRevenue] = useState<DailyRevenueModel[] | null>(null);
+  const [totalUnitsSoldPerProduct, setTotalUnitsSoldPerProduct] = useState<TotalUnitsSoldPerProductModel[] | null>(null);
+  const [averageSaleByShopId, setAverageSaleByShopId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -82,7 +99,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const data = await res.json();
 
       // console.log("Logged in: "+ JSON.stringify(data));
-
       
       const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
       // console.log(data.fullToken);
@@ -104,8 +120,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
   };
-
-  
 
   // Register a User
   const register = async (username: string, email: string, password: string): Promise<boolean | null> => {
@@ -643,15 +657,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const authToken = overrideToken ?? token;
     try {
       //call all the analytics fetching 
-      await fetchProductSalesReport(overrideToken);
+      await fetchProductSalesReport(authToken!);
+      await fetchAllSalesByUsers(authToken!);
+      await fetchDailyRevenue(authToken!);
+      await fetchTotalUnitsSoldPerProduct(authToken!);
       // await fetchProductSalesReportById(overrideToken);
     } catch (error) {
-      
+      console.error("Failed to fetch Analytics: " + error);
+      return null;
     }
   };
 
     
-  const fetchProductSalesReport = async (overrideToken?: string): Promise<ProductSalesReport[] | null> => {
+  const fetchProductSalesReport = async (overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
     if (!API_URL) return null;
 
     const authToken = overrideToken ?? token;
@@ -676,7 +694,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       if (!res.ok) throw new Error("Failed to fetch Product Sales Report again, after refresh.");
 
-      const productSalesReportData: ProductSalesReport[] = await res.json();
+      const productSalesReportData: ProductSalesReportModel[] = await res.json();
 
       setProductSalesReport(productSalesReportData);
       return productSalesReportData;
@@ -686,7 +704,150 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const fetchProductSalesReportById = async (shopId: string,overrideToken?: string): Promise<ProductSalesReport[] | null> => {
+  const fetchAllSalesByUsers = async (overrideToken?: string): Promise<AllSalesByUsersModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(`http://${API_URL}/api/sales/all-sales`, {
+        credentials: "include", // sends HttpOnly refresh token
+        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+        res = await fetch(`http://${API_URL}/api/sales/all-sales`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+      if (!res.ok) throw new Error("Failed to fetch All Sales By Users again, after refresh.");
+
+      const AllSalesByUsersData: AllSalesByUsersModel[] = await res.json();
+
+      setAllSalesByUsers(AllSalesByUsersData);
+      return AllSalesByUsersData;
+    } catch (err) {
+      console.error("Failed to fetch All Sales By Users: " + err);
+      return null;
+    }
+  };
+
+  const fetchDailyRevenue = async (overrideToken?: string): Promise<DailyRevenueModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(`http://${API_URL}/api/sales/daily-revenue`, {
+        credentials: "include", // sends HttpOnly refresh token
+        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+        res = await fetch(`http://${API_URL}/api/sales/daily-revenue`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+      if (!res.ok) throw new Error("Failed to fetch Daily Revenue again, after refresh.");
+
+      const dailyRevenueData: DailyRevenueModel[] = await res.json();
+
+      setDailyRevenue(dailyRevenueData);
+      return dailyRevenueData;
+    } catch (err) {
+      console.error("Failed to fetch Daily Revenue: " + err);
+      return null;
+    }
+  };
+
+  const fetchTotalUnitsSoldPerProduct = async (overrideToken?: string): Promise<TotalUnitsSoldPerProductModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(`http://${API_URL}/api/products/total-units-sold`, {
+        credentials: "include", // sends HttpOnly refresh token
+        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+        res = await fetch(`http://${API_URL}/api/products/total-units-sold`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+      if (!res.ok) throw new Error("Failed to fetch Total Units Sold Per Product again, after refresh.");
+
+      const totalUnitsSoldData: TotalUnitsSoldPerProductModel[] = await res.json();
+      
+      setTotalUnitsSoldPerProduct(totalUnitsSoldData);
+      return totalUnitsSoldData;
+    }catch(err){
+      console.error("Failed to fetch Total Units Sold Per Product: " + err);
+      return null;
+    }
+  };
+
+  /* - - - - - Fetch Data(Analytics by pathvariables) Functions - - - - - */
+
+  const fetchAverageSaleByShopId = async (shopId: string, overrideToken?: string): Promise<number | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(`http://${API_URL}/api/sales/${shopId}/average-sale`, {
+        credentials: "include", // sends HttpOnly refresh token
+        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+        res = await fetch(`http://${API_URL}/api/sales/${shopId}/average-sale`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+
+      if (!res.ok) throw new Error("Failed to fetch Average Sale By Shop ID: " + shopId + " again, after refresh.");
+
+      const averageSaleByShopData: number = await res.json();
+
+      setAverageSaleByShopId(averageSaleByShopData);
+      return averageSaleByShopData;
+    } catch (error) {
+      console.error("Failed to fetch Average Sale By Shop ID " + shopId + ": " + error);
+      return null;
+    }
+  };
+
+  const fetchProductSalesReportById = async (shopId: string,overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
     if (!API_URL) return null;
 
     const authToken = overrideToken ?? token;
@@ -711,7 +872,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       if (!res.ok) throw new Error("Failed to fetch Product Sales Report By ID again, after refresh.");
 
-      const productSalesReportData: ProductSalesReport[] = await res.json();
+      const productSalesReportData: ProductSalesReportModel[] = await res.json();
       
       setProductSalesReportById(productSalesReportData);
       return productSalesReportData;
@@ -721,7 +882,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const fetchTopProductsUnits = async (shopId: string, overrideToken?: string): Promise<ProductSalesReport[] | null> => {
+  const fetchTopProductsUnits = async (shopId: string, overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
     if (!API_URL) return null;
 
     const authToken = overrideToken ?? token;
@@ -754,17 +915,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           throw new Error('Failed to fetch top products by units at a shop again, after refresh!');
       }
 
-      const topProductsUnitsData: ProductSalesReport[] = await res.json();
+      const topProductsUnitsData: ProductSalesReportModel[] = await res.json();
 
       setTopProductsUnits(topProductsUnitsData);
-      return topProductsUnitsData as ProductSalesReport[];
+      return topProductsUnitsData as ProductSalesReportModel[];
     } catch (err) {
       console.error("Failed to fetch Top Products By Units at a Shop: " + err);
       return null;
     }
   };
 
-  const fetchTopProductsRevenue = async (shopId: string, overrideToken?: string): Promise<ProductSalesReport[] | null> => {
+  const fetchTopProductsRevenue = async (shopId: string, overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
     if (!API_URL) return null;
 
     const authToken = overrideToken ?? token;
@@ -797,10 +958,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           throw new Error('Failed to fetch top products by revenue at a shop again, after refresh!');
       }
 
-      const topProductsRevenueData: ProductSalesReport[] = await res.json();
+      const topProductsRevenueData: ProductSalesReportModel[] = await res.json();
 
       setTopProductsRevenue(topProductsRevenueData);
-      return topProductsRevenueData as ProductSalesReport[];
+      return topProductsRevenueData as ProductSalesReportModel[];
     } catch (err) {
       console.error("Failed to fetch Top Products By Revenue at a Shop: " + err);
       return null;
@@ -841,7 +1002,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // }, []);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue }}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId }}>
       {children}
     </AuthContext.Provider>
   );

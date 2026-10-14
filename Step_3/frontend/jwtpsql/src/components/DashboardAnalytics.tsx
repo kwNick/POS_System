@@ -1,6 +1,11 @@
 import User from "@/lib/models/userModel"
 import Link from "next/link"
 import ProductSalesReport from "./ProductSalesReport"
+import AllSalesByUsers from "./AllSalesByUsers"
+import DailyRevenue from "./DailyRevenue"
+import ProductSalesReportUnitsSold from "./ProductSalesReportUnitsSold"
+import UnitsSoldPerProduct from "./UnitsSoldPerProduct"
+import AverageSaleByShopId from "./AverageSaleByShopId"
 
 const DashboardAnalytics = ({user}:{user: User}) => {
   return (
@@ -17,7 +22,6 @@ const DashboardAnalytics = ({user}:{user: User}) => {
             <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
                 <div>
                     <h2>
-                        "Today's Sales"
                         Today's Sales       $4,382.25 
                     </h2>
                     <p>
@@ -27,27 +31,15 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                         {/* This query shows today's sales for a specific shop   -->  This goes in SalesRepository */}
                     </p>
                 </div>
-            </div>
-
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
                 <div>
-                    <h2>
-                        "Average Order"
-                        Average Order          $34.51
-                    </h2>
-                    <p>
-                        SELECT AVG(total)
-                        FROM sales
-                        WHERE shop_id == shop.id
-                        {/* This query shows the average order for a specific shop   -->  This goes in SalesRepository */}
-                    </p>
+
                 </div>
             </div>
 
+
             <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
                 <div>
                     <h2>
-                        "Top Product"
                         Top Product
                             └── Widget A          83 sold
                     </h2>
@@ -61,12 +53,15 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                         {/* This query shows the top product for a specific shop   -->  This goes in ProductRepository */}
                     </p>
                 </div>
+                <div>
+
+                </div>
+
             </div>
 
             <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
                 <div>
                     <h2>
-                        "Sales by Shop"
                         Sales by Shop
                             ├── Shop A          $2,431
                             ├── Shop B          $1,284
@@ -81,13 +76,15 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                         {/* This query shows the sales by shop for a specific shop   -->  This goes in SalesRepository */}
                     </p>
                 </div>
+                <div>
+
+                </div>
             </div>
 
             <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
 
                 <div>
                     <h2>
-                        "Most Selling Product"
                         Most Selling Product
                             └── Widget A          83 sold
                     </h2>
@@ -101,33 +98,12 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                         {/* This query shows the most selling product for a specific shop   -->  This goes in ProductRepository */}
                     </p>
                 </div>
+                <div>
+
+                </div>
             </div>
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
-                <p>
-                    SELECT
-                        p.name,
-                    SUM(si.quantity) AS units_sold
-                    FROM sale_items si
-                    JOIN products p 
-                        ON p.id = si.product_id
-                    GROUP BY p.id, p.name
-                    ORDER BY units_sold DESC;
-                    {/* This query shows the total units sold for each product   -->  This goes in ProductRepository*/}
-                </p>
-            </div>
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
-                <p>
-                    SELECT
-                    DATE(created_at) AS sale_date,
-                    SUM(total) AS revenue
-                    FROM sales
-                    GROUP BY DATE(created_at)
-                    ORDER BY sale_date;
-                    {/* This query shows the daily revenue for each sale date   -->  This goes in SalesRepository */}
-                </p>
-            </div>
 
             <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
                 <div>
@@ -145,6 +121,67 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                             ON si.product_id = p.id;
                         {/* This query shows every product sold with its quantity, unit price, and subtotal   -->  This goes in ProductRepository*/}
                     </p>
+                </div>
+                <div>
+
+                </div>
+            </div>
+
+            {/* Done these vv start ^^ above needs to be done ^^ */}
+            
+            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+                <div>
+                    <h2>
+                        Average Order          $34.51
+                    </h2>
+                    <p>
+                        SELECT AVG(total)
+                        FROM sales
+                        WHERE shop_id == shop.id
+                        {/* This query shows the average order for a specific shop   -->  This goes in SalesRepository */}
+                    </p>
+                </div>
+                {/* Maybe list all shops average sale by id using user variable for dashboard */}
+                <div>
+                    <AverageSaleByShopId />
+                </div>
+            </div>
+            
+            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+                <div>
+                    <h2>Total Units Sold for Each Product</h2>
+                    <p>
+                        SELECT
+                            p.name,
+                            SUM(si.quantity) AS units_sold
+                        FROM sale_items si
+                        JOIN products p 
+                            ON p.id = si.product_id
+                        GROUP BY p.id, p.name
+                        ORDER BY units_sold DESC;
+                        {/* This query shows the total units sold for each product  -->  This goes in ProductRepository*/}
+                    </p>
+                </div>
+                <div>
+                    <UnitsSoldPerProduct />
+                </div>
+            </div>
+
+            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+                <div>
+                    <h2>Daily Revenue</h2>
+                    <p>
+                    SELECT
+                        DATE(created_at) AS sale_date,
+                        SUM(total) AS revenue
+                    FROM sales
+                    GROUP BY DATE(created_at)
+                    ORDER BY sale_date;
+                    {/* This query shows the daily revenue for each sale date   -->  This goes in SalesRepository */}
+                    </p>
+                </div>
+                <div>
+                    <DailyRevenue />
                 </div>
             </div>
 
@@ -168,9 +205,11 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                         {/* This query shows every sale and who made it  -->  This goes in SalesRepository */}
                     </p>
                 </div>
+                <div>
+                    <AllSalesByUsers />
+                </div>
             </div>
 
-            {/* Done these vv start ^^ above needs to be done ^^ */}
 
             <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
 
@@ -218,6 +257,9 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                         ORDER BY units_sold DESC
                         LIMIT 5;
                     </p>
+                </div>
+                <div>
+                    <ProductSalesReportUnitsSold />
                 </div>
             </div>
             
