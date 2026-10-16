@@ -9,7 +9,7 @@ import AverageSaleByShopId from "./AverageSaleByShopId"
 
 const DashboardAnalytics = ({user}:{user: User}) => {
   return (
-    <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
+    <div className=" p-10 lg:p-14 xl:p-16 w-full ">
         <div className="flex gap-5 items-center justify-between mb-8 border-b-2">
             <h2 className="text-3xl font-semibold mb-4">
                 <Link href={`/shops`}>Analytics</Link>
@@ -19,7 +19,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
 
         <div className="max-w-full h-full flex flex-wrap gap-4 items-center justify-center p-2">
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>
                         Today's Sales       $4,382.25 
@@ -37,7 +37,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
             </div>
 
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>
                         Top Product
@@ -59,7 +59,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
 
             </div>
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>
                         Sales by Shop
@@ -81,7 +81,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                 </div>
             </div>
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
 
                 <div>
                     <h2>
@@ -105,7 +105,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
 
 
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>
                         "Show me every product sold"
@@ -129,7 +129,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
 
             {/* Done these vv start ^^ above needs to be done ^^ */}
             
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>
                         Average Order          $34.51
@@ -147,7 +147,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                 </div>
             </div>
             
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>Total Units Sold for Each Product</h2>
                     <p>
@@ -167,7 +167,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                 </div>
             </div>
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>Daily Revenue</h2>
                     <p>
@@ -185,7 +185,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                 </div>
             </div>
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>
                         "Show me every sale and who made it"
@@ -211,7 +211,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
             </div>
 
 
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
 
                 <div>
                     <h2>
@@ -235,7 +235,7 @@ const DashboardAnalytics = ({user}:{user: User}) => {
                 </div>
             </div>
             
-            <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8">
+            <div className="w-[calc(100%/3-4rem)] flex flex-col gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
                 <div>
                     <h2>
                         What are the top 5 products sold at shop #1?

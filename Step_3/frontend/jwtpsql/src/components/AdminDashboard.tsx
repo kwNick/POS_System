@@ -6,6 +6,7 @@ import Shop from "@/lib/models/shopModel";
 import User from "@/lib/models/userModel";
 import DashboardUserData from "./DashboardUserData";
 import DashboardShopData from "./DashboardShopData";
+import DashboardAnalytics from "./DashboardAnalytics";
 
 const AdminDashboard = () => {
     const {user, usersWDetails, users, shops, roles, loading} = useAuth();
@@ -28,6 +29,10 @@ const AdminDashboard = () => {
                     <DashboardUserData user={user} />
                     
                     <DashboardShopData user={user} />
+                </div>
+
+                <div className="w-full min-h-[85vh] flex flex-col gap-12 lg:gap-14 lg:flex-row">
+                    <DashboardAnalytics user={user} />
                 </div>
             </>
         )}
