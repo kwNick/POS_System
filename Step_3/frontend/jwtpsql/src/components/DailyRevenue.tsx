@@ -8,11 +8,28 @@ const DailyRevenue = () => {
     console.log("Daily Revenue: ", dailyRevenue);
   return (
     <div>
-      {dailyRevenue?.map((revenue: DailyRevenueModel) => (
+      {/* {dailyRevenue?.map((revenue: DailyRevenueModel) => (
         <p key={revenue.saleDate}>
           {revenue.saleDate}: ${revenue.revenue}
         </p>
-      ))}
+      ))} */}
+
+      <table>
+        <thead>
+          <tr>
+            <th>Sale Date</th>
+            <th>Revenue</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dailyRevenue?.map((revenue: DailyRevenueModel) => (
+            <tr key={revenue.saleDate}>
+              <td>{revenue.saleDate}</td>
+              <td>${revenue.revenue}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }

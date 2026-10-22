@@ -7,6 +7,7 @@ import { ProductSalesReportModel } from "@/lib/models/ProductSalesReport";
 import Role from "@/lib/models/roleModel";
 import Shop from "@/lib/models/shopModel";
 import { TotalUnitsSoldPerProductModel } from "@/lib/models/TotalUnitsSoldPerProductModel";
+import { UserData } from "@/lib/models/UserDataObject";
 import User from "@/lib/models/userModel";
 // import { jwtVerify } from "jose";
 import { jwtDecode } from "jwt-decode";
@@ -31,6 +32,9 @@ type AuthContextType = {
   allSalesByUsers: AllSalesByUsersModel[] | null;
   dailyRevenue: DailyRevenueModel[] | null;
   totalUnitsSoldPerProduct: TotalUnitsSoldPerProductModel[] | null;
+
+  userDataObject: UserData | null;
+
   loading: boolean;
   login: (username: string, password: string) => Promise<boolean | null>;
   logout: () => void;
@@ -54,6 +58,7 @@ type AuthContextType = {
   fetchDailyRevenue: (overrideToken?: string) => Promise<DailyRevenueModel[] | null>;
   fetchTotalUnitsSoldPerProduct: (overrideToken?: string) => Promise<TotalUnitsSoldPerProductModel[] | null>;
   fetchAnalytics: (overrideToken?: string) => Promise<any | null>;
+  fetchUserDataObject: (username: string, overrideToken?: string) => Promise<UserData | null>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -77,6 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [dailyRevenue, setDailyRevenue] = useState<DailyRevenueModel[] | null>(null);
   const [totalUnitsSoldPerProduct, setTotalUnitsSoldPerProduct] = useState<TotalUnitsSoldPerProductModel[] | null>(null);
   const [averageSaleByShopId, setAverageSaleByShopId] = useState<number | null>(null);
+  const [userDataObject, setUserDataObject] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -103,7 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const payload = jwtDecode<{username: string, roles: string[], exp: number}>(data.fullToken); // decode the JWT without verifying, since we trust the backend
       // console.log(data.fullToken);
       // console.log(payload.roles);
-      // console.log(payload);
+      console.log(payload);
 
       setToken(data.fullToken);
       setRole(payload.roles); // comment out payload line, just use data.roles and data.fullToken
@@ -111,6 +117,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
       await fetchProfile(data.fullToken);
+      await fetchUserDataObject(payload.username, data.fullToken);
       await fetchAnalytics(data.fullToken);
       return true;
 
@@ -147,6 +154,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       document.cookie = `role=${payload.roles.join(",")}; max-age=180; path=/; secure; samesite=strict`; // Store roles in a non-HttpOnly cookie for middleware access
 
       await fetchProfile(data.fullToken);
+      await fetchUserDataObject(payload.username, data.fullToken);
       await fetchAnalytics(data.fullToken);
       return true;
 
@@ -170,6 +178,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setTopProductsUnits(null);
     setProductSalesReport(null);
     setProductSalesReportById(null);
+    setAllSalesByUsers(null);
+    setDailyRevenue(null);
+    setTotalUnitsSoldPerProduct(null);
+    setAverageSaleByShopId(null);
+    setUserDataObject(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
 
@@ -197,6 +210,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setTopProductsUnits(null);
     setProductSalesReport(null);
     setProductSalesReportById(null);
+    setAllSalesByUsers(null);
+    setDailyRevenue(null);
+    setTotalUnitsSoldPerProduct(null);
+    setAverageSaleByShopId(null);
+    setUserDataObject(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
     try {
@@ -649,6 +667,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const fetchUserDataObject = async (username: string, overrideToken?: string): Promise<UserData | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(`http://${API_URL}/api/userData/${username}/data`, {
+        credentials: "include", // sends HttpOnly refresh token
+        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      // If token expired, refresh and try again
+      if (res.status == 403 || res.status == 401) {
+
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+        res = await fetch(`http://${API_URL}/api/userData/${username}/data`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+      if (!res.ok) throw new Error("Failed to fetch User Data Object again, after refresh.");
+
+      const userDataObject: UserData = await res.json();
+
+      setUserDataObject(userDataObject);
+      return userDataObject;
+    }catch (err) {
+      console.error("Failed to fetch User Data Object: " + err);
+      return null;
+    }
+  }
+
   /* - - - - - Fetch Data(Analytics) Functions - - - - - */
 
   const fetchAnalytics = async (overrideToken?: string): Promise<any | null> => {
@@ -1002,7 +1055,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // }, []);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId }}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, userDataObject, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId, fetchUserDataObject }}>
       {children}
     </AuthContext.Provider>
   );

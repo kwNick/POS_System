@@ -6,7 +6,9 @@ import DashboardShopData from "./DashboardShopData";
 import DashboardAnalytics from "./DashboardAnalytics";
 
 const ProfileDashboard = () => {
-  const { user, loading } = useAuth();
+  const { user, userDataObject, loading } = useAuth();
+  console.log("user: ", user);
+  console.log("userDataObject: ", userDataObject);
 
   if (loading) return <div className="min-w-3/5"><p>Loading...</p></div>;
   if (!user && !loading) return <div className="min-w-3/5"><p>You are not logged in.</p></div>;
@@ -30,7 +32,7 @@ const ProfileDashboard = () => {
             </div>
 
             <div className="w-full min-h-[85vh] flex flex-col gap-12 lg:gap-14 lg:flex-row">
-              <DashboardAnalytics user={user} />
+              <DashboardAnalytics user={user} userDataObject={userDataObject} />
             </div>
           </>
         )}

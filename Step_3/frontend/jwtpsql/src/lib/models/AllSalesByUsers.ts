@@ -4,5 +4,5 @@ export type AllSalesByUsersModel = {
   subtotal: number;
   tax: number;
   total: number;
-  created_at: string;
+  createdAt: string;
 };

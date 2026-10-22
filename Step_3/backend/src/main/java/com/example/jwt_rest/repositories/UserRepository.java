@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.jwt_rest.models.User;
 
+// @RepositoryRestResource(path = "users", collectionResourceRel = "users")
 public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findByUsername(String username);
     boolean existsByUsername(String username);
