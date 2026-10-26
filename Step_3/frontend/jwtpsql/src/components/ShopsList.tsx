@@ -1,4 +1,5 @@
 'use client';
+
 import { useAuth } from "@/context/AuthContext";
 import Shop from "@/lib/models/shopModel";
 import Link from "next/link";

@@ -5,11 +5,11 @@ import Link from "next/link"
 
 const DashboardUserData = ({ user }: { user: User }) => {
   return (
-    <div className="p-6 lg:p-8 xl:p-12 mb-8 w-full bg-neutral-surface rounded-lg shadow-md shadow-neutral-white">
+    <div className="p-6 lg:p-8 xl:p-12 mb-8 w-[40%] overflow-hidden">
         <div className="w-[clamp(300px, 80%, 800px)]">
             <h1 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Profile:</h1>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 text-wrap">
                 <p><span className="font-semibold">Username</span>: {user?.username}</p>
                 <p><span className="font-semibold">Email</span>: {user?.email}</p>
                 <p><span className="font-semibold">Password</span>: {user?.password}</p>

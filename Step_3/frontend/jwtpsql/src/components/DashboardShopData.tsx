@@ -8,11 +8,11 @@ import UpdateShopLink from "./UpdateShopLink"
 
 const DashboardShopData = ({ user }: { user: User }) => {
   return (
-    <div className=" p-10 lg:p-14 xl:p-16 w-full bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
+    <div className=" p-10 lg:p-14 xl:p-16 w-full ">
                         
         <div className="flex gap-5 items-center justify-between mb-8 border-b-2">
             <h2 className="text-3xl font-semibold mb-4">
-                <Link href={`/shops`}>Your Shops</Link>
+                <Link href={`/shops`}>Your Shops : {user.shops.length}</Link>
             </h2>
             <AddShopButton />
         </div>

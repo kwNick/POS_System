@@ -9,7 +9,9 @@ import DashboardShopData from "./DashboardShopData";
 import DashboardAnalytics from "./DashboardAnalytics";
 
 const AdminDashboard = () => {
-    const {user, usersWDetails, users, shops, roles, loading} = useAuth();
+    const {user, userDataObject, usersWDetails, users, shops, roles, loading} = useAuth();
+    console.log("user: ", user);
+    console.log("userDataObject: ", userDataObject);
 
     if(loading) return <div className="min-w-3/5"><p>Loading...</p></div>;
     if(!user && !loading) return <div className="min-w-3/5"><p>You are not logged in.</p></div>;
@@ -18,21 +20,21 @@ const AdminDashboard = () => {
     <>
         {user && (
             <>
-                <div className="">
-                    <h1 className="text-3xl font-semibold mb-4">
+                <div className="w-full flex items-center justify-start">
+                    <h1 className="text-7xl font-semibold mb-4 lg:mb-8">
                         <span className='capitalize underline'>Hello, Admin - {user?.username}</span>
                         <span className='text-xs'>-{user?.roles.map((role: Role) => role.name)}</span>
                     </h1>
                 </div>
 
-                <div className="flex flex-col gap-12 lg:gap-14 lg:flex-row">
+                <div className="w-full h-[65vh] flex flex-col gap-12 lg:gap-14 lg:flex-row">
                     <DashboardUserData user={user} />
                     
                     <DashboardShopData user={user} />
                 </div>
 
                 <div className="w-full min-h-[85vh] flex flex-col gap-12 lg:gap-14 lg:flex-row">
-                    <DashboardAnalytics user={user} />
+                    <DashboardAnalytics user={user} userDataObject={userDataObject} />
                 </div>
             </>
         )}

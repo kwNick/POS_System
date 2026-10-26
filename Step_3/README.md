@@ -200,3 +200,109 @@ CREATE TABLE payments (
         ON DELETE CASCADE
 );
 ```
+
+*Security Configurations*
+These paths are given authorization in securityConfig
+
+- /auth/** permitAll
+- /api/users/** hasRole(Admin)
+- /users/** hasRole(Admin)
+- /roles/** hasRole(Admin)
+- /shops/** hasRole(user, Admin)
+
+Backend API Endpoints
+*HoneyPot Controller*
+--> /
+    - /admin
+    - /login
+    - /signin
+    ...
+
+*Authentication* (All Permissions)
+--> /auth
+1    - /login-refresh
+2    - /register-refresh
+3    - /logout-refresh
+4    - /refresh
+
+*Shop Controller*
+--> /shops
+5    - /{shopId} GET
+6    - /{shopId} DELETE
+7    - /{id} PUT
+8    - /addShop
+
+*User Controller*
+--> /api
+9     - /users    (admin permissions)
+10    - /profile
+11    - / delete
+
+*UserData Controller*
+--> /api/userData
+12    - /{username}/data
+
+*Default Paths from @RestController and starter-data-rest dependency*
+--> All have GET /, Get /.../{id}, POST /, PUT /.../{id}, DELETE /.../{id}
+13    - /payments (unused)
+14    - /products (unused)
+15    - /roles
+16    - /saleItems (unused)
+17    - /shops
+18    - /userData ? (unused)
+19    - /users
+
+(Analytics)
+*Product Controller*
+--> /api/products
+20    - /total-units-sold
+
+(Analytics)
+*Sale Controller*
+--> /api/sales
+21    - /all-sales
+22    - /daily-revenue
+23    - /{shopId}/average-sale
+
+(Analytics)
+*Product Report Controller*
+--> /api/shops
+24    - /sales-report
+25    - /{shopId}/sales-report
+26    - /{shopId}/reports/top-products-units
+27    - /{shopId}/reports/top-products-revenue
+28    - /{shopId}/reports/sales-by-date/{startDate}/{endDate}
+
+Frontend API Endpoints
+
+*AuthContext*
+1 Login --> /auth/login-refresh
+2 register --> /auth/register-refresh
+3 logout --> /auth/logout-refresh
+4 checkRefresh --> /auth/refresh
+
+5 deleteProfile --> /api/delete
+
+6 fetchShop --> /shops/{shopId}   GET
+7 addShop --> /shops/addShop      POST
+8 updateShop --> /shops/{shopId}  PUT
+9 deleteShop --> /shops/{shopId}  DELETE
+
+10 fetchProfile --> /api/profile
+11 fetchUsersWithDetails --> /api/users
+12 fetchUserDataObject --> /api/userData/{username}/data
+
+13 fetchUsers --> /users
+14 fetchShops --> /shops
+15 fetchRoles --> /roles
+
+(Analytics)
+16 fetchAnalytics --> Calls these functions, Does Not Require any data to be passed in
+17         - fetchProductSalesReport --> /api/shops/sales-report
+18         - fetchAllSalesByUsers --> /api/sales/all-sales
+19         - fetchDailyRevenue --> /api/sales/daily-revenue
+20         - fetchTotalUnitsSoldPerProduct --> /api/products/total-untis-sold
+21 fetchAverageSaleByShopId --> /api/sales/{shopId}/average-sale
+22 fetchProductSalesReportById --> /api/shops/{shopId}/sales-report
+23 fetchTopProductsUnits --> /reports/top-products-units
+24 fetchTopProductsRevenue --> /reports/top-products-revenue
