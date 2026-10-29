@@ -125,6 +125,49 @@ Product
 ```
 
 ```text
+----------------
+Creating Tables
+----------------
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    username VARCHAR(100) NOT NULL,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE user_roles (
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL, PRIMARY KEY (user_id, role_id), FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+);
+
+--------------
+Adding roles
+--------------
+
+insert into roles (name)
+values ('ROLE_ADMIN');
+
+create index idx_user_username on users(username);
+create index idx_role_name on roles(name);
+
+insert into roles (name)
+values ('ROLE_USER');
+
+---
+
+CREATE TABLE shops (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    location VARCHAR(255)
+);
+
 CREATE TABLE products (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
@@ -136,6 +179,57 @@ CREATE TABLE products (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+----------------
+Adding Products
+----------------
+
+INSERT INTO products
+    (name, description, sku, price, stock_quantity, active)
+VALUES
+    ('Classic Burger',
+     'Beef burger with lettuce, tomato, and onion',
+     'BURG-001',
+     8.99,
+     50,
+     TRUE),
+
+    ('Cheeseburger',
+     'Classic burger with American cheese',
+     'BURG-002',
+     10.99,
+     45,
+     TRUE),
+
+    ('French Fries',
+     'Crispy seasoned french fries',
+     'SIDE-001',
+     3.49,
+     100,
+     TRUE),
+
+    ('Chicken Sandwich',
+     'Grilled chicken sandwich with lettuce and tomato',
+     'SAND-001',
+     9.49,
+     40,
+     TRUE),
+
+    ('Coca-Cola',
+     '20 oz bottled Coca-Cola',
+     'DRINK-001',
+     2.49,
+     75,
+     TRUE),
+
+    ('Chocolate Cake',
+     'Slice of chocolate cake',
+     'DESS-001',
+     5.99,
+     25,
+     TRUE);
+
+---
 
 CREATE TABLE sales (
     id BIGSERIAL PRIMARY KEY,
@@ -199,6 +293,148 @@ CREATE TABLE payments (
         REFERENCES sales(id)
         ON DELETE CASCADE
 );
+
+-----------------------------------------
+Adding Sales W/ Sale_Items and Payments
+-----------------------------------------
+
+INSERT INTO sales
+    (shop_id, user_id, subtotal, tax, discount, total, status)
+VALUES
+    (1, 3, 26.45, 2.12, 0.00, 28.57, 'COMPLETED');
+
+INSERT INTO sales
+    (shop_id, user_id, subtotal, tax, discount, total, status)
+VALUES
+    (1, 3, 16.97, 1.36, 0.00, 18.33, 'COMPLETED');
+
+INSERT INTO sales
+    (shop_id, user_id, subtotal, tax, discount, total, status)
+VALUES
+    (1, 3, 18.97, 1.52, 0.00, 20.49, 'COMPLETED');
+
+----
+
+INSERT INTO sale_items
+    (sale_id, product_id, quantity, unit_price, subtotal)
+VALUES
+    (1, 1, 2, 8.99, 17.98),
+    (1, 3, 1, 3.49, 3.49),
+    (1, 5, 2, 2.49, 4.98);
+
+INSERT INTO sale_items
+    (sale_id, product_id, quantity, unit_price, subtotal)
+VALUES
+    (2, 2, 1, 10.99, 10.99),
+    (2, 3, 1, 3.49, 3.49),
+    (2, 5, 1, 2.49, 2.49);
+
+INSERT INTO sale_items
+    (sale_id, product_id, quantity, unit_price, subtotal)
+VALUES
+    (3, 4, 1, 9.49, 9.49),
+    (3, 3, 1, 3.49, 3.49),
+    (3, 6, 1, 5.99, 5.99);
+
+---
+
+INSERT INTO payments
+    (sale_id, payment_method, amount, status, transaction_reference)
+VALUES
+    (1, 'CARD', 28.57, 'COMPLETED', 'TXN-100001');
+
+INSERT INTO payments
+    (sale_id, payment_method, amount, status, transaction_reference)
+VALUES
+    (2, 'CASH', 18.33, 'COMPLETED', NULL);
+
+INSERT INTO payments
+    (sale_id, payment_method, amount, status, transaction_reference)
+VALUES
+    (3, 'CARD', 20.49, 'COMPLETED', 'TXN-100002');
+
+---
+All Table Schemas
+SELECT
+    table_name,
+    ordinal_position,
+    column_name,
+    data_type,
+    is_nullable,
+    column_default
+FROM information_schema.columns
+WHERE table_schema = 'public'
+ORDER BY table_name, ordinal_position;
+
+-------------------------
+Foreign Keys/Constraints
+-------------------------
+
+SELECT
+    tc.table_name,
+    tc.constraint_name,
+    tc.constraint_type,
+    kcu.column_name,
+    ccu.table_name AS referenced_table,
+    ccu.column_name AS referenced_column
+FROM information_schema.table_constraints tc
+LEFT JOIN information_schema.key_column_usage kcu
+    ON tc.constraint_name = kcu.constraint_name
+    AND tc.constraint_schema = kcu.constraint_schema
+LEFT JOIN information_schema.constraint_column_usage ccu
+    ON tc.constraint_name = ccu.constraint_name
+    AND tc.constraint_schema = ccu.constraint_schema
+WHERE tc.table_schema = 'public'
+ORDER BY tc.table_name, tc.constraint_type;
+
+------------------------
+Table Constraints/Rules
+------------------------
+
+SELECT
+    conrelid::regclass AS table_name,
+    conname AS constraint_name,
+    pg_get_constraintdef(oid) AS definition
+FROM pg_constraint
+WHERE connamespace = 'public'::regnamespace
+ORDER BY conrelid::regclass::text, conname;
+
+--------------------
+Showing All Tables
+-----------------
+
+SELECT id, name, sku, price, stock_quantity, active
+FROM products
+ORDER BY id;
+
+SELECT id, user_id, name, location
+FROM shops
+ORDER BY id;
+
+SELECT id, username
+FROM users
+ORDER BY id;
+
+
+SELECT id, shop_id, user_id, subtotal, tax,
+       discount, total, status, created_at
+FROM sales
+ORDER BY id;
+
+SELECT id, sale_id, product_id, quantity,
+       unit_price, subtotal
+FROM sale_items
+ORDER BY id;
+
+SELECT id, sale_id, payment_method, amount,
+       status, created_at
+FROM payments
+ORDER BY id;
+
+---------------
+
+---------------
+
 ```
 
 *Security Configurations*
