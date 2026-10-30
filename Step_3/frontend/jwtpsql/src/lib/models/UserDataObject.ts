@@ -1,4 +1,8 @@
-export type UserData = {
+export type UserDataObject = {
+  userData: UserDataDTO;
+};
+
+export type UserDataDTO = {
   user: UserDTO;
   shops: ShopDTO[];
 };
@@ -13,6 +17,7 @@ export type ShopDTO = {
   shop_info: ShopInfoDTO;
   products: ProductDTO[];
   sales: SaleDTO[];
+  employees: EmployeeDTO[];
 };
 
 export type ShopInfoDTO = {
@@ -29,6 +34,13 @@ export type ProductDTO = {
   price: number;
   stockQuantity: number;
   active: boolean;
+};
+
+export type EmployeeDTO = {
+  id: number;
+  username: string;
+  pin: number;
+  position: string;
 };
 
 export type SaleDTO = {

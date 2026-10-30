@@ -7,7 +7,7 @@ import { ProductSalesReportModel } from "@/lib/models/ProductSalesReport";
 import Role from "@/lib/models/roleModel";
 import Shop from "@/lib/models/shopModel";
 import { TotalUnitsSoldPerProductModel } from "@/lib/models/TotalUnitsSoldPerProductModel";
-import { UserData } from "@/lib/models/UserDataObject";
+import { UserDataObject } from "@/lib/models/UserDataObject";
 import User from "@/lib/models/userModel";
 // import { jwtVerify } from "jose";
 import { jwtDecode } from "jwt-decode";
@@ -33,7 +33,7 @@ type AuthContextType = {
   dailyRevenue: DailyRevenueModel[] | null;
   totalUnitsSoldPerProduct: TotalUnitsSoldPerProductModel[] | null;
 
-  userDataObject: UserData | null;
+  userDataObject: UserDataObject | null;
 
   loading: boolean;
   login: (username: string, password: string) => Promise<boolean | null>;
@@ -58,7 +58,7 @@ type AuthContextType = {
   fetchDailyRevenue: (overrideToken?: string) => Promise<DailyRevenueModel[] | null>;
   fetchTotalUnitsSoldPerProduct: (overrideToken?: string) => Promise<TotalUnitsSoldPerProductModel[] | null>;
   fetchAnalytics: (overrideToken?: string) => Promise<any | null>;
-  fetchUserDataObject: (username: string, overrideToken?: string) => Promise<UserData | null>;
+  fetchUserDataObject: (username: string, overrideToken?: string) => Promise<UserDataObject | null>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [dailyRevenue, setDailyRevenue] = useState<DailyRevenueModel[] | null>(null);
   const [totalUnitsSoldPerProduct, setTotalUnitsSoldPerProduct] = useState<TotalUnitsSoldPerProductModel[] | null>(null);
   const [averageSaleByShopId, setAverageSaleByShopId] = useState<number | null>(null);
-  const [userDataObject, setUserDataObject] = useState<UserData | null>(null);
+  const [userDataObject, setUserDataObject] = useState<UserDataObject | null>(null);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -667,7 +667,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const fetchUserDataObject = async (username: string, overrideToken?: string): Promise<UserData | null> => {
+  const fetchUserDataObject = async (username: string, overrideToken?: string): Promise<UserDataObject | null> => {
     if (!API_URL) return null;
 
     const authToken = overrideToken ?? token;
@@ -692,7 +692,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       if (!res.ok) throw new Error("Failed to fetch User Data Object again, after refresh.");
 
-      const userDataObject: UserData = await res.json();
+      const userDataObject: UserDataObject = await res.json();
 
       setUserDataObject(userDataObject);
       return userDataObject;
@@ -1022,14 +1022,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // On mount, attempt to refresh access token automatically
+  // useEffect(() => {
+  //   (async () => {
+  //     await fetchProfile();
+  //     await fetchShops();
+  //     await fetchAnalytics();
+  //     setLoading(false);
+  //   })();
+  // }, []);
   useEffect(() => {
-    (async () => {
-      await fetchProfile();
-      await fetchShops();
-      await fetchAnalytics();
+  const initializeAuth = async () => {
+    try {
+      setLoading(true);
+
+      // 1. Restore the access token using the HttpOnly refresh cookie
+      const restoredToken = await checkRefresh();
+
+      if (!restoredToken) return;
+
+      // 2. Fetch the authenticated user's profile
+      const profile = await fetchProfile(restoredToken);
+
+      if (!profile) return;
+
+      // 3. Fetch the remaining user data
+      await Promise.all([
+        fetchUserDataObject(profile.username, restoredToken),
+        fetchShops(restoredToken),
+        fetchAnalytics(restoredToken)
+      ]);
+
+    } catch (error) {
+      console.error("Failed to initialize authentication:", error);
+    } finally {
       setLoading(false);
-    })();
-  }, []);
+    }
+  };
+
+  initializeAuth();
+}, []);
 
   useEffect(() => {
     if(role?.includes("ROLE_ADMIN")){
