@@ -38,7 +38,8 @@ export type ProductDTO = {
 
 export type EmployeeDTO = {
   id: number;
-  username: string;
+  first_name: string;
+  last_name: string;
   pin: number;
   position: string;
 };

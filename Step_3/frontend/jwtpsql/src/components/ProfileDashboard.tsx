@@ -4,10 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import DashboardUserData from "./DashboardUserData";
 import DashboardShopData from "./DashboardShopData";
 import DashboardAnalytics from "./DashboardAnalytics";
-import Link from "next/link";
 import DashboardUserAnalytics from "./DashboardUserAnalytics";
-import { ShopDTO } from "@/lib/models/UserDataObject";
-import { useEffect } from "react";
 import DashboardPerShopAnalytics from "./DashboardPerShopAnalytics";
 
 const ProfileDashboard = () => {
@@ -53,7 +50,7 @@ const ProfileDashboard = () => {
             <div className="w-full min-h-[85vh] flex flex-col gap-12 lg:gap-14 p-2">
 
               {/* <ShopCharts /> Make This a component with charts that represent each shops transaction/revenue/sales overtime */}
-              <div className="w-[calc(100%-1rem)] h-[75vh] flex items-center justify-center ">
+              <div className="w-[calc(100%-1rem)] h-[75vh] flex flex-col items-center justify-center ">
                 <div className="w-full h-[15%] flex items-center justify-center">
                   <h2>Sales Chart</h2>
                 </div>

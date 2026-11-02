@@ -77,8 +77,8 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-start">
         <div className="w-full h-3/4 p-6 flex gap-6 text-xl md:text-2xl">
-            <h1>Name: {shop.name}</h1>
-            <p>Location: {shop.location}</p>
+            <h1>{shop.name}</h1>
+            <p>{shop.location}</p>
         </div>
 
         {!topProductsUnits && !topProductsRevenue && (

@@ -51,6 +51,24 @@ public interface UserDataRepository extends Repository<User, Long> {
                                     '[]'::jsonb
                                 ),
 
+                                'employees',
+                                COALESCE(
+                                    (
+                                        SELECT jsonb_agg(
+                                            jsonb_build_object(
+                                                'id', e.id,
+                                                'first_name', e.first_name,
+                                                'last_name', e.last_name,
+                                                'position', e.position,
+                                                'active', e.active
+                                            )
+                                        )
+                                        FROM employees e
+                                        WHERE e.shop_id = s.id
+                                    ),
+                                    '[]'::jsonb
+                                ),
+
                                 'sales',
                                 COALESCE(
                                     (

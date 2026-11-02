@@ -118,7 +118,7 @@ const DashboardPerShopAnalytics = ({user, userDataObject}: {user: User, userData
                             <ul className="w-full flex flex-col overflow-y-auto ">
                                 {shop.employees.map((employee: EmployeeDTO, idx: number) => (
                                     <li key={employee.id} className={`w-full h-full flex justify-between items-center ${idx%2==0 ? 'bg-neutral-black' : ''}`}>
-                                            <span className="italic">{employee.username} - {employee.position}</span>
+                                            <span className="italic">{employee.first_name} {employee.last_name} - {employee.position}</span>
                                         {/* <span className="italic">{employee.pin}</span> */}
                                     </li>
                                 ))}
