@@ -77,7 +77,7 @@ type AuthContextType = {
   
   fetchUserDataObject: (username: string, overrideToken?: string) => Promise<UserDataObject | null>;
   
-  fetchPSRByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  fetchPSRByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, orderBy?: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
   fetchSalesSummaryByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, overrideToken?: string) => Promise<SalesSummaryModel | null>;
 
   fetchTopProductsByUnitsPerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
@@ -1071,12 +1071,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const fetchPSRByShopIdAndDateRange = async (shopId: string, startDate: string, endDate: string, overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
+  const fetchPSRByShopIdAndDateRange = async (shopId: string, startDate: string, endDate: string, orderBy: string = "revenue", overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
     if (!API_URL) return null;
     const authToken = overrideToken ?? token;
+    orderBy = orderBy ?? "revenue"; // Default to revenue if not units
     try {
       let res = await fetch(
-        `http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue/${startDate}/${endDate}`,{
+        `http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue/${startDate}/${endDate}?orderBy=${orderBy}`,{
           // cache: 'no-store',
           credentials: "include", // sends HttpOnly refresh token
           headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
@@ -1089,7 +1090,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           return null;
         }
 
-        res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue/${startDate}/${endDate}`, {
+        res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue/${startDate}/${endDate}?orderBy=${orderBy}`, {
           credentials: "include",
           headers: { Authorization: `Bearer ${newToken}` },
         });
@@ -1139,7 +1140,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         throw new Error('Failed to fetch Sales Summary by Shop and Date Range again, after refresh!');
       }
 
-      const salesSummary: SalesSummaryModel = await res.json();
+      const result = await res.json();
+
+      const salesSummary: SalesSummaryModel = {
+          ...result,
+          employeeSalesSummary: JSON.parse(result.employeeSalesSummary)
+      };
 
       setSalesSummaryByShopIdAndDateRange(salesSummary);
       return salesSummary as SalesSummaryModel;

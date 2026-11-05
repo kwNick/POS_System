@@ -80,44 +80,94 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
                     AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
                 ) AS averageSale,
                 (
+                    SELECT COALESCE(SUM(s.tax),0)
+                    FROM sales s
+                    WHERE s.shop_id = :shopId
+                    AND s.created_at >= CAST(:startDate AS DATE)
+                    AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
+                ) AS totalTax,
+                (
+                    SELECT COALESCE(AVG(s.tax), 0)
+                    FROM sales s
+                    WHERE s.shop_id = :shopId
+                    AND s.created_at >= CAST(:startDate AS DATE)
+                    AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
+                ) AS avgTaxPerSale,
+                (
                     SELECT COALESCE(SUM(si.quantity), 0)
                     FROM sales s
                     JOIN sale_items si ON si.sale_id = s.id
                     WHERE s.shop_id = :shopId
                     AND s.created_at >= CAST(:startDate AS DATE)
                     AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
-                ) AS unitsSold
+                ) AS unitsSold,
+                (
+        SELECT COALESCE(
+            jsonb_agg(
+                jsonb_build_object(
+                    'employeeId', employeeId,
+                    'employeeName', employeeName,
+                    'totalTransactions', totalTransactions,
+                    'totalRevenue', totalRevenue,
+                    'averageSale', averageSale
+                )
+                ORDER BY totalRevenue DESC
+            ),
+            '[]'::jsonb
+        )
+        FROM (
+            SELECT
+                e.id AS employeeId,
+                CONCAT(e.first_name, ' ', e.last_name) AS employeeName,
+                COUNT(*) AS totalTransactions,
+                COALESCE(SUM(s.subtotal), 0) AS totalRevenue,
+                COALESCE(AVG(s.subtotal), 0) AS averageSale
+            FROM sales s
+            JOIN employees e ON s.employee_id = e.id
+            WHERE s.shop_id = 1
+            AND s.created_at >= CAST('2026-01-01' AS DATE)
+            AND s.created_at < CAST('2026-12-31' AS DATE) + INTERVAL '1 day'
+            GROUP BY e.id, e.first_name, e.last_name
+        ) employee_summary
+    ) AS "employeeSalesSummary"
+                
         """, nativeQuery = true)
     SalesSummary findSalesSummaryByShopAndDateRange(@Param("shopId") Long shopId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-    // SELECT
+
+
     // (
-    //     SELECT COUNT(*)
+    //     SELECT JSON_AGG(
+    //         JSON_BUILD_OBJECT(
+    //             'employee_id', u.id,
+    //             'employee_name', u.username,
+    //             'total_transactions', COUNT(s.id),
+    //             'total_revenue', COALESCE(SUM(s.subtotal), 0),
+    //             'average_sale', COALESCE(AVG(s.subtotal), 0)
+    //         )
+    //     )
     //     FROM sales s
+    //     JOIN users u ON s.user_id = u.id
     //     WHERE s.shop_id = :shopId
-    //       AND s.created_at >= CAST(:startDate AS DATE)
-    //       AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
-    // ) AS totalTransactions,
+    //     AND s.created_at >= CAST(:startDate AS DATE)
+    //     AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
+    //     GROUP BY u.id, u.username
+    // ) AS employeeSalesSummary
+
+
     // (
-    //     SELECT COALESCE(SUM(s.total), 0)
+    //     SELECT
+    //         e.id AS employeeId,
+    //         CONCAT(e.first_name, ' ', e.last_name) AS employeeName,
+    //         COUNT(*) AS totalTransactions,
+    //         COALESCE(SUM(s.subtotal), 0) AS totalRevenue,
+    //         COALESCE(AVG(s.subtotal), 0) AS averageSale
     //     FROM sales s
-    //     WHERE s.shop_id = :shopId
-    //       AND s.created_at >= CAST(:startDate AS DATE)
-    //       AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
-    // ) AS totalSales,
-    // (
-    //     SELECT COALESCE(AVG(s.subtotal), 0)
-    //     FROM sales s
-    //     WHERE s.shop_id = :shopId
-    //       AND s.created_at >= CAST(:startDate AS DATE)
-    //       AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
-    // ) AS averageSale,
-    // (
-    //     SELECT COALESCE(SUM(si.quantity), 0)
-    //     FROM sales s
-    //     JOIN sale_items si ON si.sale_id = s.id
-    //     WHERE s.shop_id = :shopId
-    //       AND s.created_at >= CAST(:startDate AS DATE)
-    //       AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
-    // ) AS unitsSold;
+    //     JOIN employees e
+    //         ON s.employee_id = e.id
+    //     WHERE s.shop_id = 1
+    //     GROUP BY
+    //         e.id
+    //     ORDER BY total_revenue Desc
+    // ) AS employeeSalesSummary
 }

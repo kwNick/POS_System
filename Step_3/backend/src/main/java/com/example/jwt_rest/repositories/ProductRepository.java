@@ -101,9 +101,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                 AND s.created_at >= CAST(:startDate AS DATE) 
                 AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
             GROUP BY p.id, p.name
-            ORDER BY revenue DESC
+            ORDER BY
+                CASE WHEN :orderBy = 'unitsSold' THEN SUM(si.quantity) END DESC,
+                CASE WHEN :orderBy = 'revenue' THEN SUM(si.subtotal) END DESC
         """, nativeQuery = true)  // AND created_at >= CAST(:startDate AS DATE) - Spring can bind the Java LocalDate to PostgreSQL's DATE type.
-        List<ProductSalesReport> findProductSalesReportByShopAndDateRange(@Param("shopId") Long shopId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+        List<ProductSalesReport> findProductSalesReportByShopAndDateRange(@Param("shopId") Long shopId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("orderBy") String orderBy);
 
         // Total Units sold for each product across all shops
         @Query (value = """

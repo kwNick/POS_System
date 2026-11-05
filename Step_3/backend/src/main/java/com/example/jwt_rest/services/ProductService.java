@@ -36,8 +36,8 @@ public class ProductService {
     }
 
     // Not yet used in front end but maybe later with form or pathvariable
-    public List<ProductSalesReport> getProductSalesReportByShopAndDateRange(Long shopId, LocalDate startDate, LocalDate endDate) {
-        return productRepository.findProductSalesReportByShopAndDateRange(shopId, startDate, endDate);
+    public List<ProductSalesReport> getProductSalesReportByShopAndDateRange(Long shopId, LocalDate startDate, LocalDate endDate, String orderBy) {
+        return productRepository.findProductSalesReportByShopAndDateRange(shopId, startDate, endDate, orderBy);
     }
 
     public List<TotalUnitsPerProduct> getTotalUnitsSoldPerProduct() {

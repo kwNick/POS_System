@@ -27,6 +27,7 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
     const [productSalesReport, setProductSalesReport] = useState<ProductSalesReportModel[] | null>(null);
     const [averageSale, setAverageSale] = useState<number | null>(null);
     const [psrByShopIdAndDateRange, setPsrByShopIdAndDateRange] = useState<ProductSalesReportModel[] | null>(null);
+    const [psrByUnitsShopIdAndDateRange, setPsrByUnitsShopIdAndDateRange] = useState<ProductSalesReportModel[] | null>(null);
     const [salesSummaryByShopIdAndDateRange, setSalesSummaryByShopIdAndDateRange] = useState<SalesSummaryModel | null>(null);
 
     useEffect(() => {
@@ -72,6 +73,13 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
             }
         };
 
+        const getPSRByUnitsShopIdAndDateRange = async () => {
+            const psrData = await fetchPSRByShopIdAndDateRange(shopId, "2026-01-01", "2026-12-31", "unitsSold");
+            if (psrData) {
+                setPsrByUnitsShopIdAndDateRange(psrData);
+            }
+        };
+
         const getSalesSummaryByShopIdAndDateRange = async () => {
             const salesSummaryData = await fetchSalesSummaryByShopIdAndDateRange(shopId, "2026-01-01", "2026-12-31");
             if (salesSummaryData) {
@@ -85,6 +93,7 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
         getShopProductSalesReport();
         getAverageSale();
         getPSRByShopIdAndDateRange();
+        getPSRByUnitsShopIdAndDateRange();
         getSalesSummaryByShopIdAndDateRange();
 
     }, []);
@@ -163,9 +172,22 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
             {
                 psrByShopIdAndDateRange && (
                     <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
-                        <h2 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Product Sales Report for Shop in date range: "2023-01-01", "2023-12-31"</h2>
+                        <h2 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Product Sales Report by Renvenue for Shop in date range: "2023-01-01", "2023-12-31"</h2>
                         <ul className="flex flex-col gap-4">
                             {psrByShopIdAndDateRange.map((product) => (
+                                <li key={product.productId}>{product.productName} - {product.unitsSold} units - {product.revenue} revenue</li>
+                            ))}
+                        </ul>
+                    </div>
+                )
+            }
+
+            {
+                psrByUnitsShopIdAndDateRange && (
+                    <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
+                        <h2 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Product Sales Report by Units Sold for Shop in date range: "2023-01-01", "2023-12-31"</h2>
+                        <ul className="flex flex-col gap-4">
+                            {psrByUnitsShopIdAndDateRange.map((product) => (
                                 <li key={product.productId}>{product.productName} - {product.unitsSold} units - {product.revenue} revenue</li>
                             ))}
                         </ul>
@@ -178,9 +200,17 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
                     <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
                         <h2 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Sales Summary for Shop in date range: "2023-01-01", "2023-12-31"</h2>
                         <p>Revenue: {salesSummaryByShopIdAndDateRange.totalRevenue}</p>
-                        <p>Transactions: {salesSummaryByShopIdAndDateRange.totalTransactions}</p>
                         <p>Average Sale: {salesSummaryByShopIdAndDateRange.averageSale}</p>
+                        <p>Transactions: {salesSummaryByShopIdAndDateRange.totalTransactions}</p>
+                        <p>Tax: {salesSummaryByShopIdAndDateRange.totalTax}</p>
+                        <p>Average Tax per Sale: {salesSummaryByShopIdAndDateRange.avgTaxPerSale}</p>
                         <p>Units Sold: {salesSummaryByShopIdAndDateRange.unitsSold}</p>
+                        <h3 className="text-2xl font-semibold mb-4 lg:mb-8 underline">Employee Sales Summary</h3>
+                        <ul className="flex flex-col gap-4">
+                            {salesSummaryByShopIdAndDateRange.employeeSalesSummary.map((employee) => (
+                                <li key={employee.employeeId}>{employee.employeeName} - Transactions: {employee.totalTransactions} - Revenue: {employee.totalRevenue} - Average Sale: {employee.averageSale}</li>
+                            ))}
+                        </ul>
                     </div>
                 )
             }
