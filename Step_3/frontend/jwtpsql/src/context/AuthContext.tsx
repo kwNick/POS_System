@@ -6,6 +6,7 @@ import { DailyRevenueModel } from "@/lib/models/DailyRevenue";
 import { ProductSalesReportModel } from "@/lib/models/ProductSalesReport";
 import Role from "@/lib/models/roleModel";
 import Shop from "@/lib/models/shopModel";
+import { TopProductsModel } from "@/lib/models/TopProducts";
 import { TotalUnitsSoldPerProductModel } from "@/lib/models/TotalUnitsSoldPerProductModel";
 import { UserDataObject } from "@/lib/models/UserDataObject";
 import User from "@/lib/models/userModel";
@@ -35,6 +36,11 @@ type AuthContextType = {
 
   userDataObject: UserDataObject | null;
 
+  topProductsUnitsPerShop: TopProductsModel[] | null;
+  topProductsRevenuePerShop: TopProductsModel[] | null;
+  topProductsRevenueAllShops: TopProductsModel[] | null;
+  topProductsUnitsAllShops: TopProductsModel[] | null;
+
   loading: boolean;
   login: (username: string, password: string) => Promise<boolean | null>;
   logout: () => void;
@@ -59,6 +65,10 @@ type AuthContextType = {
   fetchTotalUnitsSoldPerProduct: (overrideToken?: string) => Promise<TotalUnitsSoldPerProductModel[] | null>;
   fetchAnalytics: (overrideToken?: string) => Promise<any | null>;
   fetchUserDataObject: (username: string, overrideToken?: string) => Promise<UserDataObject | null>;
+  fetchTopProductsByUnitsPerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
+  fetchTopProductsByRevenuePerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
+  fetchTopProductsByRevenueAllShops: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
+  fetchTopProductsByUnitsAllShops: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -83,6 +93,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [totalUnitsSoldPerProduct, setTotalUnitsSoldPerProduct] = useState<TotalUnitsSoldPerProductModel[] | null>(null);
   const [averageSaleByShopId, setAverageSaleByShopId] = useState<number | null>(null);
   const [userDataObject, setUserDataObject] = useState<UserDataObject | null>(null);
+  const [topProductsUnitsPerShop, setTopProductsUnitsPerShop] = useState<TopProductsModel[] | null>(null);
+  const [topProductsRevenuePerShop, setTopProductsRevenuePerShop] = useState<TopProductsModel[] | null>(null);
+  const [topProductsRevenueAllShops, setTopProductsRevenueAllShops] = useState<TopProductsModel[] | null>(null);
+  const [topProductsUnitsAllShops, setTopProductsUnitsAllShops] = useState<TopProductsModel[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -183,6 +197,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setTotalUnitsSoldPerProduct(null);
     setAverageSaleByShopId(null);
     setUserDataObject(null);
+    setTopProductsUnitsPerShop(null);
+    setTopProductsRevenuePerShop(null);
+    setTopProductsRevenueAllShops(null);
+    setTopProductsUnitsAllShops(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
 
@@ -215,6 +233,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setTotalUnitsSoldPerProduct(null);
     setAverageSaleByShopId(null);
     setUserDataObject(null);
+    setTopProductsUnitsPerShop(null);
+    setTopProductsRevenuePerShop(null);
+    setTopProductsRevenueAllShops(null);
+    setTopProductsUnitsAllShops(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
     try {
@@ -714,6 +736,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await fetchAllSalesByUsers(authToken!);
       await fetchDailyRevenue(authToken!);
       await fetchTotalUnitsSoldPerProduct(authToken!);
+      await fetchTopProductsByUnitsPerShop(authToken!);
+      await fetchTopProductsByUnitsAllShops(authToken!);
+      await fetchTopProductsByRevenuePerShop(authToken!);
+      await fetchTopProductsByRevenueAllShops(authToken!);
       // await fetchProductSalesReportById(overrideToken);
     } catch (error) {
       console.error("Failed to fetch Analytics: " + error);
@@ -1021,6 +1047,162 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const fetchTopProductsByUnitsPerShop = async ( overrideToken?: string): Promise<TopProductsModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/products/top-by-units-per-shop`,{
+          // cache: 'no-store',
+          credentials: "include", // sends HttpOnly refresh token
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+        
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/products/top-by-units-per-shop`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch top products by units per shop again, after refresh!');
+      }
+
+      const topProductsUnitsPerShop: TopProductsModel[] = await res.json();
+
+      setTopProductsUnitsPerShop(topProductsUnitsPerShop);
+      return topProductsUnitsPerShop as TopProductsModel[];
+    } catch (error) {
+      console.error("Failed to fetch Top Products By Units per Shop: " + error);
+      return null;
+    }
+  };
+
+  const fetchTopProductsByRevenuePerShop = async ( overrideToken?: string): Promise<TopProductsModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/products/top-by-revenue-per-shop`,{
+          // cache: 'no-store',
+          credentials: "include", // sends HttpOnly refresh token
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+        
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/products/top-by-revenue-per-shop`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch top products by revenue per shop again, after refresh!');
+      }
+
+      const topProductsRevenuePerShop: TopProductsModel[] = await res.json();
+
+      setTopProductsRevenuePerShop(topProductsRevenuePerShop);
+      return topProductsRevenuePerShop as TopProductsModel[];
+    } catch (error) {
+      console.error("Failed to fetch Top Products By Revenue per Shop: " + error);
+      return null;
+    }
+  };
+
+  const fetchTopProductsByUnitsAllShops = async ( overrideToken?: string): Promise<TopProductsModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/products/top-by-units-all-shops`,{
+          // cache: 'no-store',
+          credentials: "include", // sends HttpOnly refresh token
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+        
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/products/top-by-units-all-shops`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch top products by units all shops again, after refresh!');
+      }
+
+      const topProductsUnitsAllShops: TopProductsModel[] = await res.json();
+
+      setTopProductsUnitsAllShops(topProductsUnitsAllShops);
+      return topProductsUnitsAllShops as TopProductsModel[];
+    } catch (error) {
+      console.error("Failed to fetch Top Products By Units at all Shops: " + error);
+      return null;
+    }
+  };
+
+  const fetchTopProductsByRevenueAllShops = async ( overrideToken?: string): Promise<TopProductsModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/products/top-by-revenue-all-shops`,{
+          // cache: 'no-store',
+          credentials: "include", // sends HttpOnly refresh token
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+        
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/products/top-by-revenue-all-shops`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch top products by revenue all shops again, after refresh!');
+      }
+
+      const topProductsRevenueAllShops: TopProductsModel[] = await res.json();
+
+      setTopProductsRevenueAllShops(topProductsRevenueAllShops);
+      return topProductsRevenueAllShops as TopProductsModel[];
+    } catch (error) {
+      console.error("Failed to fetch Top Products By Revenue at all Shops: " + error);
+      return null;
+    }
+  };
+
   // On mount, attempt to refresh access token automatically
   // useEffect(() => {
   //   (async () => {
@@ -1086,7 +1268,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // }, []);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, userDataObject, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId, fetchUserDataObject }}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, userDataObject, topProductsUnitsPerShop, topProductsRevenuePerShop, topProductsRevenueAllShops, topProductsUnitsAllShops, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId, fetchUserDataObject, fetchTopProductsByUnitsPerShop, fetchTopProductsByRevenuePerShop, fetchTopProductsByUnitsAllShops, fetchTopProductsByRevenueAllShops }}>
       {children}
     </AuthContext.Provider>
   );

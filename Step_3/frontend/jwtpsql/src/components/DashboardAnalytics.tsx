@@ -6,10 +6,10 @@ import DailyRevenue from "./DailyRevenue"
 import ProductSalesReportUnitsSold from "./ProductSalesReportUnitsSold"
 import UnitsSoldPerProduct from "./UnitsSoldPerProduct"
 import AverageSaleByShopId from "./AverageSaleByShopId"
-import { UserData } from "@/lib/models/UserDataObject"
+import { UserDataObject } from "@/lib/models/UserDataObject"
 
-const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: UserData | null}) => {
-    const component_styles = "min-w-[calc(100%/3-2rem)] max-h-[calc(60vh-2rem)] flex gap-4 items-start justify-start p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-neutral-100 hover:scrollbar-thumb-neutral-400 transition-all duration-300 ease-in-out";
+const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: UserDataObject | null}) => {
+    const component_styles = "min-w-[calc(100%/3-2rem)] max-h-[calc(60vh-2rem)] flex flex-col gap-4 items-start justify-start p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-neutral-100 hover:scrollbar-thumb-neutral-400 transition-all duration-300 ease-in-out";
     console.log("user: ", user);
     console.log("userDataObject: ", userDataObject);
 
@@ -59,6 +59,13 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                         {/* This query shows the total units sold for each product  -->  This goes in ProductRepository*/}
                     </p>
                 </div>
+
+                <div>
+                    <p>
+                        Admin Dashboard: Does all units across every shop no matter the owner
+                    </p>
+                </div>
+
                 <div>
                     <UnitsSoldPerProduct />
                 </div>
@@ -77,6 +84,13 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                     {/* This query shows the daily revenue for each sale date   -->  This goes in SalesRepository */}
                     </p>
                 </div>
+
+                <div>
+                    <p>
+                        Admin Dashboard: Does all sales across every shop no matter the owner
+                    </p>
+                </div>
+
                 <div>
                     <DailyRevenue />
                 </div>
@@ -102,6 +116,13 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                         {/* This query shows every sale and who made it  -->  This goes in SalesRepository */}
                     </p>
                 </div>
+
+                <div>
+                    <p>
+                        Admin Dashboard: Does all sales across every shop no matter the owner
+                    </p>
+                </div>
+
                 <div>
                     <AllSalesByUsers />
                 </div>
@@ -126,6 +147,13 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                         {/* This query shows how many of each product have been sold and the revenue generated */}
                     </p>
                 </div>
+                
+                <div>
+                    <p>
+                        Admin Dashboard: Does all sales across every shop no matter the owner
+                    </p>
+                </div>
+
                 <div>
                     <ProductSalesReport />
                 </div>
@@ -154,6 +182,13 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                         LIMIT 5;<br />
                     </p>
                 </div>
+
+                <div>
+                    <p>
+                        ShopId Dashboard:
+                    </p>
+                </div>
+                
                 <div>
                     <ProductSalesReportUnitsSold />
                 </div>

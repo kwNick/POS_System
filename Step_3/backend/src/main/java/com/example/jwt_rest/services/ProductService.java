@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.jwt_rest.projection.ProductSalesReport;
+import com.example.jwt_rest.projection.TopProducts;
 import com.example.jwt_rest.projection.TotalUnitsPerProduct;
 import com.example.jwt_rest.repositories.ProductRepository;
 
@@ -40,5 +41,23 @@ public class ProductService {
 
     public List<TotalUnitsPerProduct> getTotalUnitsSoldPerProduct() {
         return productRepository.findTotalUnitsSoldPerProduct();
+    }
+
+    // Top Products by units sold and revenue for a specific shop and all shops
+    
+    public List<TopProducts> getTopProductsByUnitsPerShop(String username) {
+        return productRepository.findTopProductsByUnitsPerShop(username);
+    }
+
+    public List<TopProducts> getTopProductsByRevenuePerShop(String username) {
+        return productRepository.findTopProductsByRevenuePerShop(username);
+    }
+
+    public List<TopProducts> getTopProductsByUnitsAllShops(String username) {
+        return productRepository.findTopProductsByUnitsAllShops(username);
+    }
+
+    public List<TopProducts> getTopProductsByRevenueAllShops(String username) {
+        return productRepository.findTopProductsByRevenueAllShops(username);
     }
 }

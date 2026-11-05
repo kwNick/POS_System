@@ -98,7 +98,7 @@ const DashboardPerShopAnalytics = ({user, userDataObject}: {user: User, userData
                             {shop.products.length > 0 ? (
                             <ul className="w-full flex flex-col overflow-y-auto ">
                                 {shop.products.map((product: ProductDTO, idx: number) => (
-                                    <li key={product.id} className={`w-full h-full flex justify-between items-center ${idx%2==0 ? 'bg-neutral-black' : ''}`}>
+                                    <li key={product.id} className={`w-full h-full flex justify-between items-center text-sm ${idx%2==0 ? 'bg-neutral-black' : ''}`}>
                                         <span className="italic">{product.name} - {product.price}</span>
                                         {/* <span className="italic">{product.description}</span> */}
                                     </li>
@@ -117,7 +117,7 @@ const DashboardPerShopAnalytics = ({user, userDataObject}: {user: User, userData
                             {shop.employees && shop.employees.length > 0 ? (
                             <ul className="w-full flex flex-col overflow-y-auto ">
                                 {shop.employees.map((employee: EmployeeDTO, idx: number) => (
-                                    <li key={employee.id} className={`w-full h-full flex justify-between items-center ${idx%2==0 ? 'bg-neutral-black' : ''}`}>
+                                    <li key={employee.id} className={`w-full h-full flex justify-between items-center text-sm ${idx%2==0 ? 'bg-neutral-black' : ''}`}>
                                             <span className="italic">{employee.first_name} {employee.last_name} - {employee.position}</span>
                                         {/* <span className="italic">{employee.pin}</span> */}
                                     </li>

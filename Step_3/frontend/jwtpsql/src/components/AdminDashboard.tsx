@@ -6,12 +6,12 @@ import Shop from "@/lib/models/shopModel";
 import User from "@/lib/models/userModel";
 import DashboardUserData from "./DashboardUserData";
 import DashboardShopData from "./DashboardShopData";
-import DashboardAnalytics from "./DashboardAnalytics";
 import DashboardUserAnalytics from "./DashboardUserAnalytics";
 import DashboardPerShopAnalytics from "./DashboardPerShopAnalytics";
+import AdminDashboardAnalytics from "./AdminDashboardAnalytics";
 
 const AdminDashboard = () => {
-    const {user, userDataObject, usersWDetails, users, shops, roles, loading} = useAuth();
+    const {user, userDataObject, topProductsUnitsAllShops, topProductsRevenueAllShops, usersWDetails, users, shops, roles, loading} = useAuth();
     console.log("user: ", user);
     console.log("userDataObject: ", userDataObject);
 
@@ -37,7 +37,7 @@ const AdminDashboard = () => {
                   </div>
 
                   <div className="w-full h-full flex flex-wrap items-center justify-between p-1 px-4 bg-neutral-surface border-t-1 border-neutral-surface">
-                      <DashboardUserAnalytics user={user} userDataObject={userDataObject} />
+                      <DashboardUserAnalytics user={user} userDataObject={userDataObject} topProductsUnitsAllShops={topProductsUnitsAllShops} topProductsRevenueAllShops={topProductsRevenueAllShops}/>
                   </div>
               </div>
 
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
               </div>
 
               <div className="w-full min-h-[85vh] flex flex-col gap-12 lg:gap-14 lg:flex-row p-2">
-                  <DashboardAnalytics user={user} userDataObject={userDataObject} />
+                  <AdminDashboardAnalytics user={user} userDataObject={userDataObject} />
               </div>
             </>
         )}

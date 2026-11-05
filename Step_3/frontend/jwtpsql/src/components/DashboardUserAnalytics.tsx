@@ -1,7 +1,8 @@
+import { TopProductsModel } from "@/lib/models/TopProducts";
 import { UserDataObject } from "@/lib/models/UserDataObject";
 import User from "@/lib/models/userModel";
 
-const DashboardUserAnalytics = ({user, userDataObject}: {user: User, userDataObject: UserDataObject | null}) => {
+const DashboardUserAnalytics = ({user, userDataObject, topProductsUnitsAllShops, topProductsRevenueAllShops}: {user: User, userDataObject: UserDataObject | null, topProductsUnitsAllShops: TopProductsModel[] | null, topProductsRevenueAllShops: TopProductsModel[] | null}) => {
     const salesStats = userDataObject?.userData.shops.reduce(
         (acc, shop) => {
             acc.totalRevenue += shop.sales.reduce(
@@ -80,8 +81,14 @@ const DashboardUserAnalytics = ({user, userDataObject}: {user: User, userDataObj
 
             <div className="w-full h-full flex flex-col items-center justify-center">
             {/* Maybe make this a table or something more spaced out */}
-            <p>{}Burger - 10 units - Burger Town</p>
-            <p>{}Fries - $100 - Burger Town 2</p>
+            {(topProductsRevenueAllShops && topProductsUnitsAllShops) ? (
+                <>
+                    <p>{topProductsUnitsAllShops[0]?.productName} - {topProductsUnitsAllShops[0]?.unitsSold} units</p>
+                    <p>{topProductsRevenueAllShops[0]?.productName} - ${topProductsRevenueAllShops[0]?.totalRevenue.toFixed(2)}</p>
+                </>
+            ) : (
+                <p>No top products data available.</p>
+            )}
             </div>
         </div>
     </>

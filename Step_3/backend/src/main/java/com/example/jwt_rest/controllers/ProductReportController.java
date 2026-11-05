@@ -45,4 +45,12 @@ public class ProductReportController {
     public List<ProductSalesReport> getProductSalesReportByShopAndDateRange(@PathVariable Long shopId, @PathVariable String startDate, @PathVariable String endDate) {
         return productService.getProductSalesReportByShopAndDateRange(shopId, startDate, endDate);
     }
+
+    // top 10 products by units sold for a all shops
+    
+    // top 10 products by revenue for a all shops
+
+    // top 10 products by units sold for a specific shop
+
+    // top 10 products by revenue for a specific shop
 }

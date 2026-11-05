@@ -7,6 +7,8 @@ import {ProductSalesReportModel} from "@/lib/models/ProductSalesReport";
 import DeleteShopButton from "./DeleteShopButton";
 // import Link from "next/link";
 import UpdateShopLink from "./UpdateShopLink";
+import ProductSalesReportUnitsSold from "./ProductSalesReportUnitsSold";
+import AverageSaleByShopId from "./AverageSaleByShopId";
 
 const ShopDetails = ({shopId}: {shopId: string}) => {
     const { fetchShop,
@@ -134,6 +136,60 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
                     </div>
                 )
             }
+
+            <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
+                <div>
+                    <h2>
+                        What are the top 5 products sold at shop #1?
+                    </h2>
+                    <p>
+                        {/* This query shows the top 5 products sold at a specific shop */}
+                        SELECT<br />
+                            &emsp;p.id,<br />
+                            &emsp;p.name,<br />
+                            &emsp;SUM(si.quantity) AS units_sold,<br />
+                            &emsp;SUM(si.subtotal) AS revenue<br />
+                        FROM sale_items si<br />
+                        JOIN products p<br />
+                            &emsp;ON si.product_id = p.id<br />
+                        JOIN sales s<br />
+                            &emsp;ON si.sale_id = s.id<br />
+                        WHERE s.shop_id = :shopId<br />
+                        GROUP BY p.id, p.name<br />
+                        ORDER BY units_sold DESC<br />
+                        LIMIT 5;<br />
+                    </p>
+                </div>
+
+                <div>
+                    <p>
+                        ShopId Dashboard:
+                    </p>
+                </div>
+                
+                <div>
+                    <ProductSalesReportUnitsSold />
+                </div>
+            </div>
+
+            <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
+                <div>
+                    <h2>
+                        Average Order
+                    </h2>
+                    <p>
+                        SELECT AVG(total) <br />
+                        FROM sales  <br />
+                        WHERE shop_id == shop.id <br />
+                        {/* This query shows the average order for a specific shop   -->  This goes in SalesRepository */}
+                    </p>
+                </div>
+                {/* Maybe list all shops average sale by id using user variable for dashboard */}
+                <div>
+                    <AverageSaleByShopId />
+                </div>
+            </div>
+
         </div>
 
         <div className="w-full h-1/4 p-4 flex items-center justify-center gap-4 lg:gap-8">
