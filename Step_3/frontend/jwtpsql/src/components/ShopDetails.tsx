@@ -9,13 +9,16 @@ import DeleteShopButton from "./DeleteShopButton";
 import UpdateShopLink from "./UpdateShopLink";
 import ProductSalesReportUnitsSold from "./ProductSalesReportUnitsSold";
 import AverageSaleByShopId from "./AverageSaleByShopId";
+import { SalesSummaryModel } from "@/lib/models/SalesSummary";
 
 const ShopDetails = ({shopId}: {shopId: string}) => {
     const { fetchShop,
         fetchTopProductsUnits,
         fetchTopProductsRevenue,
         fetchProductSalesReportById,
-        fetchAverageSaleByShopId
+        fetchAverageSaleByShopId,
+        fetchPSRByShopIdAndDateRange,
+        fetchSalesSummaryByShopIdAndDateRange,
     } = useAuth();
 
     const [shop, setShop] = useState<Shop | null>(null);
@@ -23,6 +26,8 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
     const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReportModel[] | null>(null);
     const [productSalesReport, setProductSalesReport] = useState<ProductSalesReportModel[] | null>(null);
     const [averageSale, setAverageSale] = useState<number | null>(null);
+    const [psrByShopIdAndDateRange, setPsrByShopIdAndDateRange] = useState<ProductSalesReportModel[] | null>(null);
+    const [salesSummaryByShopIdAndDateRange, setSalesSummaryByShopIdAndDateRange] = useState<SalesSummaryModel | null>(null);
 
     useEffect(() => {
         const getShop = async () => {
@@ -60,11 +65,27 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
             }
         };
 
+        const getPSRByShopIdAndDateRange = async () => {
+            const psrData = await fetchPSRByShopIdAndDateRange(shopId, "2026-01-01", "2026-12-31");
+            if (psrData) {
+                setPsrByShopIdAndDateRange(psrData);
+            }
+        };
+
+        const getSalesSummaryByShopIdAndDateRange = async () => {
+            const salesSummaryData = await fetchSalesSummaryByShopIdAndDateRange(shopId, "2026-01-01", "2026-12-31");
+            if (salesSummaryData) {
+                setSalesSummaryByShopIdAndDateRange(salesSummaryData);
+            }
+        };
+
         getShop();
         getShopTopProductsByUnits();
         getShopTopProductsByRevenue();
         getShopProductSalesReport();
         getAverageSale();
+        getPSRByShopIdAndDateRange();
+        getSalesSummaryByShopIdAndDateRange();
 
     }, []);
 
@@ -74,7 +95,9 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
     console.log("productSalesReport:", productSalesReport,
         " topProductsUnits:", topProductsUnits,
         " topProductsRevenue:", topProductsRevenue,
-        " averageSale:", averageSale
+        " averageSale:", averageSale,
+        " psrByShopIdAndDateRange:", psrByShopIdAndDateRange,
+        " salesSummaryByShopIdAndDateRange:", salesSummaryByShopIdAndDateRange
     );
   return (
     <div className="w-full h-full flex flex-col items-center justify-start">
@@ -89,7 +112,7 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
             </div>
         )}
 
-        <div className="w-full h-1/2 p-6 flex gap-6 text-xl md:text-2xl">
+        <div className="w-full h-1/2 p-6 flex flex-wrap gap-6 text-xl md:text-2xl">
 
             {
                 productSalesReport && (
@@ -137,6 +160,31 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
                 )
             }
 
+            {
+                psrByShopIdAndDateRange && (
+                    <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
+                        <h2 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Product Sales Report for Shop in date range: "2023-01-01", "2023-12-31"</h2>
+                        <ul className="flex flex-col gap-4">
+                            {psrByShopIdAndDateRange.map((product) => (
+                                <li key={product.productId}>{product.productName} - {product.unitsSold} units - {product.revenue} revenue</li>
+                            ))}
+                        </ul>
+                    </div>
+                )
+            }
+
+            {
+                salesSummaryByShopIdAndDateRange && (
+                    <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
+                        <h2 className="text-3xl font-semibold mb-4 lg:mb-8 underline">Sales Summary for Shop in date range: "2023-01-01", "2023-12-31"</h2>
+                        <p>Revenue: {salesSummaryByShopIdAndDateRange.totalRevenue}</p>
+                        <p>Transactions: {salesSummaryByShopIdAndDateRange.totalTransactions}</p>
+                        <p>Average Sale: {salesSummaryByShopIdAndDateRange.averageSale}</p>
+                        <p>Units Sold: {salesSummaryByShopIdAndDateRange.unitsSold}</p>
+                    </div>
+                )
+            }
+
             <div className="w-full h-1/2 p-6 flex flex-col text-xl md:text-2xl">
                 <div>
                     <h2>
@@ -178,7 +226,7 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
                         Average Order
                     </h2>
                     <p>
-                        SELECT AVG(total) <br />
+                        SELECT AVG(subtotal) <br />
                         FROM sales  <br />
                         WHERE shop_id == shop.id <br />
                         {/* This query shows the average order for a specific shop   -->  This goes in SalesRepository */}

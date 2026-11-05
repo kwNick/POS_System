@@ -1,10 +1,10 @@
 "use client";
 
 import { AllSalesByUsersModel } from "@/lib/models/AllSalesByUsers";
-import { AverageSaleByShopModel } from "@/lib/models/AverageSaleByShop";
 import { DailyRevenueModel } from "@/lib/models/DailyRevenue";
 import { ProductSalesReportModel } from "@/lib/models/ProductSalesReport";
 import Role from "@/lib/models/roleModel";
+import { SalesSummaryModel } from "@/lib/models/SalesSummary";
 import Shop from "@/lib/models/shopModel";
 import { TopProductsModel } from "@/lib/models/TopProducts";
 import { TotalUnitsSoldPerProductModel } from "@/lib/models/TotalUnitsSoldPerProductModel";
@@ -36,6 +36,9 @@ type AuthContextType = {
 
   userDataObject: UserDataObject | null;
 
+  psrByShopIdAndDateRange: ProductSalesReportModel[] | null;
+  salesSummaryByShopIdAndDateRange: SalesSummaryModel | null;
+
   topProductsUnitsPerShop: TopProductsModel[] | null;
   topProductsRevenuePerShop: TopProductsModel[] | null;
   topProductsRevenueAllShops: TopProductsModel[] | null;
@@ -45,30 +48,43 @@ type AuthContextType = {
   login: (username: string, password: string) => Promise<boolean | null>;
   logout: () => void;
   register: (username: string, email: string, password: string) => Promise<boolean | null>;
+  
   deleteProfile: () => void;
   fetchShop: (shopId: string, overrideToken?: string) => Promise<Shop | null>;
   deleteShop: (shopId: string, overrideToken?: string) => Promise<boolean | null>;
   updateShop: (name: string, location:string, shopId: string, overrideToken?: string) => Promise<boolean | null>;
   addShop: (name: string, location: string, overrideToken?: string) => Promise<boolean | null>;
+  
   fetchProfile: () => Promise<User | null>;
   fetchUsersWithDetails: () => Promise<User[] | null>;
   fetchUsers: () => Promise<User[] | null>;
   fetchShops: () => Promise<Shop[] | null>;
   fetchRoles: () => Promise<Role[] | null>;
+  
   fetchTopProductsUnits: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
   fetchTopProductsRevenue: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  
   fetchProductSalesReport: (overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  
   fetchProductSalesReportById: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
   fetchAverageSaleByShopId: (shopId: string, overrideToken?: string) => Promise<number | null>;
+  
   fetchAllSalesByUsers: (overrideToken?: string) => Promise<AllSalesByUsersModel[] | null>;
   fetchDailyRevenue: (overrideToken?: string) => Promise<DailyRevenueModel[] | null>;
   fetchTotalUnitsSoldPerProduct: (overrideToken?: string) => Promise<TotalUnitsSoldPerProductModel[] | null>;
+  
   fetchAnalytics: (overrideToken?: string) => Promise<any | null>;
+  
   fetchUserDataObject: (username: string, overrideToken?: string) => Promise<UserDataObject | null>;
+  
+  fetchPSRByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  fetchSalesSummaryByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, overrideToken?: string) => Promise<SalesSummaryModel | null>;
+
   fetchTopProductsByUnitsPerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
   fetchTopProductsByRevenuePerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
   fetchTopProductsByRevenueAllShops: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
   fetchTopProductsByUnitsAllShops: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
+
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -93,6 +109,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [totalUnitsSoldPerProduct, setTotalUnitsSoldPerProduct] = useState<TotalUnitsSoldPerProductModel[] | null>(null);
   const [averageSaleByShopId, setAverageSaleByShopId] = useState<number | null>(null);
   const [userDataObject, setUserDataObject] = useState<UserDataObject | null>(null);
+  
+  const [psrByShopIdAndDateRange, setPsrByShopIdAndDateRange] = useState<ProductSalesReportModel[] | null>(null);
+  const [salesSummaryByShopIdAndDateRange, setSalesSummaryByShopIdAndDateRange] = useState<SalesSummaryModel | null>(null);
+  
   const [topProductsUnitsPerShop, setTopProductsUnitsPerShop] = useState<TopProductsModel[] | null>(null);
   const [topProductsRevenuePerShop, setTopProductsRevenuePerShop] = useState<TopProductsModel[] | null>(null);
   const [topProductsRevenueAllShops, setTopProductsRevenueAllShops] = useState<TopProductsModel[] | null>(null);
@@ -201,6 +221,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setTopProductsRevenuePerShop(null);
     setTopProductsRevenueAllShops(null);
     setTopProductsUnitsAllShops(null);
+    setPsrByShopIdAndDateRange(null);
+    setSalesSummaryByShopIdAndDateRange(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
 
@@ -237,6 +259,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setTopProductsRevenuePerShop(null);
     setTopProductsRevenueAllShops(null);
     setTopProductsUnitsAllShops(null);
+    setPsrByShopIdAndDateRange(null);
+    setSalesSummaryByShopIdAndDateRange(null);
 
     document.cookie = `role=; max-age=0; path=/`; // Store roles in a non-HttpOnly cookie for middleware access
     try {
@@ -1047,6 +1071,85 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const fetchPSRByShopIdAndDateRange = async (shopId: string, startDate: string, endDate: string, overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
+    if (!API_URL) return null;
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue/${startDate}/${endDate}`,{
+          // cache: 'no-store',
+          credentials: "include", // sends HttpOnly refresh token
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue/${startDate}/${endDate}`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch Product Sales Report by Shop and Date Range again, after refresh!');
+      }
+
+      const psrByShopAndDateRange: ProductSalesReportModel[] = await res.json();
+
+      setPsrByShopIdAndDateRange(psrByShopAndDateRange);
+      return psrByShopAndDateRange as ProductSalesReportModel[];
+    } catch (err) {
+      console.error("Failed to fetch Product Sales Report by Shop and Date Range: " + err);
+      return null;
+    }
+  };
+
+  const fetchSalesSummaryByShopIdAndDateRange = async (shopId: string, startDate: string, endDate: string, overrideToken?: string): Promise<SalesSummaryModel | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/sales/${shopId}/sales-summary/${startDate}/${endDate}`,{
+          credentials: "include",
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/sales/${shopId}/sales-summary/${startDate}/${endDate}`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch Sales Summary by Shop and Date Range again, after refresh!');
+      }
+
+      const salesSummary: SalesSummaryModel = await res.json();
+
+      setSalesSummaryByShopIdAndDateRange(salesSummary);
+      return salesSummary as SalesSummaryModel;
+
+      }catch (err) {
+      console.error("Failed to fetch Sales Summary by Shop and Date Range: " + err);
+      return null;
+    }
+  };
+
   const fetchTopProductsByUnitsPerShop = async ( overrideToken?: string): Promise<TopProductsModel[] | null> => {
     if (!API_URL) return null;
 
@@ -1268,7 +1371,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // }, []);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, userDataObject, topProductsUnitsPerShop, topProductsRevenuePerShop, topProductsRevenueAllShops, topProductsUnitsAllShops, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId, fetchUserDataObject, fetchTopProductsByUnitsPerShop, fetchTopProductsByRevenuePerShop, fetchTopProductsByUnitsAllShops, fetchTopProductsByRevenueAllShops }}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, userDataObject, psrByShopIdAndDateRange, salesSummaryByShopIdAndDateRange, topProductsUnitsPerShop, topProductsRevenuePerShop, topProductsRevenueAllShops, topProductsUnitsAllShops, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId, fetchUserDataObject, fetchPSRByShopIdAndDateRange, fetchSalesSummaryByShopIdAndDateRange, fetchTopProductsByUnitsPerShop, fetchTopProductsByRevenuePerShop, fetchTopProductsByUnitsAllShops, fetchTopProductsByRevenueAllShops }}>
       {children}
     </AuthContext.Provider>
   );

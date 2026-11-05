@@ -1,5 +1,6 @@
 package com.example.jwt_rest.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class ProductService {
     }
 
     // Not yet used in front end but maybe later with form or pathvariable
-    public List<ProductSalesReport> getProductSalesReportByShopAndDateRange(Long shopId, String startDate, String endDate) {
+    public List<ProductSalesReport> getProductSalesReportByShopAndDateRange(Long shopId, LocalDate startDate, LocalDate endDate) {
         return productRepository.findProductSalesReportByShopAndDateRange(shopId, startDate, endDate);
     }
 

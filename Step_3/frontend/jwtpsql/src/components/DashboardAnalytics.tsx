@@ -38,6 +38,11 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                         {/* This query shows the average order for a specific shop   -->  This goes in SalesRepository */}
                     </p>
                 </div>
+                <div>
+                    <p>
+                        ShopId Dashboard:
+                    </p>
+                </div>
                 {/* Maybe list all shops average sale by id using user variable for dashboard */}
                 <div>
                     <AverageSaleByShopId />
@@ -194,113 +199,6 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                 </div>
             </div>
 
-            {/* This query shows today's sales for a specific shop   -->  This goes in SalesRepository */}
-            {/* <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
-                <div>
-                    <h2>
-                        Today's Sales       $4,382.25 
-                    </h2>
-                    <p>
-                        SELECT *
-                        FROM sales
-                        WHERE shop_id == shop.id
-                    </p>
-                </div>
-                <div>
-
-                </div>
-            </div> */}
-
-            {/* This query shows the top product for a specific shop   -->  This goes in ProductRepository */}
-            {/* <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
-                <div>
-                    <h2>
-                        Top Product
-                            └── Widget A          83 sold
-                    </h2>
-                    <p>
-                        SELECT product, COUNT(*)
-                        FROM sales
-                        WHERE shop_id == shop.id
-                        GROUP BY product
-                        ORDER BY COUNT(*) DESC
-                        LIMIT 1
-                    </p>
-                </div>
-                <div>
-
-                </div>
-
-            </div> */}
-
-            {/* This query shows the sales by shop for a specific shop   -->  This goes in SalesRepository */}
-            {/* <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
-                <div>
-                    <h2>
-                        Sales by Shop
-                            ├── Shop A          $2,431
-                            ├── Shop B          $1,284
-                            └── Shop C            $667
-                    </h2>
-                    <p>
-                        SELECT shop, SUM(total)
-                        FROM sales
-                        WHERE shop_id == shop.id
-                        GROUP BY shop
-                        ORDER BY SUM(total) DESC
-                    </p>
-                </div>
-                <div>
-
-                </div>
-            </div> */}
-
-            {/* This query shows the most selling product for a specific shop   -->  This goes in ProductRepository */}
-            {/* <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
-
-                <div>
-                    <h2>
-                        Most Selling Product
-                            └── Widget A          83 sold
-                    </h2>
-                    <p>
-                        SELECT product, COUNT(*)
-                        FROM sale_items
-                        WHERE sale_id IN (SELECT id FROM sales WHERE shop_id == shop.id)
-                        GROUP BY product
-                        ORDER BY COUNT(*) DESC
-                        LIMIT 1
-                    </p>
-                </div>
-                <div>
-
-                </div>
-            </div> */}
-
-
-
-            {/* This query shows every product sold with its quantity, unit price, and subtotal   -->  This goes in ProductRepository*/}
-            {/* <div className="w-[calc(100%/3-4rem)] flex gap-4 items-center justify-center p-6 lg:p-8 bg-neutral-surface rounded-lg shadow-md shadow-neutral-white ">
-                <div>
-                    <h2>
-                        "Show me every product sold"
-                    </h2>
-                    <p>
-                        SELECT
-                            p.name,
-                            si.quantity,
-                            si.unit_price,
-                            si.subtotal
-                        FROM sale_items si
-                        JOIN products p
-                            ON si.product_id = p.id;
-                    </p>
-                </div>
-                <div>
-
-                </div>
-            </div> */}
-            
         </div>
     </div>
   )

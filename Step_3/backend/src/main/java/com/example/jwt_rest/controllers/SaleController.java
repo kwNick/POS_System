@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.example.jwt_rest.projection.DailyRevenue;
+import com.example.jwt_rest.projection.SalesSummary;
 import com.example.jwt_rest.projection.SalesUserReport;
 import com.example.jwt_rest.services.SaleService;
 
@@ -33,5 +35,10 @@ public class SaleController {
     @GetMapping("/{shopId}/average-sale")
     public List<Double> findAverageSaleByShopId(@PathVariable Long shopId) {
         return saleService.findAverageSaleByShopId(shopId);
+    }
+
+    @GetMapping ("/{shopId}/sales-summary/{startDate}/{endDate}")
+    public SalesSummary findSalesSummaryByShopAndDateRange(@PathVariable Long shopId, @PathVariable LocalDate startDate, @PathVariable LocalDate endDate) {
+        return saleService.findSalesSummaryByShopAndDateRange(shopId, startDate, endDate);
     }
 }

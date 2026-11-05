@@ -16,6 +16,8 @@ const ProfileDashboard = () => {
   console.log("userDataObject: ", userDataObject); // Why is userDataObject null? i added a useEffect in authContext that does auth checking when setting this value
   console.log("TopProductsUnits: ",  topProductsUnitsAllShops);
   console.log("TopProductsRevenue: ",  topProductsRevenueAllShops);
+  console.log("TopProductsUnitsPerShop: ",  topProductsUnitsPerShop);
+  console.log("TopProductsRevenuePerShop: ",  topProductsRevenuePerShop);
 
   if (loading) return <div className="min-w-3/5"><p>Loading...</p></div>;
   if (!user && !loading) return <div className="min-w-3/5"><p>You are not logged in.</p></div>;
@@ -45,7 +47,7 @@ const ProfileDashboard = () => {
             </div>
 
             {/* // Make this vv <DashboardPerShopAnalytics user={user} userDataObject={userDataObject} /> */}
-            <div className="w-full h-full flex flex-wrap items-start justify-around gap-4 lg:gap-8 pb-1 lg:pb-3 ">
+            <div className="w-full h-full flex flex-wrap items-start justify-between gap-4 lg:gap-8 pb-1 lg:pb-3 ">
 
               <DashboardPerShopAnalytics user={user} userDataObject={userDataObject} />
 

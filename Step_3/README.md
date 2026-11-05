@@ -523,6 +523,10 @@ Backend API Endpoints
 *Product Controller*
 --> /api/products
 20    - /total-units-sold
+      - /top-by-units-per-shop
+      - /top-by-revenue-per-shop
+      - /top-by-units-all-shops
+      - /top-by-revenue-all-shops
 
 (Analytics)
 *Sale Controller*
@@ -530,6 +534,7 @@ Backend API Endpoints
 21    - /all-sales
 22    - /daily-revenue
 23    - /{shopId}/average-sale
+      - /{shopId}/sales-summary/{startDate}/{endDate}
 
 (Analytics)
 *Product Report Controller*
@@ -538,7 +543,7 @@ Backend API Endpoints
 25    - /{shopId}/sales-report
 26    - /{shopId}/reports/top-products-units
 27    - /{shopId}/reports/top-products-revenue
-28    - /{shopId}/reports/sales-by-date/{startDate}/{endDate}
+      - /{shopId}/reports/top-products-revenue/{startDate}/{endDate}
 
 Frontend API Endpoints
 
@@ -573,3 +578,11 @@ Frontend API Endpoints
 22 fetchProductSalesReportById --> /api/shops/{shopId}/sales-report
 23 fetchTopProductsUnits --> /reports/top-products-units
 24 fetchTopProductsRevenue --> /reports/top-products-revenue
+
+fetchTopProductsByUnitsPerShop --> /api/products/top-by-units-per-shop
+fetchTopProductsByRevenuePerShop --> /api/products/top-by-revenue-per-shop
+fetchTopProductsByRevenueAllShops --> /api/products/top-by-units-all-shops
+fetchTopProductsByUnitsAllShops --> /api/products/top-by-revenue-all-shops
+
+fetchPSRByShopIdAndDateRange --> /api/shops/${shopId}/reports/top-products-revenue/${startDate}/${endDate}
+fetchSalesSummaryByShopIdAndDateRange --> /api/sales/${shopId}/sales-summary/${startDate}/${endDate}

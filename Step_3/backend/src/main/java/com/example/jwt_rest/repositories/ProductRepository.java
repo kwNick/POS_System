@@ -1,4 +1,5 @@
 package com.example.jwt_rest.repositories;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -96,11 +97,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                 ON si.product_id = p.id
             JOIN sales s
                 ON si.sale_id = s.id
-            WHERE s.shop_id = :shopId AND s.created_at >= :startDate AND s.created_at <= :endDate
+            WHERE s.shop_id = :shopId 
+                AND s.created_at >= CAST(:startDate AS DATE) 
+                AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
             GROUP BY p.id, p.name
             ORDER BY revenue DESC
-        """, nativeQuery = true)
-        List<ProductSalesReport> findProductSalesReportByShopAndDateRange(@Param("shopId") Long shopId, @Param("startDate") String startDate, @Param("endDate") String endDate);
+        """, nativeQuery = true)  // AND created_at >= CAST(:startDate AS DATE) - Spring can bind the Java LocalDate to PostgreSQL's DATE type.
+        List<ProductSalesReport> findProductSalesReportByShopAndDateRange(@Param("shopId") Long shopId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
         // Total Units sold for each product across all shops
         @Query (value = """
