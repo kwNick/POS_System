@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.jwt_rest.projection.SalesUserReport;
+import com.example.jwt_rest.projection.ChartData;
 import com.example.jwt_rest.projection.DailyRevenue;
 import com.example.jwt_rest.projection.SalesSummary;
 import com.example.jwt_rest.repositories.SaleRepository;
@@ -30,5 +31,9 @@ public class SaleService {
 
     public SalesSummary findSalesSummaryByShopAndDateRange(Long shopId, LocalDate startDate, LocalDate endDate) {
         return saleRepository.findSalesSummaryByShopAndDateRange(shopId, startDate, endDate);
+    }
+
+    public List<ChartData> findSalesSummaryByShopAndPeriod(Long shopId, String period) {
+        return saleRepository.findSalesSummaryByShopAndPeriod(shopId, period);
     }
 };

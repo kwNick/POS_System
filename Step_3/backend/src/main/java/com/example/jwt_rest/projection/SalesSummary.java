@@ -1,9 +1,12 @@
 package com.example.jwt_rest.projection;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public interface SalesSummary {
+    // Integer getPointNumber(); // For chart fetch
+
+    // String getDate(); // For chart fetch
+
     Long getTotalTransactions();
 
     BigDecimal getTotalRevenue();

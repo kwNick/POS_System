@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.jwt_rest.models.Sale;
 import com.example.jwt_rest.projection.SalesUserReport;
+import com.example.jwt_rest.projection.ChartData;
 import com.example.jwt_rest.projection.DailyRevenue;
 import com.example.jwt_rest.projection.SalesSummary;
 
@@ -133,4 +134,172 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
                 
         """, nativeQuery = true)
     SalesSummary findSalesSummaryByShopAndDateRange(@Param("shopId") Long shopId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    @Query (value = """
+        WITH period_bounds AS (
+            SELECT
+                CAST(:shopId AS BIGINT) AS shop_id,
+                CURRENT_DATE AS end_date,
+
+                CASE
+                    WHEN :period = '1M'
+                        THEN (CURRENT_DATE - INTERVAL '1 month')::date
+                    WHEN :period = '3M'
+                        THEN (CURRENT_DATE - INTERVAL '3 months')::date
+                    WHEN :period = '6M'
+                        THEN (CURRENT_DATE - INTERVAL '6 months')::date
+                    WHEN :period = '1Y'
+                        THEN (CURRENT_DATE - INTERVAL '1 year')::date
+                    WHEN :period = 'ALL'
+                        THEN COALESCE(
+                            (
+                                SELECT MIN(s.created_at)::date
+                                FROM sales s
+                                WHERE s.shop_id = CAST(:shopId AS BIGINT)
+                            ),
+                            CURRENT_DATE
+                        )
+                END AS start_date
+
+        ),
+
+        -- Calculate the total number of days
+        period_info AS (
+            SELECT
+                *,
+                (end_date - start_date + 1) AS total_days
+            FROM period_bounds
+        ),
+        -- Generate 10 interval numbers: 0 through 9
+        bucket_numbers AS (
+            SELECT generate_series(0, 9) AS point_number
+        ),
+        -- Calculate the start and end date for each interval
+        buckets AS (
+            SELECT
+                bn.point_number,
+                pi.shop_id,
+                (
+                    pi.start_date +
+                    ((bn.point_number * pi.total_days) / 10)
+                ) AS bucket_start,
+                (
+                    pi.start_date +
+                    (((bn.point_number + 1) * pi.total_days) / 10)
+                ) AS bucket_end_exclusive
+            FROM bucket_numbers bn
+            CROSS JOIN period_info pi
+        ),
+
+        -- Find the sales belonging to each interval
+        bucket_sales AS (
+            SELECT
+                b.point_number,
+                s.*
+            FROM buckets b
+            JOIN sales s
+                ON s.shop_id = b.shop_id
+                AND s.created_at >= b.bucket_start
+                AND s.created_at < b.bucket_end_exclusive
+        ),
+
+        -- Calculate sales-level analytics
+        sales_metrics AS (
+            SELECT
+                b.point_number,
+                COUNT(bs.id) AS "totalTransactions",
+                COALESCE(SUM(bs.subtotal), 0) AS "totalRevenue",
+                COALESCE(AVG(bs.subtotal), 0) AS "averageSale",
+                COALESCE(SUM(bs.tax), 0) AS "totalTax",
+                COALESCE(AVG(bs.tax), 0) AS "avgTaxPerSale"
+            FROM buckets b
+            LEFT JOIN bucket_sales bs
+                ON bs.point_number = b.point_number
+            GROUP BY b.point_number
+        ),
+
+        -- Calculate units sold for each interval
+        items_metrics AS (
+            SELECT
+                b.point_number,
+                COALESCE(SUM(si.quantity), 0) AS "unitsSold"
+            FROM buckets b
+            LEFT JOIN bucket_sales bs
+                ON bs.point_number = b.point_number
+            LEFT JOIN sale_items si
+                ON si.sale_id = bs.id
+            GROUP BY b.point_number
+        ),
+
+        -- Calculate individual employee performance
+        employee_metrics AS (
+            SELECT
+                bs.point_number,
+                e.id AS "employeeId",
+                CONCAT_WS(
+                    ' ',
+                    e.first_name,
+                    e.last_name
+                ) AS "employeeName",
+                COUNT(*) AS "totalTransactions",
+                COALESCE(SUM(bs.subtotal), 0) AS "totalRevenue",
+                COALESCE(AVG(bs.subtotal), 0) AS "averageSale"
+            FROM bucket_sales bs
+            JOIN employees e
+                ON e.id = bs.employee_id
+            GROUP BY
+                bs.point_number,
+                e.id,
+                e.first_name,
+                e.last_name
+        ),
+
+        -- Combine employees into a JSON array for each interval
+        employee_summary AS (
+            SELECT
+                point_number,
+                jsonb_agg(
+                    jsonb_build_object(
+                        'employeeId', "employeeId",
+                        'employeeName', "employeeName",
+                        'totalTransactions', "totalTransactions",
+                        'totalRevenue', "totalRevenue",
+                        'averageSale', "averageSale"
+                    )
+                    ORDER BY "totalRevenue" DESC
+                ) AS "employeeSalesSummary"
+            FROM employee_metrics
+            GROUP BY point_number
+        )
+
+        -- Return all 10 chart points
+        SELECT
+            b.point_number AS "pointNumber",
+            TO_CHAR(b.bucket_start, 'Mon DD') ||
+            ' - ' ||
+            TO_CHAR(
+                b.bucket_end_exclusive - 1,
+                'Mon DD'
+            ) AS date,
+            sm."totalTransactions",
+            sm."totalRevenue",
+            sm."averageSale",
+            sm."totalTax",
+            sm."avgTaxPerSale",
+            im."unitsSold",
+            COALESCE(
+                es."employeeSalesSummary",
+                '[]'::jsonb
+            ) AS "employeeSalesSummary"
+        FROM buckets b
+        JOIN sales_metrics sm
+            ON sm.point_number = b.point_number
+        JOIN items_metrics im
+            ON im.point_number = b.point_number
+        LEFT JOIN employee_summary es
+            ON es.point_number = b.point_number
+        ORDER BY b.point_number;
+
+        """, nativeQuery = true)
+    List<ChartData> findSalesSummaryByShopAndPeriod(@Param("shopId") Long shopId, @Param("period") String period);
 };

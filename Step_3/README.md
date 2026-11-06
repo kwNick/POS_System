@@ -463,8 +463,173 @@ FROM payments
 ORDER BY id;
 
 ---------------
-
+Adding 30 Tables
 ---------------
+
+BEGIN;
+
+WITH sale_seed (sale_no, shop_id, user_id, employee_id, created_at, product_offset) AS (
+    VALUES
+    -- Burger Town 1: shop_id 1
+    ( 1, 1, 3, 1, TIMESTAMP '2026-05-08 10:15:00', 0),
+    ( 2, 1, 3, 2, TIMESTAMP '2026-05-17 13:30:00', 1),
+    ( 3, 1, 3, 1, TIMESTAMP '2026-05-29 17:45:00', 2),
+    ( 4, 1, 3, 2, TIMESTAMP '2026-06-06 11:20:00', 3),
+    ( 5, 1, 3, 1, TIMESTAMP '2026-06-19 14:10:00', 4),
+    ( 6, 1, 3, 2, TIMESTAMP '2026-06-28 18:35:00', 5),
+    ( 7, 1, 3, 1, TIMESTAMP '2026-07-09 12:05:00', 1),
+    ( 8, 1, 3, 2, TIMESTAMP '2026-07-21 16:40:00', 2),
+    ( 9, 1, 3, 1, TIMESTAMP '2026-08-03 10:50:00', 3),
+    (10, 1, 3, 2, TIMESTAMP '2026-08-18 19:15:00', 4),
+    (11, 1, 3, 1, TIMESTAMP '2026-09-04 13:25:00', 5),
+    (12, 1, 3, 2, TIMESTAMP '2026-09-22 17:10:00', 0),
+    (13, 1, 3, 1, TIMESTAMP '2026-10-07 11:45:00', 1),
+    (14, 1, 3, 2, TIMESTAMP '2026-10-23 15:30:00', 2),
+    (15, 1, 3, 1, TIMESTAMP '2026-11-03 18:20:00', 3),
+
+    -- Burger Town 2: shop_id 3
+    (16, 3, 3, 3, TIMESTAMP '2026-05-11 11:10:00', 2),
+    (17, 3, 3, 3, TIMESTAMP '2026-05-24 16:25:00', 3),
+    (18, 3, 3, 3, TIMESTAMP '2026-06-03 12:40:00', 4),
+    (19, 3, 3, 3, TIMESTAMP '2026-06-15 18:05:00', 5),
+    (20, 3, 3, 3, TIMESTAMP '2026-06-26 14:50:00', 0),
+    (21, 3, 3, 3, TIMESTAMP '2026-07-07 10:35:00', 1),
+    (22, 3, 3, 3, TIMESTAMP '2026-07-19 17:20:00', 2),
+    (23, 3, 3, 3, TIMESTAMP '2026-08-09 13:15:00', 3),
+    (24, 3, 3, 3, TIMESTAMP '2026-08-25 19:30:00', 4),
+    (25, 3, 3, 3, TIMESTAMP '2026-09-08 11:55:00', 5),
+    (26, 3, 3, 3, TIMESTAMP '2026-09-25 15:40:00', 0),
+    (27, 3, 3, 3, TIMESTAMP '2026-10-05 18:15:00', 1),
+    (28, 3, 3, 3, TIMESTAMP '2026-10-16 12:25:00', 2),
+    (29, 3, 3, 3, TIMESTAMP '2026-10-28 16:50:00', 3),
+    (30, 3, 3, 3, TIMESTAMP '2026-11-05 13:05:00', 4)
+),
+
+-- Generate three product items for every sale.
+-- Every product ID will be between 1 and 6.
+item_seed AS (
+    SELECT
+        ss.sale_no,
+        ((ss.product_offset + gs.item_number - 1) % 6) + 1 AS product_id,
+        1 + ((ss.sale_no + gs.item_number) % 3) AS quantity
+    FROM sale_seed ss
+    CROSS JOIN generate_series(1, 3) AS gs(item_number)
+),
+
+-- Calculate each sale subtotal using actual product prices.
+sale_totals AS (
+    SELECT
+        ss.sale_no,
+        ss.shop_id,
+        ss.user_id,
+        ss.employee_id,
+        ss.created_at,
+        ROUND(SUM(p.price * i.quantity), 2) AS subtotal
+    FROM sale_seed ss
+    JOIN item_seed i ON i.sale_no = ss.sale_no
+    JOIN products p ON p.id = i.product_id
+    GROUP BY
+        ss.sale_no,
+        ss.shop_id,
+        ss.user_id,
+        ss.employee_id,
+        ss.created_at
+),
+
+-- Insert the 30 sales.
+inserted_sales AS (
+    INSERT INTO sales (
+        shop_id,
+        user_id,
+        employee_id,
+        subtotal,
+        tax,
+        discount,
+        total,
+        status,
+        created_at
+    )
+    SELECT
+        st.shop_id,
+        st.user_id,
+        st.employee_id,
+        st.subtotal,
+        ROUND(st.subtotal * 0.07, 2),
+        0,
+        ROUND(st.subtotal + ROUND(st.subtotal * 0.07, 2), 2),
+        'COMPLETED',
+        st.created_at
+    FROM sale_totals st
+    JOIN employees e
+        ON e.id = st.employee_id
+       AND e.shop_id = st.shop_id
+       AND e.active = TRUE
+    RETURNING id, shop_id, employee_id, created_at
+),
+
+-- Insert the product line items for each sale.
+inserted_items AS (
+    INSERT INTO sale_items (
+        sale_id,
+        product_id,
+        quantity,
+        unit_price,
+        subtotal
+    )
+    SELECT
+        s.id,
+        p.id,
+        i.quantity,
+        p.price,
+        ROUND(p.price * i.quantity, 2)
+    FROM inserted_sales s
+    JOIN sale_seed ss
+        ON ss.shop_id = s.shop_id
+       AND ss.employee_id = s.employee_id
+       AND ss.created_at = s.created_at
+    JOIN item_seed i ON i.sale_no = ss.sale_no
+    JOIN products p ON p.id = i.product_id
+    RETURNING sale_id
+),
+
+-- Insert one completed payment per sale.
+inserted_payments AS (
+    INSERT INTO payments (
+        sale_id,
+        payment_method,
+        amount,
+        status,
+        transaction_reference,
+        created_at
+    )
+    SELECT
+        s.id,
+        CASE ss.sale_no % 3
+            WHEN 0 THEN 'CASH'
+            WHEN 1 THEN 'CARD'
+            ELSE 'CREDIT_CARD'
+        END,
+        ROUND(st.subtotal + ROUND(st.subtotal * 0.07, 2), 2),
+        'COMPLETED',
+        'BT-' || LPAD(ss.sale_no::TEXT, 4, '0'),
+        s.created_at
+    FROM inserted_sales s
+    JOIN sale_seed ss
+        ON ss.shop_id = s.shop_id
+       AND ss.employee_id = s.employee_id
+       AND ss.created_at = s.created_at
+    JOIN sale_totals st ON st.sale_no = ss.sale_no
+    RETURNING id
+)
+
+SELECT
+    (SELECT COUNT(*) FROM inserted_sales) AS sales_created,
+    (SELECT COUNT(*) FROM inserted_items) AS sale_items_created,
+    (SELECT COUNT(*) FROM inserted_payments) AS payments_created;
+
+COMMIT;
+
+
 
 ```
 
@@ -535,6 +700,7 @@ Backend API Endpoints
 22    - /daily-revenue
 23    - /{shopId}/average-sale
       - /{shopId}/sales-summary/{startDate}/{endDate}
+      - /{shopId}/sales-summary/{period}
 
 (Analytics)
 *Product Report Controller*
@@ -586,3 +752,16 @@ fetchTopProductsByUnitsAllShops --> /api/products/top-by-revenue-all-shops
 
 fetchPSRByShopIdAndDateRange --> /api/shops/${shopId}/reports/top-products-revenue/${startDate}/${endDate}
 fetchSalesSummaryByShopIdAndDateRange --> /api/sales/${shopId}/sales-summary/${startDate}/${endDate}
+fetchSalesSummaryByShopIdAndPeriod --> /api/sales/${shopId}/sales-summary/${period}
+
+So the idea right now is:
+I made an employees table
+The owner logs in and gets directed to their dashboard
+The owner clicks the POS home menu from their dashboard or shops menu page
+From there an employee can open the POS sale page using a 4 digit pin and make sale from there
+Maybe this menu has other options as well for sales/products/etc.
+Maybe each user gets a 4 digit pin as well
+these pins are only unique per shop
+So each shop has a list of employees and each sale has an employee attached to it so we know who made the sale
+
+For the chart I am sending a period that is mapped to a specific date range and that date range is separated into a series of date ranges that get data fetched for and used as an axis point for the chart where X axis is the date and y is the revenue and the tooltip has a list of all other data from that date range.

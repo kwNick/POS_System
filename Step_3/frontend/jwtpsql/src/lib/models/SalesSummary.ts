@@ -1,4 +1,5 @@
 export type SalesSummaryModel = {
+    date?: string;       // Soley for chart axis points
     totalTransactions: number;
     totalRevenue: number;
     averageSale: number;

@@ -38,6 +38,7 @@ type AuthContextType = {
 
   psrByShopIdAndDateRange: ProductSalesReportModel[] | null;
   salesSummaryByShopIdAndDateRange: SalesSummaryModel | null;
+  salesSummaryByShopIdAndPeriod: SalesSummaryModel[] | null;
 
   topProductsUnitsPerShop: TopProductsModel[] | null;
   topProductsRevenuePerShop: TopProductsModel[] | null;
@@ -79,6 +80,7 @@ type AuthContextType = {
   
   fetchPSRByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, orderBy?: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
   fetchSalesSummaryByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, overrideToken?: string) => Promise<SalesSummaryModel | null>;
+  fetchSalesSummaryByShopIdAndPeriod: (shopId: string, period: string, overrideToken?: string) => Promise<SalesSummaryModel[] | null>;
 
   fetchTopProductsByUnitsPerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
   fetchTopProductsByRevenuePerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
@@ -112,6 +114,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   
   const [psrByShopIdAndDateRange, setPsrByShopIdAndDateRange] = useState<ProductSalesReportModel[] | null>(null);
   const [salesSummaryByShopIdAndDateRange, setSalesSummaryByShopIdAndDateRange] = useState<SalesSummaryModel | null>(null);
+  const [salesSummaryByShopIdAndPeriod, setSalesSummaryByShopIdAndPeriod] = useState<SalesSummaryModel[] | null>(null);
   
   const [topProductsUnitsPerShop, setTopProductsUnitsPerShop] = useState<TopProductsModel[] | null>(null);
   const [topProductsRevenuePerShop, setTopProductsRevenuePerShop] = useState<TopProductsModel[] | null>(null);
@@ -1156,6 +1159,65 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // For Chart specifically
+  const fetchSalesSummaryByShopIdAndPeriod = async (shopId: string, period: string, overrideToken?: string): Promise<SalesSummaryModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/sales/${shopId}/sales-summary/${period}`,{
+          credentials: "include",
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/sales/${shopId}/sales-summary/${period}`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch Sales Summary by Shop and Date Range again, after refresh!');
+      }
+
+      const result: SalesSummaryModel[] = await res.json();
+
+      const salesSummary: SalesSummaryModel[] = result.map((point) => ({
+          ...point,
+          employeeSalesSummary:
+              typeof point.employeeSalesSummary === "string"
+                  ? JSON.parse(point.employeeSalesSummary)
+                  : point.employeeSalesSummary ?? []
+      }));
+
+      setSalesSummaryByShopIdAndPeriod(salesSummary);
+      return salesSummary;
+
+      // const result = await res.json();
+
+      // const salesSummary: SalesSummaryModel[] = {
+      //     ...result,
+      //     employeeSalesSummary: JSON.parse(result.employeeSalesSummary)
+      // };
+
+      // setSalesSummaryByShopIdAndPeriod(salesSummary);
+      // return salesSummary as SalesSummaryModel[];
+
+      }catch (err) {
+      console.error("Failed to fetch Sales Summary by Shop and Date Range: " + err);
+      return null;
+    }
+  };
+
   const fetchTopProductsByUnitsPerShop = async ( overrideToken?: string): Promise<TopProductsModel[] | null> => {
     if (!API_URL) return null;
 
@@ -1377,7 +1439,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // }, []);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, userDataObject, psrByShopIdAndDateRange, salesSummaryByShopIdAndDateRange, topProductsUnitsPerShop, topProductsRevenuePerShop, topProductsRevenueAllShops, topProductsUnitsAllShops, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId, fetchUserDataObject, fetchPSRByShopIdAndDateRange, fetchSalesSummaryByShopIdAndDateRange, fetchTopProductsByUnitsPerShop, fetchTopProductsByRevenuePerShop, fetchTopProductsByUnitsAllShops, fetchTopProductsByRevenueAllShops }}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, userDataObject, psrByShopIdAndDateRange, salesSummaryByShopIdAndDateRange, salesSummaryByShopIdAndPeriod, topProductsUnitsPerShop, topProductsRevenuePerShop, topProductsRevenueAllShops, topProductsUnitsAllShops, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId, fetchUserDataObject, fetchPSRByShopIdAndDateRange, fetchSalesSummaryByShopIdAndDateRange, fetchSalesSummaryByShopIdAndPeriod, fetchTopProductsByUnitsPerShop, fetchTopProductsByRevenuePerShop, fetchTopProductsByUnitsAllShops, fetchTopProductsByRevenueAllShops }}>
       {children}
     </AuthContext.Provider>
   );
