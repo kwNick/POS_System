@@ -40,7 +40,7 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                 </div>
                 <div>
                     <p>
-                        ShopId Dashboard:
+                        Do Not Need!! You Can Remove This Component!
                     </p>
                 </div>
                 {/* Maybe list all shops average sale by id using user variable for dashboard */}
@@ -67,7 +67,7 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
 
                 <div>
                     <p>
-                        Admin Dashboard: Does all units across every shop no matter the owner
+                        Do Not Need!! You Can Remove This Component!
                     </p>
                 </div>
 
@@ -124,7 +124,7 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
 
                 <div>
                     <p>
-                        Admin Dashboard: Does all sales across every shop no matter the owner
+                        Do Not Need!! You Can Remove This Component!
                     </p>
                 </div>
 
@@ -155,7 +155,7 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                 
                 <div>
                     <p>
-                        Admin Dashboard: Does all sales across every shop no matter the owner
+                        Do Not Need!! You Can Remove This Component!
                     </p>
                 </div>
 
@@ -190,7 +190,7 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
 
                 <div>
                     <p>
-                        ShopId Dashboard:
+                        Do Not Need!! You Can Remove This Component!
                     </p>
                 </div>
                 

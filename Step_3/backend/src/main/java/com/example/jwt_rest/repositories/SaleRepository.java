@@ -133,41 +133,4 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
                 
         """, nativeQuery = true)
     SalesSummary findSalesSummaryByShopAndDateRange(@Param("shopId") Long shopId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-
-
-
-    // (
-    //     SELECT JSON_AGG(
-    //         JSON_BUILD_OBJECT(
-    //             'employee_id', u.id,
-    //             'employee_name', u.username,
-    //             'total_transactions', COUNT(s.id),
-    //             'total_revenue', COALESCE(SUM(s.subtotal), 0),
-    //             'average_sale', COALESCE(AVG(s.subtotal), 0)
-    //         )
-    //     )
-    //     FROM sales s
-    //     JOIN users u ON s.user_id = u.id
-    //     WHERE s.shop_id = :shopId
-    //     AND s.created_at >= CAST(:startDate AS DATE)
-    //     AND s.created_at < CAST(:endDate AS DATE) + INTERVAL '1 day'
-    //     GROUP BY u.id, u.username
-    // ) AS employeeSalesSummary
-
-
-    // (
-    //     SELECT
-    //         e.id AS employeeId,
-    //         CONCAT(e.first_name, ' ', e.last_name) AS employeeName,
-    //         COUNT(*) AS totalTransactions,
-    //         COALESCE(SUM(s.subtotal), 0) AS totalRevenue,
-    //         COALESCE(AVG(s.subtotal), 0) AS averageSale
-    //     FROM sales s
-    //     JOIN employees e
-    //         ON s.employee_id = e.id
-    //     WHERE s.shop_id = 1
-    //     GROUP BY
-    //         e.id
-    //     ORDER BY total_revenue Desc
-    // ) AS employeeSalesSummary
-}
+};

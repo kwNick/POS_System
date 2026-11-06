@@ -84,7 +84,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         """, nativeQuery = true)
     List<ProductSalesReport> findTopProductsRevenueByShop(@Param("shopId") Long shopId);
 
-    // Not yet used in front end but maybe later with form or pathvariable
     // returns the product sales report for a specific shop within a date range
     @Query(value = """
             SELECT

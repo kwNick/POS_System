@@ -36,7 +36,7 @@ const ShopProductsAndEmployees = ({ shopId }: {shopId: string}) => {
                     if(shop.shop_info.id.toString() === shopId) {
                         return (
                             shop.products.map((product: ProductDTO) => (
-                                    <li key={product.id}>{product.name} - {product.stockQuantity} units - {product.price} price</li>
+                                    <li key={product.id}>{product.name} - {product.stockQuantity} units - {product.price} price - SKU: {product.sku}</li>
                                 ))
                             );
                         }

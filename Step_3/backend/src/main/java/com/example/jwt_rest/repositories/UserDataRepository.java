@@ -14,7 +14,7 @@ public interface UserDataRepository extends Repository<User, Long> {
         WITH selected_user AS (
             SELECT *
             FROM users
-            WHERE username = :username
+            WHERE username = 'Alex'
         )
         SELECT
             jsonb_build_object(
@@ -74,7 +74,10 @@ public interface UserDataRepository extends Repository<User, Long> {
                                     (
                                         SELECT jsonb_agg(
                                             jsonb_build_object(
-                                                'sale_info', to_jsonb(sa),
+                                                'sale_info',
+                                                  to_jsonb(sa) || jsonb_build_object(
+                                                      'employeeName', CONCAT_WS(' ', e.first_name, e.last_name)
+                                                  ),
 
                                                 'sale_items',
                                                 COALESCE(
@@ -102,6 +105,8 @@ public interface UserDataRepository extends Repository<User, Long> {
                                             )
                                         )
                                         FROM sales sa
+                                        LEFT JOIN employees e
+                                          ON e.id = sa.employee_id
                                         WHERE sa.shop_id = s.id
                                     ),
                                     '[]'::jsonb

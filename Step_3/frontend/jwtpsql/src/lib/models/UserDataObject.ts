@@ -34,6 +34,7 @@ export type ProductDTO = {
   price: number;
   stockQuantity: number;
   active: boolean;
+  created_at: string;
 };
 
 export type EmployeeDTO = {
@@ -42,6 +43,7 @@ export type EmployeeDTO = {
   last_name: string;
   pin: number;
   position: string;
+  active: boolean;
 };
 
 export type SaleDTO = {
@@ -55,6 +57,8 @@ export type SaleInfoDTO = {
   shop_id: number;
   user_id: number;
   subtotal: number;
+  employee_id: number;
+  employeeName: string;
   tax: number;
   discount: number;
   total: number;
