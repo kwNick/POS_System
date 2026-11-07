@@ -10,14 +10,6 @@ const ProductSalesReport = () => {
   return (
     <div>
       <h2>Product Sales Report</h2>
-      {/* <ul>
-        {productSalesReport?.map((report: ProductSalesReportModel) => (
-          <li key={report.productId}>
-            Product: {report.productName}, Units Sold: {report.unitsSold}, Total Sales: {report.revenue}
-          </li>
-        ))}
-      </ul> */}
-
       <table>
         <thead>
           <tr>

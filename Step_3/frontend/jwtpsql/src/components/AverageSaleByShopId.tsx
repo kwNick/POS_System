@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/AuthContext";
 
 const AverageSaleByShopId = () => {
-    const { averageSaleByShopId, fetchAverageSaleByShopId } = useAuth();
+    const { averageSaleByShopId } = useAuth();
 
     console.log("Average Sale By Shop ID:", averageSaleByShopId);
   return (

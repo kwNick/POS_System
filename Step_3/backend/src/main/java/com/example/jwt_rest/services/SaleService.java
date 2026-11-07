@@ -36,4 +36,12 @@ public class SaleService {
     public List<ChartData> findSalesSummaryByShopAndPeriod(Long shopId, String period) {
         return saleRepository.findSalesSummaryByShopAndPeriod(shopId, period);
     }
+
+    public List<ChartData> findSalesSummaryTotalAndPeriod(Long userId, String period) {
+        return saleRepository.findSalesSummaryTotalAndPeriod(userId, period);
+    }
+
+    public List<ChartData> findSalesSummaryTotalAllShopsAndPeriod(Long userId, String period) {
+        return saleRepository.findSalesSummaryTotalAllShopsAndPeriod(userId, period);
+    }
 };

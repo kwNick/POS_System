@@ -1,13 +1,11 @@
 "use client";
 
-import { AllSalesByUsersModel } from "@/lib/models/AllSalesByUsers";
 import { DailyRevenueModel } from "@/lib/models/DailyRevenue";
 import { ProductSalesReportModel } from "@/lib/models/ProductSalesReport";
 import Role from "@/lib/models/roleModel";
 import { SalesSummaryModel } from "@/lib/models/SalesSummary";
 import Shop from "@/lib/models/shopModel";
 import { TopProductsModel } from "@/lib/models/TopProducts";
-import { TotalUnitsSoldPerProductModel } from "@/lib/models/TotalUnitsSoldPerProductModel";
 import { UserDataObject } from "@/lib/models/UserDataObject";
 import User from "@/lib/models/userModel";
 // import { jwtVerify } from "jose";
@@ -24,21 +22,25 @@ type AuthContextType = {
   // shop: Shop | null;
   shops: Shop[] | null;
   roles: Role[] | null;
-  topProductsUnits: ProductSalesReportModel[] | null;
-  topProductsRevenue: ProductSalesReportModel[] | null;
-  productSalesReport: ProductSalesReportModel[] | null;
-  productSalesReportById: ProductSalesReportModel[] | null;
-  averageSaleByShopId: number | null;
 
-  allSalesByUsers: AllSalesByUsersModel[] | null;
+  // topProductsUnits: ProductSalesReportModel[] | null;
+  // topProductsRevenue: ProductSalesReportModel[] | null;
+  // productSalesReport: ProductSalesReportModel[] | null;
+  // productSalesReportById: ProductSalesReportModel[] | null;
+  // averageSaleByShopId: number | null;
+
+  // allSalesByUsers: AllSalesByUsersModel[] | null;
   dailyRevenue: DailyRevenueModel[] | null;
-  totalUnitsSoldPerProduct: TotalUnitsSoldPerProductModel[] | null;
+  // totalUnitsSoldPerProduct: TotalUnitsSoldPerProductModel[] | null;
 
   userDataObject: UserDataObject | null;
 
   psrByShopIdAndDateRange: ProductSalesReportModel[] | null;
   salesSummaryByShopIdAndDateRange: SalesSummaryModel | null;
   salesSummaryByShopIdAndPeriod: SalesSummaryModel[] | null;
+
+  salesSummaryTotalAndPeriod: SalesSummaryModel[] | null;
+  salesSummaryTotalAllShopsAndPeriod: SalesSummaryModel[] | null;
 
   topProductsUnitsPerShop: TopProductsModel[] | null;
   topProductsRevenuePerShop: TopProductsModel[] | null;
@@ -62,17 +64,17 @@ type AuthContextType = {
   fetchShops: () => Promise<Shop[] | null>;
   fetchRoles: () => Promise<Role[] | null>;
   
-  fetchTopProductsUnits: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
-  fetchTopProductsRevenue: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  // fetchTopProductsUnits: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  // fetchTopProductsRevenue: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
   
-  fetchProductSalesReport: (overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  // fetchProductSalesReport: (overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
   
-  fetchProductSalesReportById: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
-  fetchAverageSaleByShopId: (shopId: string, overrideToken?: string) => Promise<number | null>;
+  // fetchProductSalesReportById: (shopId: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
+  // fetchAverageSaleByShopId: (shopId: string, overrideToken?: string) => Promise<number | null>;
   
-  fetchAllSalesByUsers: (overrideToken?: string) => Promise<AllSalesByUsersModel[] | null>;
+  // fetchAllSalesByUsers: (overrideToken?: string) => Promise<AllSalesByUsersModel[] | null>;
   fetchDailyRevenue: (overrideToken?: string) => Promise<DailyRevenueModel[] | null>;
-  fetchTotalUnitsSoldPerProduct: (overrideToken?: string) => Promise<TotalUnitsSoldPerProductModel[] | null>;
+  // fetchTotalUnitsSoldPerProduct: (overrideToken?: string) => Promise<TotalUnitsSoldPerProductModel[] | null>;
   
   fetchAnalytics: (overrideToken?: string) => Promise<any | null>;
   
@@ -81,6 +83,9 @@ type AuthContextType = {
   fetchPSRByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, orderBy?: string, overrideToken?: string) => Promise<ProductSalesReportModel[] | null>;
   fetchSalesSummaryByShopIdAndDateRange: (shopId: string, startDate: string, endDate: string, overrideToken?: string) => Promise<SalesSummaryModel | null>;
   fetchSalesSummaryByShopIdAndPeriod: (shopId: string, period: string, overrideToken?: string) => Promise<SalesSummaryModel[] | null>;
+
+  fetchSalesSummaryTotalAndPeriod: (userId: string, period: string, overrideToken?: string) => Promise<SalesSummaryModel[] | null>;
+  fetchSalesSummaryTotalAllShopsAndPeriod: (userId: string, period: string, overrideToken?: string) => Promise<SalesSummaryModel[] | null>;
 
   fetchTopProductsByUnitsPerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
   fetchTopProductsByRevenuePerShop: (overrideToken?: string) => Promise<TopProductsModel[] | null>;
@@ -102,19 +107,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // const [shop, setShop] = useState<Shop | null>(null);
   const [shops, setShops] = useState<Shop[] | null>(null);
   const [roles, setRoles] = useState<Role[] | null>(null);
-  const [topProductsUnits, setTopProductsUnits] = useState<ProductSalesReportModel[] | null>(null);
-  const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReportModel[] | null>(null);
-  const [productSalesReport, setProductSalesReport] = useState<ProductSalesReportModel[] | null>(null);
-  const [productSalesReportById, setProductSalesReportById] = useState<ProductSalesReportModel[] | null>(null);
-  const [allSalesByUsers, setAllSalesByUsers] = useState<AllSalesByUsersModel[] | null>(null);
+
+  // const [topProductsUnits, setTopProductsUnits] = useState<ProductSalesReportModel[] | null>(null);
+  // const [topProductsRevenue, setTopProductsRevenue] = useState<ProductSalesReportModel[] | null>(null);
+
+  // const [productSalesReport, setProductSalesReport] = useState<ProductSalesReportModel[] | null>(null);
+  // const [productSalesReportById, setProductSalesReportById] = useState<ProductSalesReportModel[] | null>(null);
+
+  // const [allSalesByUsers, setAllSalesByUsers] = useState<AllSalesByUsersModel[] | null>(null);
   const [dailyRevenue, setDailyRevenue] = useState<DailyRevenueModel[] | null>(null);
-  const [totalUnitsSoldPerProduct, setTotalUnitsSoldPerProduct] = useState<TotalUnitsSoldPerProductModel[] | null>(null);
-  const [averageSaleByShopId, setAverageSaleByShopId] = useState<number | null>(null);
+  // const [totalUnitsSoldPerProduct, setTotalUnitsSoldPerProduct] = useState<TotalUnitsSoldPerProductModel[] | null>(null);
+  // const [averageSaleByShopId, setAverageSaleByShopId] = useState<number | null>(null);
+
   const [userDataObject, setUserDataObject] = useState<UserDataObject | null>(null);
   
   const [psrByShopIdAndDateRange, setPsrByShopIdAndDateRange] = useState<ProductSalesReportModel[] | null>(null);
   const [salesSummaryByShopIdAndDateRange, setSalesSummaryByShopIdAndDateRange] = useState<SalesSummaryModel | null>(null);
   const [salesSummaryByShopIdAndPeriod, setSalesSummaryByShopIdAndPeriod] = useState<SalesSummaryModel[] | null>(null);
+
+  const [salesSummaryTotalAndPeriod, setSalesSummaryTotalAndPeriod] = useState<SalesSummaryModel[] | null>(null);
+  const [salesSummaryTotalAllShopsAndPeriod, setSalesSummaryTotalAllShopsAndPeriod] = useState<SalesSummaryModel[] | null>(null);
   
   const [topProductsUnitsPerShop, setTopProductsUnitsPerShop] = useState<TopProductsModel[] | null>(null);
   const [topProductsRevenuePerShop, setTopProductsRevenuePerShop] = useState<TopProductsModel[] | null>(null);
@@ -211,14 +223,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(null);
     setShops(null);
     setRoles(null);
-    setTopProductsRevenue(null);
-    setTopProductsUnits(null);
-    setProductSalesReport(null);
-    setProductSalesReportById(null);
-    setAllSalesByUsers(null);
+    // setTopProductsRevenue(null);
+    // setTopProductsUnits(null);
+    // setProductSalesReport(null);
+    // setProductSalesReportById(null);
+    // setAllSalesByUsers(null);
     setDailyRevenue(null);
-    setTotalUnitsSoldPerProduct(null);
-    setAverageSaleByShopId(null);
+    // setTotalUnitsSoldPerProduct(null);
+    // setAverageSaleByShopId(null);
     setUserDataObject(null);
     setTopProductsUnitsPerShop(null);
     setTopProductsRevenuePerShop(null);
@@ -249,14 +261,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(null);
     setShops(null);
     setRoles(null);
-    setTopProductsRevenue(null);
-    setTopProductsUnits(null);
-    setProductSalesReport(null);
-    setProductSalesReportById(null);
-    setAllSalesByUsers(null);
+    // setTopProductsRevenue(null);
+    // setTopProductsUnits(null);
+    // setProductSalesReport(null);
+    // setProductSalesReportById(null);
+    // setAllSalesByUsers(null);
     setDailyRevenue(null);
-    setTotalUnitsSoldPerProduct(null);
-    setAverageSaleByShopId(null);
+    // setTotalUnitsSoldPerProduct(null);
+    // setAverageSaleByShopId(null);
     setUserDataObject(null);
     setTopProductsUnitsPerShop(null);
     setTopProductsRevenuePerShop(null);
@@ -716,6 +728,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // 
   const fetchUserDataObject = async (username: string, overrideToken?: string): Promise<UserDataObject | null> => {
     if (!API_URL) return null;
 
@@ -759,10 +772,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const authToken = overrideToken ?? token;
     try {
       //call all the analytics fetching 
-      await fetchProductSalesReport(authToken!);
-      await fetchAllSalesByUsers(authToken!);
+      // await fetchProductSalesReport(authToken!);
+      // await fetchAllSalesByUsers(authToken!);
       await fetchDailyRevenue(authToken!);
-      await fetchTotalUnitsSoldPerProduct(authToken!);
+      // await fetchTotalUnitsSoldPerProduct(authToken!);
+
       await fetchTopProductsByUnitsPerShop(authToken!);
       await fetchTopProductsByUnitsAllShops(authToken!);
       await fetchTopProductsByRevenuePerShop(authToken!);
@@ -775,75 +789,75 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
     
-  const fetchProductSalesReport = async (overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
-    if (!API_URL) return null;
+  // const fetchProductSalesReport = async (overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
+  //   if (!API_URL) return null;
 
-    const authToken = overrideToken ?? token;
-    try {
-      let res = await fetch(`http://${API_URL}/api/shops/sales-report`, {
-        credentials: "include", // sends HttpOnly refresh token
-        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
-      });
+  //   const authToken = overrideToken ?? token;
+  //   try {
+  //     let res = await fetch(`http://${API_URL}/api/shops/sales-report`, {
+  //       credentials: "include", // sends HttpOnly refresh token
+  //       headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+  //     });
 
-      // If token expired, refresh and try again
-      if (res.status == 403 || res.status == 401) {
+  //     // If token expired, refresh and try again
+  //     if (res.status == 403 || res.status == 401) {
 
-        const newToken = await checkRefresh();
+  //       const newToken = await checkRefresh();
 
-        if(!newToken){
-          return null;
-        }
-        res = await fetch(`http://${API_URL}/api/shops/sales-report`, {
-          credentials: "include",
-          headers: { Authorization: `Bearer ${newToken}` },
-        });
-      }
-      if (!res.ok) throw new Error("Failed to fetch Product Sales Report again, after refresh.");
+  //       if(!newToken){
+  //         return null;
+  //       }
+  //       res = await fetch(`http://${API_URL}/api/shops/sales-report`, {
+  //         credentials: "include",
+  //         headers: { Authorization: `Bearer ${newToken}` },
+  //       });
+  //     }
+  //     if (!res.ok) throw new Error("Failed to fetch Product Sales Report again, after refresh.");
 
-      const productSalesReportData: ProductSalesReportModel[] = await res.json();
+  //     const productSalesReportData: ProductSalesReportModel[] = await res.json();
 
-      setProductSalesReport(productSalesReportData);
-      return productSalesReportData;
-    } catch (err) {
-      console.error("Failed to fetch Product Sales Report: " + err);
-      return null;
-    }
-  };
+  //     setProductSalesReport(productSalesReportData);
+  //     return productSalesReportData;
+  //   } catch (err) {
+  //     console.error("Failed to fetch Product Sales Report: " + err);
+  //     return null;
+  //   }
+  // };
 
-  const fetchAllSalesByUsers = async (overrideToken?: string): Promise<AllSalesByUsersModel[] | null> => {
-    if (!API_URL) return null;
+  // const fetchAllSalesByUsers = async (overrideToken?: string): Promise<AllSalesByUsersModel[] | null> => {
+  //   if (!API_URL) return null;
 
-    const authToken = overrideToken ?? token;
-    try {
-      let res = await fetch(`http://${API_URL}/api/sales/all-sales`, {
-        credentials: "include", // sends HttpOnly refresh token
-        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
-      });
+  //   const authToken = overrideToken ?? token;
+  //   try {
+  //     let res = await fetch(`http://${API_URL}/api/sales/all-sales`, {
+  //       credentials: "include", // sends HttpOnly refresh token
+  //       headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+  //     });
 
-      // If token expired, refresh and try again
-      if (res.status == 403 || res.status == 401) {
+  //     // If token expired, refresh and try again
+  //     if (res.status == 403 || res.status == 401) {
 
-        const newToken = await checkRefresh();
+  //       const newToken = await checkRefresh();
 
-        if(!newToken){
-          return null;
-        }
-        res = await fetch(`http://${API_URL}/api/sales/all-sales`, {
-          credentials: "include",
-          headers: { Authorization: `Bearer ${newToken}` },
-        });
-      }
-      if (!res.ok) throw new Error("Failed to fetch All Sales By Users again, after refresh.");
+  //       if(!newToken){
+  //         return null;
+  //       }
+  //       res = await fetch(`http://${API_URL}/api/sales/all-sales`, {
+  //         credentials: "include",
+  //         headers: { Authorization: `Bearer ${newToken}` },
+  //       });
+  //     }
+  //     if (!res.ok) throw new Error("Failed to fetch All Sales By Users again, after refresh.");
 
-      const AllSalesByUsersData: AllSalesByUsersModel[] = await res.json();
+  //     const AllSalesByUsersData: AllSalesByUsersModel[] = await res.json();
 
-      setAllSalesByUsers(AllSalesByUsersData);
-      return AllSalesByUsersData;
-    } catch (err) {
-      console.error("Failed to fetch All Sales By Users: " + err);
-      return null;
-    }
-  };
+  //     setAllSalesByUsers(AllSalesByUsersData);
+  //     return AllSalesByUsersData;
+  //   } catch (err) {
+  //     console.error("Failed to fetch All Sales By Users: " + err);
+  //     return null;
+  //   }
+  // };
 
   const fetchDailyRevenue = async (overrideToken?: string): Promise<DailyRevenueModel[] | null> => {
     if (!API_URL) return null;
@@ -880,199 +894,199 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const fetchTotalUnitsSoldPerProduct = async (overrideToken?: string): Promise<TotalUnitsSoldPerProductModel[] | null> => {
-    if (!API_URL) return null;
+  // const fetchTotalUnitsSoldPerProduct = async (overrideToken?: string): Promise<TotalUnitsSoldPerProductModel[] | null> => {
+  //   if (!API_URL) return null;
 
-    const authToken = overrideToken ?? token;
-    try {
-      let res = await fetch(`http://${API_URL}/api/products/total-units-sold`, {
-        credentials: "include", // sends HttpOnly refresh token
-        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
-      });
+  //   const authToken = overrideToken ?? token;
+  //   try {
+  //     let res = await fetch(`http://${API_URL}/api/products/total-units-sold`, {
+  //       credentials: "include", // sends HttpOnly refresh token
+  //       headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+  //     });
 
-      // If token expired, refresh and try again
-      if (res.status == 403 || res.status == 401) {
+  //     // If token expired, refresh and try again
+  //     if (res.status == 403 || res.status == 401) {
 
-        const newToken = await checkRefresh();
+  //       const newToken = await checkRefresh();
 
-        if(!newToken){
-          return null;
-        }
-        res = await fetch(`http://${API_URL}/api/products/total-units-sold`, {
-          credentials: "include",
-          headers: { Authorization: `Bearer ${newToken}` },
-        });
-      }
-      if (!res.ok) throw new Error("Failed to fetch Total Units Sold Per Product again, after refresh.");
+  //       if(!newToken){
+  //         return null;
+  //       }
+  //       res = await fetch(`http://${API_URL}/api/products/total-units-sold`, {
+  //         credentials: "include",
+  //         headers: { Authorization: `Bearer ${newToken}` },
+  //       });
+  //     }
+  //     if (!res.ok) throw new Error("Failed to fetch Total Units Sold Per Product again, after refresh.");
 
-      const totalUnitsSoldData: TotalUnitsSoldPerProductModel[] = await res.json();
+  //     const totalUnitsSoldData: TotalUnitsSoldPerProductModel[] = await res.json();
       
-      setTotalUnitsSoldPerProduct(totalUnitsSoldData);
-      return totalUnitsSoldData;
-    }catch(err){
-      console.error("Failed to fetch Total Units Sold Per Product: " + err);
-      return null;
-    }
-  };
+  //     setTotalUnitsSoldPerProduct(totalUnitsSoldData);
+  //     return totalUnitsSoldData;
+  //   }catch(err){
+  //     console.error("Failed to fetch Total Units Sold Per Product: " + err);
+  //     return null;
+  //   }
+  // };
 
   /* - - - - - Fetch Data(Analytics by pathvariables) Functions - - - - - */
 
-  const fetchAverageSaleByShopId = async (shopId: string, overrideToken?: string): Promise<number | null> => {
-    if (!API_URL) return null;
+  // const fetchAverageSaleByShopId = async (shopId: string, overrideToken?: string): Promise<number | null> => {
+  //   if (!API_URL) return null;
 
-    const authToken = overrideToken ?? token;
-    try {
-      let res = await fetch(`http://${API_URL}/api/sales/${shopId}/average-sale`, {
-        credentials: "include", // sends HttpOnly refresh token
-        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
-      });
+  //   const authToken = overrideToken ?? token;
+  //   try {
+  //     let res = await fetch(`http://${API_URL}/api/sales/${shopId}/average-sale`, {
+  //       credentials: "include", // sends HttpOnly refresh token
+  //       headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+  //     });
 
-      // If token expired, refresh and try again
-      if (res.status == 403 || res.status == 401) {
+  //     // If token expired, refresh and try again
+  //     if (res.status == 403 || res.status == 401) {
 
-        const newToken = await checkRefresh();
+  //       const newToken = await checkRefresh();
 
-        if(!newToken){
-          return null;
-        }
-        res = await fetch(`http://${API_URL}/api/sales/${shopId}/average-sale`, {
-          credentials: "include",
-          headers: { Authorization: `Bearer ${newToken}` },
-        });
-      }
+  //       if(!newToken){
+  //         return null;
+  //       }
+  //       res = await fetch(`http://${API_URL}/api/sales/${shopId}/average-sale`, {
+  //         credentials: "include",
+  //         headers: { Authorization: `Bearer ${newToken}` },
+  //       });
+  //     }
 
-      if (!res.ok) throw new Error("Failed to fetch Average Sale By Shop ID: " + shopId + " again, after refresh.");
+  //     if (!res.ok) throw new Error("Failed to fetch Average Sale By Shop ID: " + shopId + " again, after refresh.");
 
-      const averageSaleByShopData: number = await res.json();
+  //     const averageSaleByShopData: number = await res.json();
 
-      setAverageSaleByShopId(averageSaleByShopData);
-      return averageSaleByShopData;
-    } catch (error) {
-      console.error("Failed to fetch Average Sale By Shop ID " + shopId + ": " + error);
-      return null;
-    }
-  };
+  //     setAverageSaleByShopId(averageSaleByShopData);
+  //     return averageSaleByShopData;
+  //   } catch (error) {
+  //     console.error("Failed to fetch Average Sale By Shop ID " + shopId + ": " + error);
+  //     return null;
+  //   }
+  // };
 
-  const fetchProductSalesReportById = async (shopId: string,overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
-    if (!API_URL) return null;
+  // const fetchProductSalesReportById = async (shopId: string,overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
+  //   if (!API_URL) return null;
 
-    const authToken = overrideToken ?? token;
-    try {
-      let res = await fetch(`http://${API_URL}/api/shops/${shopId}/sales-report`, {
-        credentials: "include", // sends HttpOnly refresh token
-        headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
-      });
+  //   const authToken = overrideToken ?? token;
+  //   try {
+  //     let res = await fetch(`http://${API_URL}/api/shops/${shopId}/sales-report`, {
+  //       credentials: "include", // sends HttpOnly refresh token
+  //       headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+  //     });
 
-      // If token expired, refresh and try again
-      if (res.status == 403 || res.status == 401) {
+  //     // If token expired, refresh and try again
+  //     if (res.status == 403 || res.status == 401) {
 
-        const newToken = await checkRefresh();
+  //       const newToken = await checkRefresh();
 
-        if(!newToken){
-          return null;
-        }
-        res = await fetch(`http://${API_URL}/api/shops/${shopId}/sales-report`, {
-          credentials: "include",
-          headers: { Authorization: `Bearer ${newToken}` },
-        });
-      }
-      if (!res.ok) throw new Error("Failed to fetch Product Sales Report By ID again, after refresh.");
+  //       if(!newToken){
+  //         return null;
+  //       }
+  //       res = await fetch(`http://${API_URL}/api/shops/${shopId}/sales-report`, {
+  //         credentials: "include",
+  //         headers: { Authorization: `Bearer ${newToken}` },
+  //       });
+  //     }
+  //     if (!res.ok) throw new Error("Failed to fetch Product Sales Report By ID again, after refresh.");
 
-      const productSalesReportData: ProductSalesReportModel[] = await res.json();
+  //     const productSalesReportData: ProductSalesReportModel[] = await res.json();
       
-      setProductSalesReportById(productSalesReportData);
-      return productSalesReportData;
-    } catch (err) {
-      console.error("Failed to fetch Product Sales Report By ID: " + err);
-      return null;
-    }
-  };
+  //     setProductSalesReportById(productSalesReportData);
+  //     return productSalesReportData;
+  //   } catch (err) {
+  //     console.error("Failed to fetch Product Sales Report By ID: " + err);
+  //     return null;
+  //   }
+  // };
 
-  const fetchTopProductsUnits = async (shopId: string, overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
-    if (!API_URL) return null;
+  // const fetchTopProductsUnits = async (shopId: string, overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
+  //   if (!API_URL) return null;
 
-    const authToken = overrideToken ?? token;
-    try {
-      let res = await fetch(
-        `http://${API_URL}/api/shops/${shopId}/reports/top-products-units`,{
-          // cache: 'no-store',
-          credentials: "include", // sends HttpOnly refresh token
-          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
-        });
+  //   const authToken = overrideToken ?? token;
+  //   try {
+  //     let res = await fetch(
+  //       `http://${API_URL}/api/shops/${shopId}/reports/top-products-units`,{
+  //         // cache: 'no-store',
+  //         credentials: "include", // sends HttpOnly refresh token
+  //         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+  //       });
 
-      // If token expired, refresh and try again
-      if (res.status == 403 || res.status == 401) {
+  //     // If token expired, refresh and try again
+  //     if (res.status == 403 || res.status == 401) {
 
-        const newToken = await checkRefresh();
+  //       const newToken = await checkRefresh();
 
-        if(!newToken){
-          return null;
-        }
+  //       if(!newToken){
+  //         return null;
+  //       }
 
-        // Retry profile fetch with new token
-        res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-units`, {
-          // cache: 'no-store',
-          credentials: "include",
-          headers: { Authorization: `Bearer ${newToken}` },
-        });
-      }
+  //       // Retry profile fetch with new token
+  //       res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-units`, {
+  //         // cache: 'no-store',
+  //         credentials: "include",
+  //         headers: { Authorization: `Bearer ${newToken}` },
+  //       });
+  //     }
 
-      if (!res.ok) {
-          throw new Error('Failed to fetch top products by units at a shop again, after refresh!');
-      }
+  //     if (!res.ok) {
+  //         throw new Error('Failed to fetch top products by units at a shop again, after refresh!');
+  //     }
 
-      const topProductsUnitsData: ProductSalesReportModel[] = await res.json();
+  //     const topProductsUnitsData: ProductSalesReportModel[] = await res.json();
 
-      setTopProductsUnits(topProductsUnitsData);
-      return topProductsUnitsData as ProductSalesReportModel[];
-    } catch (err) {
-      console.error("Failed to fetch Top Products By Units at a Shop: " + err);
-      return null;
-    }
-  };
+  //     setTopProductsUnits(topProductsUnitsData);
+  //     return topProductsUnitsData as ProductSalesReportModel[];
+  //   } catch (err) {
+  //     console.error("Failed to fetch Top Products By Units at a Shop: " + err);
+  //     return null;
+  //   }
+  // };
 
-  const fetchTopProductsRevenue = async (shopId: string, overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
-    if (!API_URL) return null;
+  // const fetchTopProductsRevenue = async (shopId: string, overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
+  //   if (!API_URL) return null;
 
-    const authToken = overrideToken ?? token;
-    try {
-      let res = await fetch(
-        `http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue`,{
-          // cache: 'no-store',
-          credentials: "include", // sends HttpOnly refresh token
-          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
-        });
+  //   const authToken = overrideToken ?? token;
+  //   try {
+  //     let res = await fetch(
+  //       `http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue`,{
+  //         // cache: 'no-store',
+  //         credentials: "include", // sends HttpOnly refresh token
+  //         headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+  //       });
 
-      // If token expired, refresh and try again
-      if (res.status == 403 || res.status == 401) {
+  //     // If token expired, refresh and try again
+  //     if (res.status == 403 || res.status == 401) {
 
-        const newToken = await checkRefresh();
+  //       const newToken = await checkRefresh();
 
-        if(!newToken){
-          return null;
-        }
+  //       if(!newToken){
+  //         return null;
+  //       }
 
-        // Retry profile fetch with new token
-        res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue`, {
-          // cache: 'no-store',
-          credentials: "include",
-          headers: { Authorization: `Bearer ${newToken}` },
-        });
-      }
+  //       // Retry profile fetch with new token
+  //       res = await fetch(`http://${API_URL}/api/shops/${shopId}/reports/top-products-revenue`, {
+  //         // cache: 'no-store',
+  //         credentials: "include",
+  //         headers: { Authorization: `Bearer ${newToken}` },
+  //       });
+  //     }
 
-      if (!res.ok) {
-          throw new Error('Failed to fetch top products by revenue at a shop again, after refresh!');
-      }
+  //     if (!res.ok) {
+  //         throw new Error('Failed to fetch top products by revenue at a shop again, after refresh!');
+  //     }
 
-      const topProductsRevenueData: ProductSalesReportModel[] = await res.json();
+  //     const topProductsRevenueData: ProductSalesReportModel[] = await res.json();
 
-      setTopProductsRevenue(topProductsRevenueData);
-      return topProductsRevenueData as ProductSalesReportModel[];
-    } catch (err) {
-      console.error("Failed to fetch Top Products By Revenue at a Shop: " + err);
-      return null;
-    }
-  };
+  //     setTopProductsRevenue(topProductsRevenueData);
+  //     return topProductsRevenueData as ProductSalesReportModel[];
+  //   } catch (err) {
+  //     console.error("Failed to fetch Top Products By Revenue at a Shop: " + err);
+  //     return null;
+  //   }
+  // };
 
   const fetchPSRByShopIdAndDateRange = async (shopId: string, startDate: string, endDate: string, orderBy: string = "revenue", overrideToken?: string): Promise<ProductSalesReportModel[] | null> => {
     if (!API_URL) return null;
@@ -1200,6 +1214,122 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }));
 
       setSalesSummaryByShopIdAndPeriod(salesSummary);
+      return salesSummary;
+
+      // const result = await res.json();
+
+      // const salesSummary: SalesSummaryModel[] = {
+      //     ...result,
+      //     employeeSalesSummary: JSON.parse(result.employeeSalesSummary)
+      // };
+
+      // setSalesSummaryByShopIdAndPeriod(salesSummary);
+      // return salesSummary as SalesSummaryModel[];
+
+      }catch (err) {
+      console.error("Failed to fetch Sales Summary by Shop and Date Range: " + err);
+      return null;
+    }
+  };
+
+  const fetchSalesSummaryTotalAndPeriod = async (userId: string, period: string, overrideToken?: string): Promise<SalesSummaryModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/sales/total-sales-summary/${userId}/${period}`,{
+          credentials: "include",
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/sales/total-sales-summary/${userId}/${period}`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch Sales Summary by Shop and Date Range again, after refresh!');
+      }
+
+      const result: SalesSummaryModel[] = await res.json();
+
+      const salesSummary: SalesSummaryModel[] = result.map((point) => ({
+          ...point,
+          employeeSalesSummary:
+              typeof point.employeeSalesSummary === "string"
+                  ? JSON.parse(point.employeeSalesSummary)
+                  : point.employeeSalesSummary ?? []
+      }));
+
+      setSalesSummaryTotalAndPeriod(salesSummary);
+      return salesSummary;
+
+      // const result = await res.json();
+
+      // const salesSummary: SalesSummaryModel[] = {
+      //     ...result,
+      //     employeeSalesSummary: JSON.parse(result.employeeSalesSummary)
+      // };
+
+      // setSalesSummaryByShopIdAndPeriod(salesSummary);
+      // return salesSummary as SalesSummaryModel[];
+
+      }catch (err) {
+      console.error("Failed to fetch Sales Summary by Shop and Date Range: " + err);
+      return null;
+    }
+  };
+
+  const fetchSalesSummaryTotalAllShopsAndPeriod = async (userId: string, period: string, overrideToken?: string): Promise<SalesSummaryModel[] | null> => {
+    if (!API_URL) return null;
+
+    const authToken = overrideToken ?? token;
+    try {
+      let res = await fetch(
+        `http://${API_URL}/api/sales/total-allshops-sales-summary/${userId}/${period}`,{
+          credentials: "include",
+          headers: authToken ? { Authorization: `Bearer ${authToken}`} : undefined,
+      });
+
+      if(res.status == 403 || res.status == 401) {
+        const newToken = await checkRefresh();
+
+        if(!newToken){
+          return null;
+        }
+
+        res = await fetch(`http://${API_URL}/api/sales/total-allshops-sales-summary/${userId}/${period}`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+
+      }
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch Sales Summary by Shop and Date Range again, after refresh!');
+      }
+
+      const result: SalesSummaryModel[] = await res.json();
+
+      const salesSummary: SalesSummaryModel[] = result.map((point) => ({
+          ...point,
+          employeeSalesSummary:
+              typeof point.employeeSalesSummary === "string"
+                  ? JSON.parse(point.employeeSalesSummary)
+                  : point.employeeSalesSummary ?? []
+      }));
+
+      setSalesSummaryTotalAllShopsAndPeriod(salesSummary);
       return salesSummary;
 
       // const result = await res.json();
@@ -1439,7 +1569,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // }, []);
 
   return (
-    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, topProductsUnits, topProductsRevenue, productSalesReport, productSalesReportById, allSalesByUsers, dailyRevenue, totalUnitsSoldPerProduct, averageSaleByShopId, userDataObject, psrByShopIdAndDateRange, salesSummaryByShopIdAndDateRange, salesSummaryByShopIdAndPeriod, topProductsUnitsPerShop, topProductsRevenuePerShop, topProductsRevenueAllShops, topProductsUnitsAllShops, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchProductSalesReport, fetchAllSalesByUsers, fetchDailyRevenue, fetchProductSalesReportById, fetchTopProductsUnits, fetchTopProductsRevenue, fetchTotalUnitsSoldPerProduct, fetchAverageSaleByShopId, fetchUserDataObject, fetchPSRByShopIdAndDateRange, fetchSalesSummaryByShopIdAndDateRange, fetchSalesSummaryByShopIdAndPeriod, fetchTopProductsByUnitsPerShop, fetchTopProductsByRevenuePerShop, fetchTopProductsByUnitsAllShops, fetchTopProductsByRevenueAllShops }}>
+    <AuthContext.Provider value={{ token, role, user, usersWDetails, users, shops, roles, dailyRevenue, userDataObject, psrByShopIdAndDateRange, salesSummaryByShopIdAndDateRange, salesSummaryByShopIdAndPeriod, salesSummaryTotalAndPeriod, salesSummaryTotalAllShopsAndPeriod, topProductsUnitsPerShop, topProductsRevenuePerShop, topProductsRevenueAllShops, topProductsUnitsAllShops, loading, login, register, logout, deleteProfile, fetchShop, updateShop, deleteShop, addShop, fetchProfile, fetchUsersWithDetails, fetchUsers, fetchShops, fetchRoles, fetchAnalytics, fetchDailyRevenue, fetchUserDataObject, fetchPSRByShopIdAndDateRange, fetchSalesSummaryByShopIdAndDateRange, fetchSalesSummaryByShopIdAndPeriod, fetchSalesSummaryTotalAndPeriod, fetchSalesSummaryTotalAllShopsAndPeriod, fetchTopProductsByUnitsPerShop, fetchTopProductsByRevenuePerShop, fetchTopProductsByUnitsAllShops, fetchTopProductsByRevenueAllShops }}>
       {children}
     </AuthContext.Provider>
   );

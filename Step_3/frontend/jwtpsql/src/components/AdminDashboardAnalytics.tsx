@@ -1,9 +1,6 @@
 import User from "@/lib/models/userModel"
 import Link from "next/link"
-import ProductSalesReport from "./ProductSalesReport"
-import AllSalesByUsers from "./AllSalesByUsers"
 import DailyRevenue from "./DailyRevenue"
-import UnitsSoldPerProduct from "./UnitsSoldPerProduct"
 import { UserDataObject } from "@/lib/models/UserDataObject"
 
 const AdminDashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: UserDataObject | null}) => {
@@ -22,35 +19,6 @@ const AdminDashboardAnalytics = ({user, userDataObject}:{user: User, userDataObj
 
         <div className="max-w-full h-full flex flex-wrap gap-4 items-center justify-center p-2">
 
-            {/* Done these vv start ^^ above needs to be done ^^ */}
-            
-            <div className={component_styles}>
-                <div>
-                    <h2>Total Units Sold for Each Product</h2>
-                    <p>
-                        SELECT<br />
-                            &emsp;p.name,<br />
-                            &emsp;SUM(si.quantity) AS units_sold<br />
-                        FROM sale_items si<br />
-                        JOIN products p <br />
-                            &emsp;ON p.id = si.product_id <br />
-                        GROUP BY p.id, p.name <br />
-                        ORDER BY units_sold DESC; <br />
-                        {/* This query shows the total units sold for each product  -->  This goes in ProductRepository*/}
-                    </p>
-                </div>
-
-                <div>
-                    <p>
-                        Do Not Need!! You Can Remove This Component!
-                    </p>
-                </div>
-
-                <div>
-                    <UnitsSoldPerProduct />
-                </div>
-            </div>
-
             <div className={component_styles}>
                 <div>
                     <h2>Daily Revenue</h2>
@@ -61,7 +29,6 @@ const AdminDashboardAnalytics = ({user, userDataObject}:{user: User, userDataObj
                     FROM sales<br />
                     GROUP BY DATE(created_at)<br />
                     ORDER BY sale_date;<br />
-                    {/* This query shows the daily revenue for each sale date   -->  This goes in SalesRepository */}
                     </p>
                 </div>
 
@@ -73,69 +40,6 @@ const AdminDashboardAnalytics = ({user, userDataObject}:{user: User, userDataObj
 
                 <div>
                     <DailyRevenue />
-                </div>
-            </div>
-
-            <div className={component_styles}>
-                <div>
-                    <h2>
-                        Show me every sale and who made it
-                    </h2>
-                    <p>
-                        SELECT<br />
-                            &emsp;s.id AS sale_id,<br />
-                            &emsp;u.username,<br />
-                            &emsp;s.subtotal,<br />
-                            &emsp;s.tax,<br />
-                            &emsp;s.total,<br />
-                            &emsp;s.created_at<br />
-                        FROM sales s<br />
-                        JOIN users u<br />
-                            &emsp;ON s.user_id = u.id<br />
-                        ORDER BY s.created_at DESC;<br />
-                        {/* This query shows every sale and who made it  -->  This goes in SalesRepository */}
-                    </p>
-                </div>
-
-                <div>
-                    <p>
-                        Do Not Need!! You Can Remove This Component!
-                    </p>
-                </div>
-
-                <div>
-                    <AllSalesByUsers />
-                </div>
-            </div>
-
-
-            <div className={component_styles}>
-                <div>
-                    <h2>
-                        How many of each product have we sold?
-                    </h2>
-                    <p>
-                        SELECT<br />
-                            &emsp;p.name,<br />
-                            &emsp;SUM(si.quantity) AS units_sold,<br />
-                            &emsp;SUM(si.subtotal) AS revenue<br />
-                        FROM sale_items si<br />
-                        JOIN products p<br />
-                            &emsp;ON si.product_id = p.id<br />
-                        GROUP BY p.id, p.name<br />
-                        ORDER BY revenue DESC;<br />
-                        {/* This query shows how many of each product have been sold and the revenue generated */}
-                    </p>
-                </div>
-                
-                <div>
-                    <p>
-                        Do Not Need!! You Can Remove This Component!
-                    </p>
-                </div>
-
-                <div>
-                    <ProductSalesReport />
                 </div>
             </div>
             

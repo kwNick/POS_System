@@ -47,4 +47,14 @@ public class SaleController {
     public List<ChartData> findSalesSummaryByShopAndPeriod(@PathVariable Long shopId, @PathVariable String period) {
         return saleService.findSalesSummaryByShopAndPeriod(shopId, period);
     }
+
+    @GetMapping ("/total-sales-summary/{userId}/{period}")
+    public List<ChartData> findSalesSummaryTotalAndPeriod(@PathVariable Long userId, @PathVariable String period) {
+        return saleService.findSalesSummaryTotalAndPeriod(userId, period);
+    }
+
+    @GetMapping ("/total-allshops-sales-summary/{userId}/{period}")
+    public List<ChartData> findSalesSummaryTotalAllShopsAndPeriod(@PathVariable Long userId, @PathVariable String period) {
+        return saleService.findSalesSummaryTotalAllShopsAndPeriod(userId, period);
+    }
 }

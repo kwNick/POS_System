@@ -9,12 +9,6 @@ const UnitsSoldPerProduct = () => {
     
   return (
     <div>
-      {/* {totalUnitsSoldPerProduct?.map((product: TotalUnitsSoldPerProductModel) => (
-        <p key={product.name}>
-          {product.name}: {product.unitsSold} units sold
-        </p>
-      ))} */}
-
       <table>
         <thead>
           <tr>

@@ -147,7 +147,7 @@ const RevenueChartUpgrade = ({ shopId }: { shopId: number }) => {
   };
 
   return (
-    <div className="rounded-xl border bg-white p-5 shadow-sm">
+    <div className="h-[100%] w-[100%] rounded-xl border bg-white p-5 shadow-sm">
 
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -178,13 +178,13 @@ const RevenueChartUpgrade = ({ shopId }: { shopId: number }) => {
         </div>
       </div>
 
-      <div className="relative h-[350px] w-full">
+      <div className="relative">
         {loading ? (
           <div className="flex h-full items-center justify-center">
             Loading analytics...
           </div>
         ) : (
-          <Line data={data} options={options} />
+          <Line data={data} options={options} className="w-[90%] h-[90%]"/>
         )}
       </div>
     </div>

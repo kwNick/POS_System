@@ -1,11 +1,6 @@
 import User from "@/lib/models/userModel"
 import Link from "next/link"
-import ProductSalesReport from "./ProductSalesReport"
-import AllSalesByUsers from "./AllSalesByUsers"
 import DailyRevenue from "./DailyRevenue"
-import ProductSalesReportUnitsSold from "./ProductSalesReportUnitsSold"
-import UnitsSoldPerProduct from "./UnitsSoldPerProduct"
-import AverageSaleByShopId from "./AverageSaleByShopId"
 import { UserDataObject } from "@/lib/models/UserDataObject"
 
 const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: UserDataObject | null}) => {
@@ -24,58 +19,6 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
 
         <div className="max-w-full h-full flex flex-wrap gap-4 items-center justify-center p-2">
 
-            {/* Done these vv start ^^ above needs to be done ^^ */}
-            
-            <div className={component_styles}>
-                <div>
-                    <h2>
-                        Average Order
-                    </h2>
-                    <p>
-                        SELECT AVG(total) <br />
-                        FROM sales  <br />
-                        WHERE shop_id == shop.id <br />
-                        {/* This query shows the average order for a specific shop   -->  This goes in SalesRepository */}
-                    </p>
-                </div>
-                <div>
-                    <p>
-                        Do Not Need!! You Can Remove This Component!
-                    </p>
-                </div>
-                {/* Maybe list all shops average sale by id using user variable for dashboard */}
-                <div>
-                    <AverageSaleByShopId />
-                </div>
-            </div>
-            
-            <div className={component_styles}>
-                <div>
-                    <h2>Total Units Sold for Each Product</h2>
-                    <p>
-                        SELECT<br />
-                            &emsp;p.name,<br />
-                            &emsp;SUM(si.quantity) AS units_sold<br />
-                        FROM sale_items si<br />
-                        JOIN products p <br />
-                            &emsp;ON p.id = si.product_id <br />
-                        GROUP BY p.id, p.name <br />
-                        ORDER BY units_sold DESC; <br />
-                        {/* This query shows the total units sold for each product  -->  This goes in ProductRepository*/}
-                    </p>
-                </div>
-
-                <div>
-                    <p>
-                        Do Not Need!! You Can Remove This Component!
-                    </p>
-                </div>
-
-                <div>
-                    <UnitsSoldPerProduct />
-                </div>
-            </div>
-
             <div className={component_styles}>
                 <div>
                     <h2>Daily Revenue</h2>
@@ -86,7 +29,6 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                     FROM sales<br />
                     GROUP BY DATE(created_at)<br />
                     ORDER BY sale_date;<br />
-                    {/* This query shows the daily revenue for each sale date   -->  This goes in SalesRepository */}
                     </p>
                 </div>
 
@@ -100,8 +42,55 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                     <DailyRevenue />
                 </div>
             </div>
+            
+            {/* <div className={component_styles}>
+                <div>
+                    <h2>
+                        Average Order
+                    </h2>
+                    <p>
+                        SELECT AVG(total) <br />
+                        FROM sales  <br />
+                        WHERE shop_id == shop.id <br />
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        Do Not Need!! You Can Remove This Component!
+                    </p>
+                </div>
+                <div>
+                    <AverageSaleByShopId />
+                </div>
+            </div> */}
+            
+            {/* <div className={component_styles}>
+                <div>
+                    <h2>Total Units Sold for Each Product</h2>
+                    <p>
+                        SELECT<br />
+                            &emsp;p.name,<br />
+                            &emsp;SUM(si.quantity) AS units_sold<br />
+                        FROM sale_items si<br />
+                        JOIN products p <br />
+                            &emsp;ON p.id = si.product_id <br />
+                        GROUP BY p.id, p.name <br />
+                        ORDER BY units_sold DESC; <br />
+                    </p>
+                </div>
 
-            <div className={component_styles}>
+                <div>
+                    <p>
+                        Do Not Need!! You Can Remove This Component!
+                    </p>
+                </div>
+
+                <div>
+                    <UnitsSoldPerProduct />
+                </div>
+            </div> */}
+
+            {/* <div className={component_styles}>
                 <div>
                     <h2>
                         Show me every sale and who made it
@@ -118,7 +107,6 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                         JOIN users u<br />
                             &emsp;ON s.user_id = u.id<br />
                         ORDER BY s.created_at DESC;<br />
-                        {/* This query shows every sale and who made it  -->  This goes in SalesRepository */}
                     </p>
                 </div>
 
@@ -131,10 +119,10 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                 <div>
                     <AllSalesByUsers />
                 </div>
-            </div>
+            </div> */}
 
 
-            <div className={component_styles}>
+            {/* <div className={component_styles}>
                 <div>
                     <h2>
                         How many of each product have we sold?
@@ -149,7 +137,7 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                             &emsp;ON si.product_id = p.id<br />
                         GROUP BY p.id, p.name<br />
                         ORDER BY revenue DESC;<br />
-                        {/* This query shows how many of each product have been sold and the revenue generated */}
+                        
                     </p>
                 </div>
                 
@@ -162,15 +150,14 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                 <div>
                     <ProductSalesReport />
                 </div>
-            </div>
+            </div> */}
             
-            <div className={component_styles}>
+            {/* <div className={component_styles}>
                 <div>
                     <h2>
                         What are the top 5 products sold at shop #1?
                     </h2>
                     <p>
-                        {/* This query shows the top 5 products sold at a specific shop */}
                         SELECT<br />
                             &emsp;p.id,<br />
                             &emsp;p.name,<br />
@@ -197,7 +184,7 @@ const DashboardAnalytics = ({user, userDataObject}:{user: User, userDataObject: 
                 <div>
                     <ProductSalesReportUnitsSold />
                 </div>
-            </div>
+            </div> */}
 
         </div>
     </div>

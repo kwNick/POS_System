@@ -1,4 +1,8 @@
 export type SalesSummaryModel = {
+    seriesType: string;  // Soley for All chart axis points
+    seriesKey: string;   // Soley for All chart axis points
+    seriesName: string;  // Soley for All chart axis points
+    pointNumber: number; // Soley for chart axis points
     date?: string;       // Soley for chart axis points
     totalTransactions: number;
     totalRevenue: number;

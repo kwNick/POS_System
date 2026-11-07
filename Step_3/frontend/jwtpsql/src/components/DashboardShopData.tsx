@@ -21,7 +21,7 @@ const DashboardShopData = ({ user }: { user: User }) => {
             {user.shops.length > 0 ? (
                 <ul className="w-full h-full flex flex-col overflow-y-auto border rounded-lg">
                     {user.shops.map((shop: Shop, idx: number) => (
-                        <div key={shop.name} className={`w-full h-full flex items-center justify-between border-b-1 border-neutral-400 p-2 lg:p-4 ${idx%2 == 0 ? ' bg-neutral-black': ''}`}>
+                        <div key={shop.name} className={`w-full h-full flex items-center justify-between border-b-1 border-neutral-400 p-2 lg:p-4 ${idx%2 == 0 ? ' bg-neutral-black': ''} rounded`}>
 
                             <Link href={`/shops/${shop.id}`} key={shop.name} className="h-full w-[75%] flex items-center justify-start ">
                                     <li className=" italic underline decoration-1" ><span>{shop.name} - {shop.location}</span></li>

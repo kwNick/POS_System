@@ -7,12 +7,12 @@ import DashboardAnalytics from "./DashboardAnalytics";
 import DashboardUserAnalytics from "./DashboardUserAnalytics";
 import DashboardPerShopAnalytics from "./DashboardPerShopAnalytics";
 import DashboardTopProductsPerAll from "./DashboardTopProductsPerAll";
-import { useEffect, useRef } from "react";
-import Chart from "chart.js/auto";
 import DashboardChart from "./DashboardChart";
 import DashboardBarChart from "./DashboardBarChart";
 import RevenueChart from "./RevenueChart";
 import RevenueChartUpgrade from "./RevenueChartUpgrade";
+import RevenueChartUpgradeTotal from "./RevenueChartUpgradeTotal";
+import RevenueChartUpgradeTotalAllShops from "./RevenueChartUpgradeTotalAllShops";
 
 const ProfileDashboard = () => {
   const { user, userDataObject,
@@ -21,35 +21,11 @@ const ProfileDashboard = () => {
     loading } = useAuth();
   console.log("user: ", user);
   console.log("userDataObject: ", userDataObject);
-  console.log("TopProductsUnits: ",  topProductsUnitsAllShops);
-  console.log("TopProductsRevenue: ",  topProductsRevenueAllShops);
+  console.log("TopProductsUnitsAllShops: ",  topProductsUnitsAllShops);
+  console.log("TopProductsRevenueAllShops: ",  topProductsRevenueAllShops);
   console.log("TopProductsUnitsPerShop: ",  topProductsUnitsPerShop);
   console.log("TopProductsRevenuePerShop: ",  topProductsRevenuePerShop);
 
-  const chartRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    if (chartRef.current) {
-      new Chart(chartRef.current, {
-        type: 'bar',
-        data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-          datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-    }
-  }, [chartRef]);
 
   if (loading) return <div className="min-w-3/5"><p>Loading...</p></div>;
   if (!user && !loading) return <div className="min-w-3/5"><p>You are not logged in.</p></div>;
@@ -92,33 +68,27 @@ const ProfileDashboard = () => {
 
             <div className="w-full min-h-[85vh] flex flex-col gap-12 lg:gap-14 p-2">
 
-              {/* <ShopCharts /> Make This a component with charts that represent each shops transaction/revenue/sales overtime */}
-              <div className="w-[calc(100%-1rem)] h-[225vh] flex flex-col items-center justify-center ">
+              <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
                 <div className="w-full h-[15%] flex items-center justify-center">
                   <h2>Sales Chart</h2>
                 </div>
 
-                <div  className="w-full h-[25%] flex items-center justify-center border-1">
-                  <canvas ref={chartRef} className="w-[800px] h-[400px]" />
-                  
-                </div>
-
-                <div  className="w-full h-[25%] flex items-center justify-center border-1">
-                  <DashboardChart />
-                </div>
-
-                <div  className="w-full h-[25%] flex items-center justify-center border-1">
-                  <DashboardBarChart />
-                </div>
-
-                <div  className="w-full h-[25%] flex items-center justify-center border-1">
-                  <RevenueChart />
-                </div>
-
-                <div  className="w-full h-[25%] flex items-center justify-center border-1">
-                  <RevenueChartUpgrade shopId={1} />
+                <div  className="w-full h-full flex items-center justify-center ">
+                  <RevenueChartUpgradeTotal userId={userDataObject.userData.user.id} />
                 </div>
               </div>
+
+              <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
+                <div className="w-full h-[15%] flex items-center justify-center">
+                  <h2>Sales Chart</h2>
+                </div>
+
+                <div  className="w-full h-full flex items-center justify-center ">
+                  <RevenueChartUpgradeTotalAllShops userId={userDataObject.userData.user.id} />
+                </div>
+              </div>
+
+              
 
               <DashboardAnalytics user={user} userDataObject={userDataObject} />
 

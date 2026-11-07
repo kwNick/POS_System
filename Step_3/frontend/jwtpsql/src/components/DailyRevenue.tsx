@@ -8,12 +8,6 @@ const DailyRevenue = () => {
     console.log("Daily Revenue: ", dailyRevenue);
   return (
     <div>
-      {/* {dailyRevenue?.map((revenue: DailyRevenueModel) => (
-        <p key={revenue.saleDate}>
-          {revenue.saleDate}: ${revenue.revenue}
-        </p>
-      ))} */}
-
       <table>
         <thead>
           <tr>

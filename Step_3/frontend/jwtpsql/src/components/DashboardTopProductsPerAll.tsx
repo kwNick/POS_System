@@ -12,7 +12,7 @@ const DashboardTopProductsPerAll = ({ topProductsUnitsPerShop, topProductsRevenu
                 <ul className="w-full h-full flex flex-col items-center justify-start gap-1 lg:gap-2">
                 {topProductsUnitsPerShop && (
                     topProductsUnitsPerShop.map((product, index) => (
-                    <li key={index} className={`w-full h-full flex items-center justify-between rounded p-2 ${index%2==0 ? 'bg-neutral-black' : ''}`}>
+                    <li key={index} className={`w-full h-full flex items-center justify-between rounded p-2 ${index%2==0 ? 'bg-neutral-black' : ''} rounded`}>
                         <span>{product.productName}</span>
                         <span>{product.unitsSold} units - {product.shopName}</span>
                     </li>
@@ -30,7 +30,7 @@ const DashboardTopProductsPerAll = ({ topProductsUnitsPerShop, topProductsRevenu
                 <ul className="w-full h-full flex flex-col items-center justify-start gap-1 lg:gap-2">
                     {topProductsRevenuePerShop && (
                     topProductsRevenuePerShop.map((product, index) => (
-                        <li key={index} className={`w-full h-full flex items-center justify-between rounded p-2 ${index%2==0 ? 'bg-neutral-black' : ''}`}>
+                        <li key={index} className={`w-full h-full flex items-center justify-between rounded p-2 ${index%2==0 ? 'bg-neutral-black' : ''} rounded`}>
                         <span>{product.productName}</span>
                         <span>${product.totalRevenue.toFixed(2)} - {product.shopName}</span>
                         </li>
@@ -48,7 +48,7 @@ const DashboardTopProductsPerAll = ({ topProductsUnitsPerShop, topProductsRevenu
                 <ul className="w-full h-full flex flex-col items-center justify-between gap-1 lg:gap-2">
                 {topProductsUnitsAllShops && (
                     topProductsUnitsAllShops.map((product, index) => (
-                    <li key={index} className={`w-full h-full flex items-center justify-between rounded p-2 ${index%2==0 ? 'bg-neutral-black' : ''}`}>
+                    <li key={index} className={`w-full h-full flex items-center justify-between rounded p-2 ${index%2==0 ? 'bg-neutral-black' : ''} rounded`}>
                         <span>{product.productName}</span>
                         <span>{product.unitsSold} units</span>
                     </li>
@@ -66,7 +66,7 @@ const DashboardTopProductsPerAll = ({ topProductsUnitsPerShop, topProductsRevenu
                 <ul className="w-full h-full flex flex-col items-center justify-start gap-1 lg:gap-2">
                 {topProductsRevenueAllShops && (
                     topProductsRevenueAllShops.map((product, index) => (
-                    <li key={index} className={`w-full h-full flex items-center justify-between rounded p-2 ${index%2==0 ? 'bg-neutral-black' : ''}`}>
+                    <li key={index} className={`w-full h-full flex items-center justify-between rounded p-2 ${index%2==0 ? 'bg-neutral-black' : ''} rounded`}>
                         <span>{product.productName}</span>
                         <span>${product.totalRevenue.toFixed(2)}</span>
                     </li>
