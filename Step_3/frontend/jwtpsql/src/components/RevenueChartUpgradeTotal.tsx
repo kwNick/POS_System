@@ -8,6 +8,7 @@ import {
   LineElement,
   Tooltip,
   Filler,
+  Legend,
 } from "chart.js";
 
 import { Line } from "react-chartjs-2";
@@ -22,7 +23,8 @@ ChartJS.register(
   PointElement,
   LineElement,
   Tooltip,
-  Filler
+  Filler,
+  Legend,
 );
 
 type Period = "1M" | "3M" | "6M" | "1Y" | "ALL";
@@ -99,7 +101,7 @@ const RevenueChartUpgradeTotal = ({userId}:{userId: number}) => {
 
     plugins: {
       legend: {
-        display: false,
+        display: true,
       },
 
       tooltip: {

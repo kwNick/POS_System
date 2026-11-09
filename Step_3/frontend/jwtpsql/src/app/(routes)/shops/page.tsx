@@ -1,4 +1,5 @@
 import AddShopButton from "@/components/AddShopButton"
+import DashboardPerShopAnalytics from "@/components/DashboardPerShopAnalytics"
 import ShopsList from "@/components/ShopsList"
 
 const page = () => {
@@ -16,7 +17,10 @@ const page = () => {
           </div>
           
           <ShopsList />
+
+          
         </div>
+        
     </div>
   )
 }

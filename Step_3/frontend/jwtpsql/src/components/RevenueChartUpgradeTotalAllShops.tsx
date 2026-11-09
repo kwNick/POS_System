@@ -30,7 +30,7 @@ ChartJS.register(
 type Period = "1M" | "3M" | "6M" | "1Y" | "ALL";
 type GroupedSales = Record<string, SalesSummaryModel[]>;
 
-const RevenueChartUpgradeTotalAllShops = ({userId}:{userId: number}) => {
+const RevenueChartUpgradeTotalAllShops = ({userId}:{userId: number | null}) => {
   const { fetchSalesSummaryTotalAllShopsAndPeriod } = useAuth();
   const [period, setPeriod] = useState<Period>("1M");
   const [groupedSales, setGroupedSales] = useState<GroupedSales>({});
@@ -45,7 +45,7 @@ const RevenueChartUpgradeTotalAllShops = ({userId}:{userId: number}) => {
     const fetchChartAnalytics = async () => {
       try {
         setLoading(true);
-
+        if(userId === null){ return;}
         const response = await fetchSalesSummaryTotalAllShopsAndPeriod(userId.toString(), period);
 
         if (!response) {

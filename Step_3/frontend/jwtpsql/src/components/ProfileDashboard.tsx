@@ -54,6 +54,26 @@ const ProfileDashboard = () => {
               </div>
 
             </div>
+            
+            <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
+              <div className="w-full h-[15%] flex items-center justify-center">
+                <h2>Sales Chart</h2>
+              </div>
+
+              <div  className="w-full h-full flex items-center justify-center ">
+                <RevenueChartUpgradeTotal userId={userDataObject.userData.user.id} />
+              </div>
+            </div>
+
+            <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
+              <div className="w-full h-[15%] flex items-center justify-center">
+                <h2>Sales Chart</h2>
+              </div>
+
+              <div  className="w-full h-full flex items-center justify-center ">
+                <RevenueChartUpgradeTotalAllShops userId={userDataObject.userData.user.id} />
+              </div>
+            </div>
 
             {/* // Make this vv <DashboardPerShopAnalytics user={user} userDataObject={userDataObject} /> */}
             <div className="w-full h-full flex flex-wrap items-start justify-between gap-4 lg:gap-8 pb-1 lg:pb-3 ">
@@ -67,29 +87,6 @@ const ProfileDashboard = () => {
             </div>
 
             <div className="w-full min-h-[85vh] flex flex-col gap-12 lg:gap-14 p-2">
-
-              <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
-                <div className="w-full h-[15%] flex items-center justify-center">
-                  <h2>Sales Chart</h2>
-                </div>
-
-                <div  className="w-full h-full flex items-center justify-center ">
-                  <RevenueChartUpgradeTotal userId={userDataObject.userData.user.id} />
-                </div>
-              </div>
-
-              <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
-                <div className="w-full h-[15%] flex items-center justify-center">
-                  <h2>Sales Chart</h2>
-                </div>
-
-                <div  className="w-full h-full flex items-center justify-center ">
-                  <RevenueChartUpgradeTotalAllShops userId={userDataObject.userData.user.id} />
-                </div>
-              </div>
-
-              
-
               <DashboardAnalytics user={user} userDataObject={userDataObject} />
 
             </div>
