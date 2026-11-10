@@ -17,7 +17,6 @@ const page = () => {
           </div>
           
           <ShopsList />
-
           
         </div>
         

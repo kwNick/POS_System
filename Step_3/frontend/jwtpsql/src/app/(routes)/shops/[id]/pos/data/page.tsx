@@ -1,4 +1,4 @@
-const page = ({id}:{id: string}) => {
+const page = () => {
   return (
     <div>page</div>
   )

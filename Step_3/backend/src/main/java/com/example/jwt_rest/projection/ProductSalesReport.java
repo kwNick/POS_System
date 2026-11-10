@@ -10,6 +10,8 @@ public interface ProductSalesReport {
 
     String getProductName();
 
+    BigDecimal getProductPrice();
+
     Long getUnitsSold();
 
     BigDecimal getRevenue();

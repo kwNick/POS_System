@@ -8,6 +8,7 @@ import DeleteShopButton from "./DeleteShopButton";
 import UpdateShopLink from "./UpdateShopLink";
 import { SalesSummaryModel } from "@/lib/models/SalesSummary";
 import RevenueChartUpgrade from "./RevenueChartUpgrade";
+import Link from "next/link";
 
 const ShopDetails = ({shopId}: {shopId: string}) => {
     const { fetchShop,
@@ -114,6 +115,7 @@ const ShopDetails = ({shopId}: {shopId: string}) => {
             <div className="p-4 flex items-start justify-start gap-4 lg:gap-8">
                 <UpdateShopLink shopId={shop.id} />
                 <DeleteShopButton shopId={shop.id.toString()} />
+                <Link href={`${shopId}/pos/menu`} className="border-1 p-2">POS</Link>
             </div>
         </div>
 

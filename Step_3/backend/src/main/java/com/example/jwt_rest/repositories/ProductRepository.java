@@ -89,6 +89,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             SELECT
                 p.id AS productId,
                 p.name AS productName,
+                p.price AS productPrice,
                 SUM(si.quantity) AS unitsSold,
                 SUM(si.subtotal) AS revenue
             FROM sale_items si

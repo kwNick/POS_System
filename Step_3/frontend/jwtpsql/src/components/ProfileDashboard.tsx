@@ -7,11 +7,6 @@ import DashboardAnalytics from "./DashboardAnalytics";
 import DashboardUserAnalytics from "./DashboardUserAnalytics";
 import DashboardPerShopAnalytics from "./DashboardPerShopAnalytics";
 import DashboardTopProductsPerAll from "./DashboardTopProductsPerAll";
-import DashboardChart from "./DashboardChart";
-import DashboardBarChart from "./DashboardBarChart";
-import RevenueChart from "./RevenueChart";
-import RevenueChartUpgrade from "./RevenueChartUpgrade";
-import RevenueChartUpgradeTotal from "./RevenueChartUpgradeTotal";
 import RevenueChartUpgradeTotalAllShops from "./RevenueChartUpgradeTotalAllShops";
 
 const ProfileDashboard = () => {
@@ -55,7 +50,7 @@ const ProfileDashboard = () => {
 
             </div>
             
-            <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
+            {/* <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
               <div className="w-full h-[15%] flex items-center justify-center">
                 <h2>Sales Chart</h2>
               </div>
@@ -63,7 +58,7 @@ const ProfileDashboard = () => {
               <div  className="w-full h-full flex items-center justify-center ">
                 <RevenueChartUpgradeTotal userId={userDataObject.userData.user.id} />
               </div>
-            </div>
+            </div> */}
 
             <div className="w-[calc(100%-1rem)] h-[85vh] flex flex-col items-center justify-center ">
               <div className="w-full h-[15%] flex items-center justify-center">
